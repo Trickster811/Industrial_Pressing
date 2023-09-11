@@ -1,0 +1,21 @@
+{
+  "name": "Industrial Pressing",
+  "version": "1.0.0",
+  "description": "Pressing management app",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Joachim&Berrenger",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^26.2.0"
+  },
+  "dependencies": {
+    "pg": "^8.11.3",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.33.0",
+    "sequelize-cli": "^6.6.1"
+  }
+}

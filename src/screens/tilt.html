@@ -53,14 +53,14 @@
 </div>
 </div>
 <ul id="sidebar_menu">
-<li class="mm-active">
+<li class>
 <a class="has-arrow" href="#" aria-expanded="false">
 
 <img src="img/menu-icon/dashboard.svg" alt>
 <span>Dashboard</span>
 </a>
 <ul>
-<li><a class="active" href="index.html">Directory</a></li>
+<li><a href="index.html">Directory</a></li>
 <li><a href="index_2.html">Default</a></li>
 </ul>
 </li>
@@ -117,7 +117,7 @@
 <li><a href="datepicker.html">Date Picker</a></li>
 </ul>
 </li>
-<li class>
+<li class="mm-active">
 <a class="has-arrow" href="#" aria-expanded="false">
 <img src="img/menu-icon/6.svg" alt>
 <span>Animations</span>
@@ -125,7 +125,7 @@
 <ul>
 <li><a href="wow_animation.html">Animate</a></li>
 <li><a href="Scroll_Reveal.html">Scroll Reveal</a></li>
-<li><a href="tilt.html">Tilt Animation</a></li>
+<li><a class="active" href="tilt.html">Tilt Animation</a></li>
 </ul>
 </li>
 <li class>
@@ -318,421 +318,179 @@
 <div class="row">
 <div class="col-lg-6">
 <div class="dashboard_header_title">
-<h3> Directory Dashboard</h3>
+<h3> Tilt Animation</h3>
 </div>
 </div>
 <div class="col-lg-6">
 <div class="dashboard_breadcam text-end">
-<p><a href="index.html">Dashboard</a> <i class="fas fa-caret-right"></i> Address Book</p>
+<p><a href="index.html">Dashboard</a> <i class="fas fa-caret-right"></i> Tilt Animation</p>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="col-lg-8 col-xl-8">
-<div class="white_box mb_30">
-<div class="box_header">
-<div class="main-title">
-<h3 class="mb_25">Monthly Income stats for November 2020</h3>
-</div>
-<div class="float-end d-none d-md-inline-block">
-<div class="btn-group mb-2" role="group">
-<button type="button" class="btn btn-sm btn-light">Today</button>
-<button type="button" class="btn btn-sm btn-light">Weekly</button>
-<button type="button" class="btn btn-sm btn-light">Monthly</button>
+<div class="col-lg-12">
+<div class="card_box box_shadow position-relative mb_30     ">
+<div class="white_box_tittle     ">
+<div class="main-title2 ">
+<h4 class="mb-2 nowrap ">Parallax hover tilt effect </h4>
 </div>
 </div>
+<div class="box_body">
+<div class="row justify-content-center">
+<div class="col-lg-6">
+<div>
+<img class="img-fluid img-thumbnail js-tilt" src="img/tilt/1.jpg" data-tilt-perspective="300" data-tilt-speed="400" data-tilt-max="5" alt>
 </div>
-<div id="line-column-chart2"></div>
-<div class="card_footer_white">
-<div class="row">
-<div class="col-sm-4 text-center">
-<div class="d-inline-flex">
-<h5 class="me-2">$12,253</h5>
-<div class="text-success">
-<i class="fas fa-caret-up font-size-14 line-height-2 me-2"> </i>2.2 %
-</div>
-</div>
-<p class="text-muted text-truncate mb-0">This month</p>
-</div>
-<div class="col-sm-4 text-center">
-<div class="mt-4 mt-sm-0">
-<p class="mb-2 text-muted text-truncate"><i class="fas fa-circle text-primary me-2 font-size-10 me-1"></i> This Year :</p>
-<div class="d-inline-flex align-items-center">
-<h5 class="mb-0 me-2">$ 34,254</h5>
-<div class="text-success">
-<i class="fas fa-caret-up font-size-14 line-height-2 me-2"> </i>2.1 %
+<div>
+<h5 class="SubTitle f-15 f-w-500 mt_20 text-uppercase ">
+The most basic usage:
+</h5>
+<p> <code> <span> &lt;script src="tilt.jquery.js"&gt;&lt;/script&gt;</span></code> </p>
+<p>Mark your elements with <code><span> &lt;span data-tilt"&gt;&lt;/span&gt;</span></code></p>
 </div>
 </div>
 </div>
-</div>
-<div class="col-sm-4 text-center">
-<div class="mt-4 mt-sm-0">
-<p class="mb-2 text-muted text-truncate"><i class="fas fa-circle text-success font-size-10 me-1"></i> Previous Year :</p>
-<div class="d-inline-flex align-items-center">
-<h5 class="mb-0">$ 32,695</h5>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="col-lg-4">
-<div class="list_counter_wrapper white_box mb_30 p-0 card_height_100">
-<div class="single_list_counter">
-<h3 class="deep_blue_2"><span class="counter deep_blue_2 ">50</span> + </h3>
-<p>Total categories</p>
-</div>
-<div class="single_list_counter">
-<h3 class="deep_blue_2"><span class="counter deep_blue_2">100</span> + </h3>
-<p>Total Listing</p>
-</div>
-<div class="single_list_counter">
-<h3 class="deep_blue_2"><span class="counter deep_blue_2">20</span> + </h3>
-<p>Claimed Listing</p>
-</div>
-<div class="single_list_counter">
-<h3 class="deep_blue_2"><span class="counter deep_blue_2">10</span> + </h3>
-<p>Reported Listing </p>
-</div>
-</div>
-</div>
-<div class="col-xl-6">
-<div class="white_box QA_section card_height_100">
-<div class="box_header m-0">
-<div class="main-title">
-<h3 class="m-0">Users according to packages</h3>
-</div>
-</div>
-<div class="QA_table ">
-
-<table class="table lms_table_active2">
-<thead>
-<tr>
-<th scope="col">Package name</th>
-<th scope="col">No. of users</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Free package</td>
-<td>2556</td>
-</tr>
-<tr>
-<td>Free package</td>
-<td>2556</td>
-</tr>
-<tr>
-<td>Free package</td>
-<td>2556</td>
-</tr>
-</tbody>
-</table>
 </div>
 </div>
 </div>
 <div class="col-lg-6">
-<div class="white_box mb_30 card_height_100">
-<div class="box_header ">
-<div class="main-title">
-<h3 class="mb_25">Overview</h3>
+<div class="card_box box_shadow position-relative mb_30  card_height_100   ">
+<div class="white_box_tittle     ">
+<div class="main-title2 ">
+<h4 class="mb-2 nowrap ">Parallax hover tilt effect </h4>
 </div>
 </div>
-<div class="activity_progressbar">
-<div class="single_progressbar d-flex">
-<h6>Active Listings</h6>
-<div id="bar1" class="barfiller">
-<div class="tipWrap">
-<span class="tip"></span>
+<div class="box_body">
+<div>
+<img class="img-fluid img-thumbnail js-tilt" src="img/tilt/2.jpg" transform-style="preserve-3d" transform="translateZ(20px)" data-tilt-perspective="300" data-tilt-speed="400" data-tilt-max="5" alt>
 </div>
-<span class="fill" data-percentage="95"></span>
+<div>
+<h5 class="SubTitle f-15 f-w-500 mt_20 text-uppercase ">
+How to Use:
+</h5>
+<p>
+A tiny requestAnimationFrame powered 60+fps
+lightweight parallax hover tilt effect for jQuery.
+</p>
+<p> <div>Add <code>transform-style: preserve-3d </code>to your tilt element.</div></p>
+<p><div>Add <code>transform: translateZ(20px)</code> to your inner elements that have to pop out.</div></p>
 </div>
-</div>
-<div class="single_progressbar d-flex">
-<h6>Claimed Listings</h6>
-<div id="bar2" class="barfiller">
-<div class="tipWrap">
-<span class="tip"></span>
-</div>
-<span class="fill" data-percentage="75"></span>
-</div>
-</div>
-<div class="single_progressbar d-flex">
-<h6>Reported Listings</h6>
-<div id="bar3" class="barfiller">
-<div class="tipWrap">
-<span class="tip"></span>
-</div>
-<span class="fill" data-percentage="55"></span>
-</div>
-</div>
-<div class="single_progressbar d-flex">
-<h6>Pending Listings</h6>
-<div id="bar4" class="barfiller">
-<div class="tipWrap">
-<span class="tip"></span>
-</div>
-<span class="fill" data-percentage="25"></span>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="col-lg-8">
-<div class="white_box QA_section card_height_100">
-<div class="box_header m-0">
-<div class="main-title">
-<h3 class="m-0">Web Visitor and trafic</h3>
-</div>
-</div>
-<div id="home-chart-03" style="height: 280px; position: relative;"></div>
-</div>
-</div>
-<div class="col-lg-4">
-<div class="white_box QA_section card_height_100 blud_card">
-<div class="box_header m-0">
-<div class="main-title">
-<h3 class="m-0 text_white">2400 + New Users</h3>
-</div>
-</div>
-<div class="content_user">
-<p>At vero eos et accusamus et iusto odio
-dignissimos ducimus</p>
-<a href="#" class="btn_2">Learn more</a>
-<img src="img/users_img.png" alt>
-</div>
-</div>
-</div>
-<div class="col-lg-4">
-<div class="white_box QA_section card_height_100">
-<div class="box_header m-0">
-<div class="main-title">
-<h3 class="m-0">Listings according to Category</h3>
-</div>
-</div>
-<div class="QA_table ">
-
-<table class="table lms_table_active2">
-<thead>
-<tr>
-<th scope="col">Package name</th>
-<th scope="col">No. of users</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Restaurant</td>
-<td>2556</td>
-</tr>
-<tr>
-<td>Hotel</td>
-<td>25506</td>
-</tr>
-<tr>
-<td>Apartment</td>
-<td>25536</td>
-</tr>
-<tr>
-<td>Salon</td>
-<td>25536</td>
-</tr>
-<tr>
-<td>Automobile</td>
-<td>25536</td>
-</tr>
-<tr>
-<td>Spa</td>
-<td>25536</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div class="col-lg-4">
-<div class="white_box QA_section card_height_100">
-<div class="box_header m-0">
-<div class="main-title">
-<h3 class="m-0">Claimed Listings</h3>
-</div>
-</div>
-<div class="QA_table ">
-
-<table class="table lms_table_active2">
-<thead>
-<tr>
-<th scope="col">Package name</th>
-<th scope="col">No. of users</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Restaurant</td>
-<td>2556</td>
-</tr>
-<tr>
-<td>Hotel</td>
-<td>25506</td>
-</tr>
-<tr>
-<td>Apartment</td>
-<td>25536</td>
-</tr>
-<tr>
-<td>Salon</td>
-<td>25536</td>
-</tr>
-<tr>
-<td>Automobile</td>
-<td>25536</td>
-</tr>
-<tr>
-<td>Spa</td>
-<td>25536</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div class="col-lg-4">
-<div class="white_box QA_section card_height_100">
-<div class="box_header m-0">
-<div class="main-title">
-<h3 class="m-0">Reported Listings</h3>
-</div>
-</div>
-<div class="QA_table ">
-
-<table class="table lms_table_active2">
-<thead>
-<tr>
-<th scope="col">Package name</th>
-<th scope="col">No. of users</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Restaurant</td>
-<td>2556</td>
-</tr>
-<tr>
-<td>Hotel</td>
-<td>25506</td>
-</tr>
-<tr>
-<td>Apartment</td>
-<td>25536</td>
-</tr>
-<tr>
-<td>Salon</td>
-<td>25536</td>
-</tr>
-<tr>
-<td>Automobile</td>
-<td>25536</td>
-</tr>
-<tr>
-<td>Spa</td>
-<td>25536</td>
-</tr>
-</tbody>
-</table>
 </div>
 </div>
 </div>
 <div class="col-lg-6">
-<div class="white_box card_height_100">
-<div class="box_header">
-<div class="main-title">
-<h3 class="m-0">Recent Activity</h3>
+<div class="card_box box_shadow position-relative mb_30 card_height_100     ">
+<div class="white_box_tittle     ">
+<div class="main-title2 ">
+<h4 class="mb-2 nowrap ">Parallax hover tilt effect </h4>
 </div>
 </div>
-<div class="Activity_timeline">
-<ul>
-<li>
-<div class="activity_bell"></div>
-<div class="timeLine_inner d-flex align-items-center">
-<div class="activity_wrap">
-<h6>5 min ago</h6>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque scelerisque
-</p>
+<div class="box_body">
+<div>
+<img class="img-fluid img-thumbnail js-tilt" src="img/tilt/3.jpg" data-tilt-glare="true" data-tilt-maxglare=".5" data-tilt-perspective="200" data-tilt-speed="300" data-tilt-max="10" alt>
 </div>
-<div class="notification_read_btn mb_10">
-<a href="#" class="notification_btn">Read</a>
-</div>
-</div>
-</li>
-<li>
-<div class="activity_bell"></div>
-<div class="timeLine_inner d-flex align-items-center">
-<div class="activity_wrap">
-<h6>5 min ago</h6>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque scelerisque
-</p>
-</div>
-<div class="notification_read_btn mb_10">
-<a href="#" class="notification_btn">Read</a>
-</div>
-</div>
-</li>
-<li>
-<div class="activity_bell"></div>
-<div class="timeLine_inner d-flex align-items-center">
-<div class="activity_wrap">
-<h6>5 min ago</h6>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque scelerisque
-</p>
-</div>
-<div class="notification_read_btn mb_10">
-<a href="#" class="notification_btn">Read</a>
-</div>
-</div>
-</li>
-<li>
-<div class="activity_bell"></div>
-<div class="timeLine_inner d-flex align-items-center">
-<div class="activity_wrap">
-<h6>5 min ago</h6>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque scelerisque
-</p>
-</div>
-<div class="notification_read_btn mb_10">
-<a href="#" class="notification_btn">Read</a>
-</div>
-</div>
-</li>
-</ul>
+<div>
+<h5 class="SubTitle f-15 f-w-500 mt_20 text-uppercase ">
+How to Use:
+</h5>
+<p> <span>Setting this option will enable a glare effect. You can tweak the glare value with <code>{'maxGlare': .5}</code></span></p>
+<p><code class="language-javascript">$('.js-tilt').tilt({
+&nbsp; glare: true,maxGlare: .5
+})</code></p>
 </div>
 </div>
 </div>
-<div class="col-lg-3">
-<div class="white_box QA_section card_height_100">
-<div class="box_header m-0">
-<div class="main-title">
-<h3 class="m-0">Device</h3>
+</div>
+<div class="col-lg-6">
+<div class="card_box box_shadow position-relative mb_30 card_height_100     ">
+<div class="white_box_tittle     ">
+<div class="main-title2 ">
+<h4 class="mb-2 nowrap ">Keep floating:</h4>
 </div>
 </div>
-<div id="bar-chart-6" class></div>
+<div class="box_body">
+<div>
+<img class="img-fluid img-thumbnail js-tilt" src="img/tilt/4.jpg" data-tilt-reset="false" data-tilt-speed="200" data-tilt-max="5" data-tilt-perspective="150" alt>
+</div>
+<div>
+<h5 class="SubTitle f-15 f-w-500 mt_20 text-uppercase ">
+How to Use:
+</h5>
+<p> Setting this option will not reset the tilt element when the user mouse leaves the element.</p>
+<p><code class="language-javascript">$('.js-tilt').tilt({
+&nbsp; reset: false
+})</code></p>
 </div>
 </div>
-<div class="col-lg-3">
-<div class="white_box">
-<div class="box_header">
-<div class="main-title">
-<h3 class="m-0">Browser</h3>
 </div>
 </div>
-<div class="casnvas_box">
-<canvas height="210" width="210" id="canvasDoughnut"></canvas>
+<div class="col-lg-6">
+<div class="card_box box_shadow position-relative mb_30 card_height_100     ">
+<div class="white_box_tittle     ">
+<div class="main-title2 ">
+<h4 class="mb-2 nowrap ">Scale on hover</h4>
 </div>
-<div class="legend_style legend_style_grid mt_10px">
-<li class="d-block"> <span style="background-color: #525CE5;"></span>Chrome</li>
-<li class="d-block"> <span style="background-color: #9C52FD;"></span> Mojila</li>
-<li class="d-block"> <span style="background-color: #3B76EF"></span> Safari</li>
-<li class="d-block"> <span style="background-color:#00BFBF;"></span> Opera</li>
-<li class="d-block"> <span style="background-color:#FFA70B;"></span> Microsoft Edg</li>
+</div>
+<div class="box_body">
+<div>
+<img class="img-fluid img-thumbnail js-tilt" src="img/tilt/5.jpg" data-tilt-speed="1000" data-tilt-max="20" data-tilt-scale="1.01" data-tilt-perspective="250" alt>
+</div>
+<div>
+<h5 class="SubTitle f-15 f-w-500 mt_20 text-uppercase ">
+How to Use:
+</h5>
+<p>Setting this option will scale tilt element on hover.</p>
+<p><code class="language-javascript">$('.js-tilt').tilt({
+&nbsp; scale: 1.2
+})</code></p>
+</div>
+</div>
+</div>
+</div>
+<div class="col-lg-6">
+<div class="card_box box_shadow position-relative mb_30 card_height_100     ">
+<div class="white_box_tittle     ">
+<div class="main-title2 ">
+<h4 class="mb-2 nowrap ">Disable Y axis</h4>
+</div>
+</div>
+<div class="box_body">
+<div>
+<img class="img-fluid img-thumbnail js-tilt" src="img/tilt/6.jpg" data-tilt-speed="100" data-tilt-max="10" data-tilt-axis="x" data-tilt-perspective="250" alt>
+</div>
+<div>
+<h5 class="SubTitle f-15 f-w-500 mt_20 text-uppercase ">
+How to Use:
+</h5>
+<p>Setting this option will disable the Y-Axis on the tilt element.</p>
+<p><code class="language-javascript">$('.js-tilt').tilt({
+&nbsp; axis: x
+})</code></p>
+</div>
+</div>
+</div>
+</div>
+<div class="col-lg-6">
+<div class="card_box box_shadow position-relative mb_30 card_height_100     ">
+<div class="white_box_tittle     ">
+<div class="main-title2 ">
+<h4 class="mb-2 nowrap ">Disable Y axis</h4>
+</div>
+</div>
+<div class="box_body">
+<div>
+<img class="img-fluid img-thumbnail js-tilt" src="img/tilt/7.jpg" data-tilt-speed="250" data-tilt-max="10" data-tilt-axis="y" data-tilt-perspective="250" alt>
+</div>
+<div>
+<h5 class="SubTitle f-15 f-w-500 mt_20 text-uppercase ">
+How to Use:
+</h5>
+<p>Setting this option will disable the Y-Axis on the tilt element.</p>
+<p><code class="language-javascript">$('.js-tilt').tilt({
+&nbsp; axis: x
+})</code></p>
+</div>
 </div>
 </div>
 </div>
@@ -903,18 +661,10 @@ How can I help you?</P>
 <script src="vendors/tagsinput/tagsinput.js"></script>
 
 <script src="vendors/text_editor/summernote-bs4.js"></script>
-<script src="vendors/am_chart/amcharts.js"></script>
-<script src="vendors/apex_chart/apexcharts.js"></script>
-<script src="vendors/apex_chart/apex_realestate.js"></script>
 
-<script src="vendors/chart_am/core.js"></script>
-<script src="vendors/chart_am/charts.js"></script>
-<script src="vendors/chart_am/animated.js"></script>
-<script src="vendors/chart_am/kelly.js"></script>
-<script src="vendors/chart_am/chart-custom.js"></script>
+<script src="vendors/animation/tilt/tilt.jquery.js"></script>
+<script src="vendors/animation/tilt/tilt-custom.js"></script>
 
 <script src="js/custom.js"></script>
-<script src="vendors/apex_chart/bar_active_1.js"></script>
-<script src="vendors/apex_chart/apex_chart_list.js"></script>
 </body>
 </html>

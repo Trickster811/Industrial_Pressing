@@ -1,0 +1,257 @@
+<div class="container-fluid p-0 sm_padding_15px">
+  <div class="row justify-content-center">
+    <div class="col-12">
+      <div class="dashboard_header mb_50">
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="dashboard_header_title">
+              <h3>Depot</h3>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="dashboard_breadcam text-end">
+              <p>
+                <a href="index.html">Dashboard</a>
+                <i class="fas fa-caret-right"></i> Depot
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-12">
+      <div class="white_box QA_section card_height_100">
+        <!-- First Part -->
+        <div class="box_header m-0">
+          <div class="main-title">
+            <h3 class="m-0">Details sur le Client</h3>
+          </div>
+        </div>
+        <div class="QA_table mb_25">
+          <table class="table lms_table_active2">
+            <thead>
+              <tr>
+                <th scope="col">Client</th>
+                <th scope="col">Telephone</th>
+                <th scope="col">Date Depot</th>
+                <th scope="col">Date Retrait</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <select
+                    class="form-control js-example-basic-single"
+                    style="width: 100%; padding: 20px"
+                    onchange="load_conditionment_for_sells(this)"
+                    id="client_name"
+                  >
+                    <option value="3">Moussa</option>
+                    <option value="4">Kevin</option>
+                  </select>
+                </td>
+                <td>
+                  <select
+                    class="form-control js-example-basic-single"
+                    style="width: 100%; padding: 20px"
+                    onchange="load_conditionment_for_sells(this)"
+                    id="client_phone"
+                  >
+                    <option value="3">690786195</option>
+                    <option value="4">670256970</option>
+                  </select>
+                </td>
+                <td>
+                  <input type="date" class="form-control" placeholder="depot" />
+                </td>
+                <td>
+                  <input
+                    type="date"
+                    class="form-control"
+                    placeholder="retrait"
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- Second Part -->
+        <div class="d-flex align-items-between box_header m-0">
+          <div class="main-title">
+            <h3 class="m-0">Details sur le Linge</h3>
+          </div>
+          <a
+            onclick="AddRow()"
+            class="btn btn-info btn-md text_white"
+            role="button"
+            aria-pressed="true"
+            >Ajouter</a
+          >
+        </div>
+        <div class="QA_table mb_25">
+          <table id="clothes_details" class="table lms_table_active2">
+            <thead>
+              <tr>
+                <th scope="col">Code</th>
+                <th scope="col">Type</th>
+                <th scope="col">Designation</th>
+                <th scope="col">Desciption</th>
+                <th scope="col">Prix Unitaire</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <input
+                    id="clothe_code1"
+                    type="text"
+                    class="form-control"
+                    value="code"
+                    disabled
+                  />
+                </td>
+                <td>
+                  <input
+                    id="clothe_type1"
+                    type="text"
+                    class="form-control"
+                    value="type"
+                    disabled
+                  />
+                </td>
+                <td>
+                  <select
+                    id="clothe_name1"
+                    class="form-control js-example-basic-single"
+                    style="width: 100%"
+                    onchange="load_conditionment_for_sells(this)"
+                  >
+                    <option value="3">Saro 3P LONGdddddd</option>
+                    <option value="4">Saro</option>
+                  </select>
+                </td>
+                <td>
+                  <input
+                    id="clothe_description1"
+                    type="text"
+                    class="form-control"
+                    placeholder="description"
+                    value="RAS"
+                  />
+                </td>
+                <td>
+                  <input
+                    id="clothe_priceUnitary1"
+                    type="number"
+                    class="form-control"
+                    value="0"
+                    disabled
+                  />
+                </td>
+                <td>
+                  <div
+                    onclick="RemoveRow(this)"
+                    class="text-center rounded bg-danger"
+                  >
+                    <div class="center-svg">
+                      <i class="fa fa-minus"> </i>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- Third Part -->
+        <div class="box_header m-0">
+          <div class="main-title">
+            <h3 class="m-0">Details du Depot</h3>
+          </div>
+        </div>
+        <div class="QA_table">
+          <table class="table lms_table_active2">
+            <thead>
+              <tr>
+                <th scope="col">Service</th>
+                <th scope="col">Nombre Articles</th>
+                <th scope="col">Net a Payer (FCFA)</th>
+                <th scope="col">Net Avance (FCFA)</th>
+                <th scope="col">Net Restant (FCFA)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <select
+                    class="form-control js-example-basic-single"
+                    style="width: 100%; padding: 20px"
+                    onchange=""
+                    id="service_type"
+                  >
+                    <option value="3">Service simple</option>
+                    <option value="4">Service 1h</option>
+                  </select>
+                </td>
+                <td>
+                  <input
+                  id="clothes_number"
+                    type="number"
+                    class="form-control"
+                    value="1"
+                    disabled
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    value="0"
+                    disabled
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    placeholder="avance"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    value="0"
+                    disabled
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="white_box">
+          <a
+            href="#"
+            class="btn btn-primary btn-md active"
+            role="button"
+            aria-pressed="true"
+            >Valider</a
+          >
+          <a
+            href="#"
+            class="btn btn-secondary btn-md active"
+            role="button"
+            aria-pressed="true"
+            >Annuler</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="vendors/select2/js/select2.js" type="text/javascript"></script>
+<script src="vendors/select2/js/select2.min.js" type="text/javascript"></script>
+<script src="js/custom.js"></script>
+<script src="../controllers/depot.controller.js"></script>

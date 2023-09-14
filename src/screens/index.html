@@ -70,9 +70,10 @@
           <ul>
             <li>
               <a
+                id="1"
                 class="active"
                 href=""
-                onclick='loadContent("dashboard.screen.html")'
+                onclick='loadContent(1, "dashboard.screen.html")'
                 >Dashboard</a
               >
             </li>
@@ -86,10 +87,15 @@
           </a>
           <ul>
             <li>
-              <a class="" onclick='loadContent("depot.screen.html")'>Depot</a>
+              <a id="2" class="" onclick='loadContent(2, "depot.screen.html")'
+                >Depot</a
+              >
             </li>
             <li>
-              <a class="" onclick='loadContent("retraits.screen.html")'
+              <a
+                id="3"
+                class=""
+                onclick='loadContent(3, "retraits.screen.html")'
                 >Retraits</a
               >
             </li>
@@ -102,12 +108,14 @@
           </a>
           <ul>
             <li>
-              <a class="" onclick='loadContent("clients.screen.html")'
+              <a id="4" class="" onclick='loadContent(4, "clients.screen.html")'
                 >Clients</a
               >
             </li>
             <li>
-              <a class="" onclick='loadContent("linges.screen.html")'>Linges</a>
+              <a id="5" class="" onclick='loadContent(5, "linges.screen.html")'
+                >Linges</a
+              >
             </li>
           </ul>
         </li>
@@ -118,12 +126,18 @@
           </a>
           <ul>
             <li>
-              <a class="" onclick='loadContent("personnel.screen.html")'
+              <a
+                id="6"
+                class=""
+                onclick='loadContent(6, "personnel.screen.html")'
                 >Personnels</a
               >
             </li>
             <li>
-              <a class="" onclick='loadContent("services.screen.html")'
+              <a
+                id="7"
+                class=""
+                onclick='loadContent(7, "services.screen.html")'
                 >Services</a
               >
             </li>
@@ -934,9 +948,13 @@
     <script src="js/jquery1-3.4.1.min.js"></script>
     <!-- Function to change page Start -->
     <script>
+      let current_page_id = 1;
       // $("#main_content").load(`depot.screen.html`);
-      function loadContent(page_url) {
+      function loadContent(elememt, page_url) {
         $("#main_content").load(`${page_url}`);
+        document.getElementById(current_page_id).classList.remove("active");
+        document.getElementById(elememt).classList.add("active");
+        current_page_id = document.getElementById(elememt).id;
       }
     </script>
     <!-- Function to change page End -->

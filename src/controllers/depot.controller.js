@@ -1,5 +1,29 @@
 let n = 1;
 
+// Function to update clothe info in a row
+function update_clothe_info(element) {
+  update_total();
+}
+
+// Function to update the total amount to pay
+function update_total() {
+  let total = 0;
+  for (let index = 1; index <= n; index++) {
+    total += parseInt(
+      document.getElementById("clothe_priceUnitary" + index).value
+    );
+  }
+  document.getElementById("total_to_pay").value = total;
+  update_remaining_to_pay();
+}
+
+// Function to update remaining amount to pay
+function update_remaining_to_pay() {
+  document.getElementById("amount_paid").value =
+    document.getElementById("total_to_pay").value -
+    document.getElementById("remaining_to_pay").value;
+}
+
 // Function to add row in a table
 function AddRow() {
   n++;
@@ -32,21 +56,40 @@ function AddRow() {
   cell5.innerHTML =
     '<input id="clothe_priceUnitary' +
     n +
-    '" type="number" class="form-control" value="0" disabled/>';
+    '" type="number" class="form-control" value="10" disabled/>';
 
   cell6.innerHTML =
     '<div onclick="RemoveRow(this)" class="text-center rounded bg-danger"><div class="center-svg"><i class="fa fa-minus"> </i></div></div>';
 
   document.getElementById("clothes_number").value = n;
+  update_total();
 }
 
 // Function to remove a row from a table
 function RemoveRow(x) {
-  // if (confirm("Confirmer la suppression ?")) {
+  let rowIndex = x.parentElement.parentElement.rowIndex;
+  // Get the table with its id
   var table = document.getElementById("clothes_details");
-  //alert(x.parentElement.rowIndex);
-  table.deleteRow(x.parentElement.parentElement.rowIndex);
+  //   Delete the row
+  table.deleteRow(rowIndex);
+  //   Update cells id
+  for (let index = rowIndex + 1; index <= n; index++) {
+    document.getElementById("clothe_code" + index).id =
+      "clothe_code" + (index - 1);
+    document.getElementById("clothe_type" + index).id =
+      "clothe_type" + (index - 1);
+    document.getElementById("clothe_name" + index).id =
+      "clothe_name" + (index - 1);
+    document.getElementById("clothe_description" + index).id =
+      "clothe_description" + (index - 1);
+    document.getElementById("clothe_priceUnitary" + index).id =
+      "clothe_priceUnitary" + (index - 1);
+  }
+  //   Update the number of rows
   n--;
+  //   Update the clothe number
   document.getElementById("clothes_number").value = n;
+  //   Update the total amount to pay
+  update_total();
   // }
 }

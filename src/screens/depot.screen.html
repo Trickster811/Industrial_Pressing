@@ -126,7 +126,7 @@
                     id="clothe_name1"
                     class="form-control js-example-basic-single"
                     style="width: 100%"
-                    onchange="load_conditionment_for_sells(this)"
+                    onchange="update_clothe_info(this)"
                   >
                     <option value="3">Saro 3P LONGdddddd</option>
                     <option value="4">Saro</option>
@@ -196,7 +196,7 @@
                 </td>
                 <td>
                   <input
-                  id="clothes_number"
+                    id="clothes_number"
                     type="number"
                     class="form-control"
                     value="1"
@@ -205,6 +205,7 @@
                 </td>
                 <td>
                   <input
+                    id="total_to_pay"
                     type="number"
                     class="form-control"
                     value="0"
@@ -213,13 +214,16 @@
                 </td>
                 <td>
                   <input
+                    id="amount_paid"
                     type="number"
                     class="form-control"
                     placeholder="avance"
+                    onchange="update_remaining_to_pay()"
                   />
                 </td>
                 <td>
                   <input
+                    id="remaining_to_pay"
                     type="number"
                     class="form-control"
                     value="0"

@@ -5,24 +5,90 @@
         <div class="row">
           <div class="col-lg-6">
             <div class="dashboard_header_title">
-              <h3>Retraits</h3>
+              <h3>Services</h3>
             </div>
           </div>
           <div class="col-lg-6">
             <div class="dashboard_breadcam text-end">
               <p>
-                <a href="index.html">Dashboard</a>
-                <i class="fas fa-caret-right"></i> Data Table
+                <a href="#" onclick='loadContent(1,"index.html")'>Dashboard</a>
+                <i class="fas fa-caret-right"></i>Services
               </p>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <div id="new_service_form" class="col-xl-12">
+      <div class="white_box QA_section card_height_100">
+        <!-- First Part -->
+        <div class="box_header m-0">
+          <div class="main-title">
+            <h3 class="m-0">Nouveau Service</h3>
+          </div>
+        </div>
+        <div class="QA_table mb_25">
+          <table class="table lms_table_active2">
+            <thead>
+              <tr>
+                <th scope="col">Nom</th>
+                <th scope="col">Description</th>
+                <th scope="col">Duree (HEURE)</th>
+                <th scope="col">Taux</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <input type="text" class="form-control" placeholder="nom" />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="designation"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    placeholder="duree"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    placeholder="taux"
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="white_box">
+          <a
+            href="#"
+            class="btn btn-primary btn-md active"
+            role="button"
+            aria-pressed="true"
+            >Valider</a
+          >
+          <a
+            href="#"
+            class="btn btn-secondary btn-md active"
+            role="button"
+            aria-pressed="true"
+            >Annuler</a
+          >
+        </div>
+      </div>
+    </div>
     <div class="col-12">
       <div class="QA_section">
         <div class="white_box_tittle list_header">
-          <h4>Table</h4>
+          <h4>Types de Services</h4>
           <div class="box_right d-flex lms_block">
             <div class="serach_field_2">
               <div class="search_inner">
@@ -31,7 +97,7 @@
                     <input type="text" placeholder="Search content here..." />
                   </div>
                   <button type="submit">
-                    <i class="ti-search"></i>
+                    <i class="fa fa-search"></i>
                   </button>
                 </form>
               </div>
@@ -42,7 +108,7 @@
                 data-bs-toggle="modal"
                 data-bs-target="#addcategory"
                 class="btn_1"
-                >Add New</a
+                >Rechercher</a
               >
             </div>
           </div>
@@ -51,136 +117,189 @@
           <table class="table lms_table_active">
             <thead>
               <tr>
-                <th scope="col">title</th>
-                <th scope="col">Category</th>
-                <th scope="col">Teacher</th>
-                <th scope="col">Lesson</th>
-                <th scope="col">Enrolled</th>
-                <th scope="col">Price</th>
-                <th scope="col">Status</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Description</th>
+                <th scope="col">Duree (HEURE)</th>
+                <th scope="col">Taux</th>
+                <th scope="col">Actions</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <th scope="row">
-                  <a href="#" class="question_content"> title here 1</a>
+                  <a href="#" class="question_content">Service Express 24h</a>
                 </th>
-                <td>Category name</td>
-                <td>Teacher James</td>
-                <td>Lessons name</td>
-                <td>16</td>
-                <td>$25.00</td>
-                <td><a href="#" class="status_btn">Active</a></td>
+                <td>Tarification ajoutee de 50%</td>
+                <td>24</td>
+                <td>1.5</td>
+                <td class="d-flex justify-content-evenly">
+                  <div onclick="" class="w-50 rounded bg-info text-center">
+                    <i class="fa fa-edit"> </i>
+                  </div>
+                  <div onclick="" class="w-50 rounded bg-danger text-center">
+                    <i class="fa fa-trash"> </i>
+                  </div>
+                </td>
               </tr>
               <tr>
                 <th scope="row">
-                  <a href="#" class="question_content"> title here 1</a>
+                  <a href="#" class="question_content">Service Express 24h</a>
                 </th>
-                <td>Category name</td>
-                <td>Teacher James</td>
-                <td>Lessons name</td>
-                <td>16</td>
-                <td>$25.00</td>
-                <td><a href="#" class="status_btn">Active</a></td>
+                <td>Tarification ajoutee de 50%</td>
+                <td>24</td>
+                <td>1.5</td>
+                <td class="d-flex justify-content-evenly">
+                  <div onclick="" class="w-50 rounded bg-info text-center">
+                    <i class="fa fa-edit"> </i>
+                  </div>
+                  <div onclick="" class="w-50 rounded bg-danger text-center">
+                    <i class="fa fa-trash"> </i>
+                  </div>
+                </td>
               </tr>
               <tr>
                 <th scope="row">
-                  <a href="#" class="question_content"> title here 1</a>
+                  <a href="#" class="question_content">Service Express 24h</a>
                 </th>
-                <td>Category name</td>
-                <td>Teacher James</td>
-                <td>Lessons name</td>
-                <td>16</td>
-                <td>$25.00</td>
-                <td><a href="#" class="status_btn">Active</a></td>
+                <td>Tarification ajoutee de 50%</td>
+                <td>24</td>
+                <td>1.5</td>
+                <td class="d-flex justify-content-evenly">
+                  <div onclick="" class="w-50 rounded bg-info text-center">
+                    <i class="fa fa-edit"> </i>
+                  </div>
+                  <div onclick="" class="w-50 rounded bg-danger text-center">
+                    <i class="fa fa-trash"> </i>
+                  </div>
+                </td>
               </tr>
               <tr>
                 <th scope="row">
-                  <a href="#" class="question_content"> title here 1</a>
+                  <a href="#" class="question_content">Service Express 24h</a>
                 </th>
-                <td>Category name</td>
-                <td>Teacher James</td>
-                <td>Lessons name</td>
-                <td>16</td>
-                <td>$25.00</td>
-                <td><a href="#" class="status_btn">Active</a></td>
+                <td>Tarification ajoutee de 50%</td>
+                <td>24</td>
+                <td>1.5</td>
+                <td class="d-flex justify-content-evenly">
+                  <div onclick="" class="w-50 rounded bg-info text-center">
+                    <i class="fa fa-edit"> </i>
+                  </div>
+                  <div onclick="" class="w-50 rounded bg-danger text-center">
+                    <i class="fa fa-trash"> </i>
+                  </div>
+                </td>
               </tr>
               <tr>
                 <th scope="row">
-                  <a href="#" class="question_content"> title here 1</a>
+                  <a href="#" class="question_content">Service Express 24h</a>
                 </th>
-                <td>Category name</td>
-                <td>Teacher James</td>
-                <td>Lessons name</td>
-                <td>16</td>
-                <td>$25.00</td>
-                <td><a href="#" class="status_btn">Active</a></td>
+                <td>Tarification ajoutee de 50%</td>
+                <td>24</td>
+                <td>1.5</td>
+                <td class="d-flex justify-content-evenly">
+                  <div onclick="" class="w-50 rounded bg-info text-center">
+                    <i class="fa fa-edit"> </i>
+                  </div>
+                  <div onclick="" class="w-50 rounded bg-danger text-center">
+                    <i class="fa fa-trash"> </i>
+                  </div>
+                </td>
               </tr>
               <tr>
                 <th scope="row">
-                  <a href="#" class="question_content"> title here 1</a>
+                  <a href="#" class="question_content">Service Express 24h</a>
                 </th>
-                <td>Category name</td>
-                <td>Teacher James</td>
-                <td>Lessons name</td>
-                <td>16</td>
-                <td>$25.00</td>
-                <td><a href="#" class="status_btn">Active</a></td>
+                <td>Tarification ajoutee de 50%</td>
+                <td>24</td>
+                <td>1.5</td>
+                <td class="d-flex justify-content-evenly">
+                  <div onclick="" class="w-50 rounded bg-info text-center">
+                    <i class="fa fa-edit"> </i>
+                  </div>
+                  <div onclick="" class="w-50 rounded bg-danger text-center">
+                    <i class="fa fa-trash"> </i>
+                  </div>
+                </td>
               </tr>
               <tr>
                 <th scope="row">
-                  <a href="#" class="question_content"> title here 1</a>
+                  <a href="#" class="question_content">Service Express 24h</a>
                 </th>
-                <td>Category name</td>
-                <td>Teacher James</td>
-                <td>Lessons name</td>
-                <td>16</td>
-                <td>$25.00</td>
-                <td><a href="#" class="status_btn">Active</a></td>
+                <td>Tarification ajoutee de 50%</td>
+                <td>24</td>
+                <td>1.5</td>
+                <td class="d-flex justify-content-evenly">
+                  <div onclick="" class="w-50 rounded bg-info text-center">
+                    <i class="fa fa-edit"> </i>
+                  </div>
+                  <div onclick="" class="w-50 rounded bg-danger text-center">
+                    <i class="fa fa-trash"> </i>
+                  </div>
+                </td>
               </tr>
               <tr>
                 <th scope="row">
-                  <a href="#" class="question_content"> title here 1</a>
+                  <a href="#" class="question_content">Service Express 24h</a>
                 </th>
-                <td>Category name</td>
-                <td>Teacher James</td>
-                <td>Lessons name</td>
-                <td>16</td>
-                <td>$25.00</td>
-                <td><a href="#" class="status_btn">Active</a></td>
+                <td>Tarification ajoutee de 50%</td>
+                <td>24</td>
+                <td>1.5</td>
+                <td class="d-flex justify-content-evenly">
+                  <div onclick="" class="w-50 rounded bg-info text-center">
+                    <i class="fa fa-edit"> </i>
+                  </div>
+                  <div onclick="" class="w-50 rounded bg-danger text-center">
+                    <i class="fa fa-trash"> </i>
+                  </div>
+                </td>
               </tr>
               <tr>
                 <th scope="row">
-                  <a href="#" class="question_content"> title here 1</a>
+                  <a href="#" class="question_content">Service Express 24h</a>
                 </th>
-                <td>Category name</td>
-                <td>Teacher James</td>
-                <td>Lessons name</td>
-                <td>16</td>
-                <td>$25.00</td>
-                <td><a href="#" class="status_btn">Active</a></td>
+                <td>Tarification ajoutee de 50%</td>
+                <td>24</td>
+                <td>1.5</td>
+                <td class="d-flex justify-content-evenly">
+                  <div onclick="" class="w-50 rounded bg-info text-center">
+                    <i class="fa fa-edit"> </i>
+                  </div>
+                  <div onclick="" class="w-50 rounded bg-danger text-center">
+                    <i class="fa fa-trash"> </i>
+                  </div>
+                </td>
               </tr>
               <tr>
                 <th scope="row">
-                  <a href="#" class="question_content"> title here 1</a>
+                  <a href="#" class="question_content">Service Express 24h</a>
                 </th>
-                <td>Category name</td>
-                <td>Teacher James</td>
-                <td>Lessons name</td>
-                <td>16</td>
-                <td>$25.00</td>
-                <td><a href="#" class="status_btn">Active</a></td>
+                <td>Tarification ajoutee de 50%</td>
+                <td>24</td>
+                <td>1.5</td>
+                <td class="d-flex justify-content-evenly">
+                  <div onclick="" class="w-50 rounded bg-info text-center">
+                    <i class="fa fa-edit"> </i>
+                  </div>
+                  <div onclick="" class="w-50 rounded bg-danger text-center">
+                    <i class="fa fa-trash"> </i>
+                  </div>
+                </td>
               </tr>
               <tr>
                 <th scope="row">
-                  <a href="#" class="question_content"> title here 1</a>
+                  <a href="#" class="question_content">Service Express 24h</a>
                 </th>
-                <td>Category name</td>
-                <td>Teacher James</td>
-                <td>Lessons name</td>
-                <td>16</td>
-                <td>$25.00</td>
-                <td><a href="#" class="status_btn">Active</a></td>
+                <td>Tarification ajoutee de 50%</td>
+                <td>24</td>
+                <td>1.5</td>
+                <td class="d-flex justify-content-evenly">
+                  <div onclick="" class="w-50 rounded bg-info text-center">
+                    <i class="fa fa-edit"> </i>
+                  </div>
+                  <div onclick="" class="w-50 rounded bg-danger text-center">
+                    <i class="fa fa-trash"> </i>
+                  </div>
+                </td>
               </tr>
             </tbody>
           </table>

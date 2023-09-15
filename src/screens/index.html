@@ -62,6 +62,7 @@
         </div>
       </div>
       <ul id="sidebar_menu">
+        <!-- Dashboard Section -->
         <li class="mm-active">
           <a class="has-arrow" href="#" aria-expanded="false">
             <img src="img/menu-icon/dashboard.svg" alt />
@@ -80,6 +81,7 @@
             <li><a href="index_2.html">Default</a></li>
           </ul>
         </li>
+        <!-- Recption Section -->
         <li class="">
           <a class="has-arrow" href="#" aria-expanded="false">
             <img src="img/menu-icon/8.svg" alt />
@@ -101,6 +103,7 @@
             </li>
           </ul>
         </li>
+        <!-- Inventaire Section -->
         <li class="">
           <a class="has-arrow" href="#" aria-expanded="false">
             <img src="img/menu-icon/3.svg" alt />
@@ -119,6 +122,7 @@
             </li>
           </ul>
         </li>
+        <!-- Ressources Section -->
         <li class="">
           <a class="has-arrow" href="#" aria-expanded="false">
             <img src="img/menu-icon/4.svg" alt />
@@ -138,6 +142,31 @@
                 id="7"
                 class=""
                 onclick='loadContent(7, "services.screen.html")'
+                >Services</a
+              >
+            </li>
+          </ul>
+        </li>
+        <!-- Administrator Section -->
+        <li class="">
+          <a class="has-arrow" href="#" aria-expanded="false">
+            <img src="img/menu-icon/9.svg" alt />
+            <span>Administration</span>
+          </a>
+          <ul>
+            <li>
+              <a
+                id="6"
+                class=""
+                onclick='loadContent(8, "parametrage.screen.html")'
+                >Parametrage</a
+              >
+            </li>
+            <li>
+              <a
+                id="7"
+                class=""
+                onclick='loadContent(9, "services.screen.html")'
                 >Services</a
               >
             </li>
@@ -313,7 +342,7 @@
       </div>
       <!-- Page Body Content Body -->
       <div id="main_content" class="main_content_iner">
-        <div class="container-fluid p-0 sm_padding_15px">
+        <!-- <div class="container-fluid p-0 sm_padding_15px">
           <div class="row justify-content-center">
             <div class="col-12">
               <div class="dashboard_header mb_50">
@@ -797,7 +826,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
       <!-- Page Body Content Footer -->
       <div class="footer_part">
@@ -949,7 +978,7 @@
     <!-- Function to change page Start -->
     <script>
       let current_page_id = 1;
-      // $("#main_content").load(`depot.screen.html`);
+      $("#main_content").load(`dashboard.screen.html`);
       function loadContent(elememt, page_url) {
         $("#main_content").load(`${page_url}`);
         document.getElementById(current_page_id).classList.remove("active");
@@ -1005,18 +1034,7 @@
     <script src="vendors/tagsinput/tagsinput.js"></script>
 
     <script src="vendors/text_editor/summernote-bs4.js"></script>
-    <script src="vendors/am_chart/amcharts.js"></script>
-    <script src="vendors/apex_chart/apexcharts.js"></script>
-    <script src="vendors/apex_chart/apex_realestate.js"></script>
-
-    <script src="vendors/chart_am/core.js"></script>
-    <script src="vendors/chart_am/charts.js"></script>
-    <script src="vendors/chart_am/animated.js"></script>
-    <script src="vendors/chart_am/kelly.js"></script>
-    <script src="vendors/chart_am/chart-custom.js"></script>
 
     <script src="js/custom.js"></script>
-    <script src="vendors/apex_chart/bar_active_1.js"></script>
-    <script src="vendors/apex_chart/apex_chart_list.js"></script>
   </body>
 </html>

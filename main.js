@@ -18,7 +18,7 @@ const mainWindow = () => {
 
   // mainWindow.webContents.openDevTools();
 
-  mainWindow.loadFile("src/screens/index.html");
+  mainWindow.loadFile("src/screens/login.html");
 };
 
 // Getting all Models to create tables in our database

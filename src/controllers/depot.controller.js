@@ -93,3 +93,17 @@ function RemoveRow(x) {
   update_total();
   // }
 }
+
+function autoSelectPhoneOrName(element) {
+  var event = new Event("change");
+  if (element.id === "client_name") {
+    const phone = document.getElementById("client_phone");
+    phone.selectedIndex = element.selectedIndex;
+    phone.dispatchEvent(event);
+  }
+  if (element.id === "client_phone") {
+    const client = document.getElementById("client_name");
+    client.selectedIndex = element.selectedIndex;
+    client.dispatchEvent(event);
+  }
+}

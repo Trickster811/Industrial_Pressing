@@ -1,31 +1,31 @@
-const { sequelize, DataTypes } = require("../../config/database");
+const { sequelize, DataTypes } = require("../../../config/database");
 
 // module.exports = (sequelize, DataTypes) => {
-const User = sequelize.define(
-  "User",
+const Operateur = sequelize.define(
+  "Operateur",
   {
     // Model attributes are defined here
-    idUser: {
+    idOperateur: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
       allowNull: false,
     },
-    nameUser: {
+    nameOperateur: {
       type: DataTypes.STRING,
       allowNull: false,
     },
   },
   {
-    tableName: "User",
+    tableName: "Operateur",
     name: {
-      singular: "User",
-      plural: "Users",
+      singular: "Operateur",
+      plural: "Operateurs",
     },
   }
 );
 
-//   return User;
+//   return Operateur;
 // };
 
-module.exports = { User };
+module.exports = { Operateur };

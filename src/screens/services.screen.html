@@ -42,26 +42,39 @@
             <tbody>
               <tr>
                 <td>
-                  <input type="text" class="form-control" placeholder="nom" />
+                  <input
+                    id="nomService"
+                    type="text"
+                    class="form-control"
+                    onchange='document.getElementById("message").innerHTML=""'
+                    placeholder="nom"
+                  />
                 </td>
                 <td>
                   <input
+                    id="descriptionService"
                     type="text"
                     class="form-control"
+                    value="RAS"
+                    onchange='document.getElementById("message").innerHTML=""'
                     placeholder="designation"
                   />
                 </td>
                 <td>
                   <input
+                    id="dureeService"
                     type="number"
                     class="form-control"
+                    onchange='document.getElementById("message").innerHTML=""'
                     placeholder="duree"
                   />
                 </td>
                 <td>
                   <input
+                    id="tauxService"
                     type="number"
                     class="form-control"
+                    onchange='document.getElementById("message").innerHTML=""'
                     placeholder="taux"
                   />
                 </td>
@@ -69,21 +82,24 @@
             </tbody>
           </table>
         </div>
+        <div id="message"></div>
         <div class="white_box">
-          <a
-            href="#"
+          <button
             class="btn btn-primary btn-md active"
             role="button"
             aria-pressed="true"
-            >Valider</a
+            onclick="createServiceController()"
           >
-          <a
-            href="#"
+            Valider
+          </button>
+          <button
             class="btn btn-secondary btn-md active"
             role="button"
             aria-pressed="true"
-            >Annuler</a
+            onclick="window.location.reload()"
           >
+            Annuler
+          </button>
         </div>
       </div>
     </div>
@@ -114,6 +130,14 @@
               >
             </div>
             <div class="add_button ms-2">
+              <button
+                class="btn btn-info btn-md text_white"
+                onclick="window.electron.findAllService()"
+              >
+                Actualiser
+              </button>
+            </div>
+            <div class="add_button ms-2">
               <a
                 href="#"
                 onclick=""
@@ -137,184 +161,16 @@
                 <th scope="col">Actions</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody id="service_table_body"></tbody>
+            <thead>
               <tr>
-                <th scope="row">
-                  <a href="#" class="question_content">Service Express 24h</a>
-                </th>
-                <td>Tarification ajoutee de 50%</td>
-                <td>24</td>
-                <td>1.5</td>
-                <td class="d-flex justify-content-evenly">
-                  <div onclick="" class="w-50 rounded bg-info text-center">
-                    <i class="fa fa-edit"> </i>
-                  </div>
-                  <div onclick="" class="w-50 rounded bg-danger text-center">
-                    <i class="fa fa-trash"> </i>
-                  </div>
-                </td>
+                <th scope="col">Nom</th>
+                <th scope="col">Description</th>
+                <th scope="col">Duree (HEURE)</th>
+                <th scope="col">Taux</th>
+                <th scope="col">Actions</th>
               </tr>
-              <tr>
-                <th scope="row">
-                  <a href="#" class="question_content">Service Express 24h</a>
-                </th>
-                <td>Tarification ajoutee de 50%</td>
-                <td>24</td>
-                <td>1.5</td>
-                <td class="d-flex justify-content-evenly">
-                  <div onclick="" class="w-50 rounded bg-info text-center">
-                    <i class="fa fa-edit"> </i>
-                  </div>
-                  <div onclick="" class="w-50 rounded bg-danger text-center">
-                    <i class="fa fa-trash"> </i>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  <a href="#" class="question_content">Service Express 24h</a>
-                </th>
-                <td>Tarification ajoutee de 50%</td>
-                <td>24</td>
-                <td>1.5</td>
-                <td class="d-flex justify-content-evenly">
-                  <div onclick="" class="w-50 rounded bg-info text-center">
-                    <i class="fa fa-edit"> </i>
-                  </div>
-                  <div onclick="" class="w-50 rounded bg-danger text-center">
-                    <i class="fa fa-trash"> </i>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  <a href="#" class="question_content">Service Express 24h</a>
-                </th>
-                <td>Tarification ajoutee de 50%</td>
-                <td>24</td>
-                <td>1.5</td>
-                <td class="d-flex justify-content-evenly">
-                  <div onclick="" class="w-50 rounded bg-info text-center">
-                    <i class="fa fa-edit"> </i>
-                  </div>
-                  <div onclick="" class="w-50 rounded bg-danger text-center">
-                    <i class="fa fa-trash"> </i>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  <a href="#" class="question_content">Service Express 24h</a>
-                </th>
-                <td>Tarification ajoutee de 50%</td>
-                <td>24</td>
-                <td>1.5</td>
-                <td class="d-flex justify-content-evenly">
-                  <div onclick="" class="w-50 rounded bg-info text-center">
-                    <i class="fa fa-edit"> </i>
-                  </div>
-                  <div onclick="" class="w-50 rounded bg-danger text-center">
-                    <i class="fa fa-trash"> </i>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  <a href="#" class="question_content">Service Express 24h</a>
-                </th>
-                <td>Tarification ajoutee de 50%</td>
-                <td>24</td>
-                <td>1.5</td>
-                <td class="d-flex justify-content-evenly">
-                  <div onclick="" class="w-50 rounded bg-info text-center">
-                    <i class="fa fa-edit"> </i>
-                  </div>
-                  <div onclick="" class="w-50 rounded bg-danger text-center">
-                    <i class="fa fa-trash"> </i>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  <a href="#" class="question_content">Service Express 24h</a>
-                </th>
-                <td>Tarification ajoutee de 50%</td>
-                <td>24</td>
-                <td>1.5</td>
-                <td class="d-flex justify-content-evenly">
-                  <div onclick="" class="w-50 rounded bg-info text-center">
-                    <i class="fa fa-edit"> </i>
-                  </div>
-                  <div onclick="" class="w-50 rounded bg-danger text-center">
-                    <i class="fa fa-trash"> </i>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  <a href="#" class="question_content">Service Express 24h</a>
-                </th>
-                <td>Tarification ajoutee de 50%</td>
-                <td>24</td>
-                <td>1.5</td>
-                <td class="d-flex justify-content-evenly">
-                  <div onclick="" class="w-50 rounded bg-info text-center">
-                    <i class="fa fa-edit"> </i>
-                  </div>
-                  <div onclick="" class="w-50 rounded bg-danger text-center">
-                    <i class="fa fa-trash"> </i>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  <a href="#" class="question_content">Service Express 24h</a>
-                </th>
-                <td>Tarification ajoutee de 50%</td>
-                <td>24</td>
-                <td>1.5</td>
-                <td class="d-flex justify-content-evenly">
-                  <div onclick="" class="w-50 rounded bg-info text-center">
-                    <i class="fa fa-edit"> </i>
-                  </div>
-                  <div onclick="" class="w-50 rounded bg-danger text-center">
-                    <i class="fa fa-trash"> </i>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  <a href="#" class="question_content">Service Express 24h</a>
-                </th>
-                <td>Tarification ajoutee de 50%</td>
-                <td>24</td>
-                <td>1.5</td>
-                <td class="d-flex justify-content-evenly">
-                  <div onclick="" class="w-50 rounded bg-info text-center">
-                    <i class="fa fa-edit"> </i>
-                  </div>
-                  <div onclick="" class="w-50 rounded bg-danger text-center">
-                    <i class="fa fa-trash"> </i>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  <a href="#" class="question_content">Service Express 24h</a>
-                </th>
-                <td>Tarification ajoutee de 50%</td>
-                <td>24</td>
-                <td>1.5</td>
-                <td class="d-flex justify-content-evenly">
-                  <div onclick="" class="w-50 rounded bg-info text-center">
-                    <i class="fa fa-edit"> </i>
-                  </div>
-                  <div onclick="" class="w-50 rounded bg-danger text-center">
-                    <i class="fa fa-trash"> </i>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
+            </thead>
           </table>
         </div>
       </div>
@@ -322,5 +178,5 @@
   </div>
 </div>
 
-<script src="vendors/datatable/js/jquery.dataTables.min.js"></script>
-<script src="js/custom.js"></script>
+<!-- Import Service Controller -->
+<script src="../controllers/services.controller.js"></script>

@@ -24,7 +24,7 @@ const Service = sequelize.define(
       allowNull: false,
     },
     tauxService: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.DOUBLE,
       allowNull: false,
     },
   },

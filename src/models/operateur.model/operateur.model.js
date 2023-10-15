@@ -15,6 +15,22 @@ const Operateur = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    fonctionOperateur: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    phoneOperateur: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    loginOperateur: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    passwordOperateur: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   },
   {
     tableName: "Operateur",

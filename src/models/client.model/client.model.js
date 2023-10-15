@@ -15,8 +15,20 @@ const Client = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    sexeClient: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     phoneClient: {
       type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    residenceClient: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    reductionClient: {
+      type: DataTypes.DOUBLE,
       allowNull: false,
     },
   },

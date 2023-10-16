@@ -24,7 +24,7 @@ const Linge = sequelize.define(
       allowNull: false,
     },
     montantLinge: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.DOUBLE,
       allowNull: false,
     },
   },

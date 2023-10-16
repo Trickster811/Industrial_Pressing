@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 
 // Connection to MySQL database via the package SEQUELIZE
 const { Sequelize, DataTypes, QueryTypes } = require("sequelize");
@@ -18,7 +17,6 @@ async function select_user() {
 }
 
 select_user()
-=======
 const { contextBridge } = require("electron");
 const { Service } = require("./src/models/service.model/service.model");
 const { Client } = require("./src/models/client.model/client.model");
@@ -782,4 +780,3 @@ contextBridge.exposeInMainWorld("electron", {
   updateService: updateService,
   deleteService: deleteService,
 });
->>>>>>> master

@@ -2,32 +2,16 @@
 // Connection to MySQL database via the package SEQUELIZE
 const { Sequelize, DataTypes, QueryTypes } = require("sequelize");
 
-const { Client } = require("./src/models/client.model/client.model");
+
 const { Facture } = require("./src/models/facture.model/facture.model");
-
-// Find all users
-async function select_user() {
-    // Create a new user
-    //const jane = await Client.create({ nomClient: "Jane", phoneClient: 677345578 });
-    //console.log("Jane's auto-generated ID:", jane.idClient);
-
-    const users = await Client.findAll();
-    //console.log(users.every(user => user instanceof User)); // true
-    console.log("All users:", JSON.stringify(users, null, 2));
-
-}
-
-select_user()
-<<<<<<< HEAD
-=======
 const { contextBridge } = require("electron");
 const { Service } = require("./src/models/service.model/service.model");
 const { Client } = require("./src/models/client.model/client.model");
 const { Operateur } = require("./src/models/operateur.model/operateur.model");
 const { Linge } = require("./src/models/linge.model/linge.model");
->>>>>>> master
 
-/ ////////////////////////////////////////////////////////////////////////////// //
+
+/////////////////////////////////////////////////////////////////////////////// //
 // //////////////////////// Controller For Dashboard //////////////////////////// //
 // ////////////////////////////////////////////////////////////////////////////// //
 
@@ -35,6 +19,7 @@ const { Linge } = require("./src/models/linge.model/linge.model");
 async function findStatistics() {
   Facture.findAndCountAll()
     .then((data) => {
+      alert("dfdfdf")
       document.getElementById("depots").innerHTML = data
       document.getElementById("clients").innerHTML = "1"
       document.getElementById("total").innerHTML = "1"
@@ -49,7 +34,7 @@ async function findStatistics() {
 // Function to find one instance of a Operateur
 async function findOneOperateur(data) {
   Operateur.findOne()
-    .then(() => {})
+    .then(() => { })
     .catch((err) => {
       console.log(err);
     });
@@ -97,8 +82,7 @@ async function deleteOperateur(data) {
       console.log(err);
     });
 }
-<<<<<<< HEAD
-=======
+
 
 // ////////////////////////////////////////////////////////////////////////////// //
 // //////////////////////// Controller For Service ////////////////////////////// //
@@ -227,7 +211,7 @@ async function findAllService() {
 // Function to find one instance of a Service
 async function findOneService(data) {
   Service.findOne()
-    .then(() => {})
+    .then(() => { })
     .catch((err) => {
       console.log(err);
     });
@@ -277,6 +261,8 @@ async function deleteService(data) {
 }
 
 contextBridge.exposeInMainWorld("electron", {
+  // function for dashboard statistics elements
+  findStatistics : findStatistics,
   // Functions to Manage Client
   findAllClient: findAllClient,
   findOneClient: findOneClient,
@@ -302,4 +288,3 @@ contextBridge.exposeInMainWorld("electron", {
   updateService: updateService,
   deleteService: deleteService,
 });
->>>>>>> master

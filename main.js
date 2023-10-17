@@ -16,7 +16,7 @@ const mainWindow = () => {
   });
   mainWindow.maximize();
 
-   mainWindow.webContents.openDevTools();
+  //mainWindow.webContents.openDevTools();
 
   mainWindow.loadFile("src/screens/login.html");
 };

@@ -1,5 +1,12 @@
 const { sequelize, DataTypes } = require("../../../config/database");
 
+const { Client } = require("../client.model/client.model");
+const { FactureLinge } = require("../factureLinge.model/factureLinge.model");
+const { Linge } = require("../linge.model/linge.model");
+const {ReglementFacture,} = require("../reglementFacture/reglementFacture.model");
+const { Service } = require("../service.model/service.model");
+
+
 // module.exports = (sequelize, DataTypes) => {
 const Facture = sequelize.define(
   "Facture",
@@ -27,6 +34,10 @@ const Facture = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    montantAvanceFacture: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
   },
   {
     tableName: "Facture",
@@ -36,6 +47,27 @@ const Facture = sequelize.define(
     },
   }
 );
+
+
+// Association with Client Model
+Facture.belongsTo(Client, {
+  foreignKey: "idClient",
+});
+
+// Association with Linge Model
+Facture.belongsToMany(Linge, {
+  through: FactureLinge,
+});
+
+// Association with Reglement Model
+Facture.hasMany(ReglementFacture, {
+  foreignKey: "idReglementFacture",
+});
+
+// Association with Service Model
+Facture.belongsTo(Service, {
+  foreignKey: "idService",
+});
 
 //   return Facture;
 // };

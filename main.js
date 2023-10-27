@@ -16,7 +16,7 @@ const mainWindow = () => {
   });
   mainWindow.maximize();
 
-   mainWindow.webContents.openDevTools();
+   //mainWindow.webContents.openDevTools();
 
   mainWindow.loadFile("src/screens/login.html");
 };
@@ -25,7 +25,7 @@ const mainWindow = () => {
 require("./src/models/index")(sequelize, DataTypes);
 
 // Syncing Database
-sequelize.sync({ force: true }).then(() => {
+sequelize.sync({ force: false }).then(() => {
   console.log("Industrial Pressing database well synced");
 });
 

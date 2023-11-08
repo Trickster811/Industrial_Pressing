@@ -24,71 +24,151 @@
         <!-- First Part -->
         <div class="box_header m-0">
           <div class="main-title">
-            <h3 class="m-0">Nouveau Service</h3>
+            <h3 class="m-0"></h3>
           </div>
         </div>
+
         <div class="QA_table mb_25">
+          <div class="col-12">
+
+            <table class="table lms_table_active2">
+              <thead>
+                <tr>
+                  <th scope="col">Exercice</th>
+                  <th scope="col"></th>
+                  <th scope="col"></th>
+                  <th scope="col"></th>
+                  <th scope="col"></th>
+                  <th scope="col"></th>
+                  <th scope="col"></th>
+                  <th scope="col"></th>
+                  <th scope="col">
+                    <button class="btn btn-primary btn-md " onclick='a()' style="background-color: blue;"
+                      id="btn_a">Filtrer
+                      par periode </button>
+                    <button class="btn btn-primary btn-md active" onclick='b()' style="background-color: gray;"
+                      id="btn_b">Filtrer en une
+                      date précise</button>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr></tr>
+              </tbody>
+            </table>
+
+          </div>
           <table class="table lms_table_active2">
-            <thead>
-              <tr>
-                <th scope="col">Exercice</th>
-                <th scope="col">Mois</th>
-              </tr>
-            </thead>
             <tbody>
-              <tr>
+              <tr id="filtre_a">
                 <td>
-                  <div class="input-group common_date_picker">
-                    <input class="datepicker-here digits" type="text" name="" id="exercice"
-                      placeholder="Selectioner une date" data-language="en" />
+                  <div class="input-group common_date_picker"><label for="">du</label>
+                    <input class="" type="date" name="" id="debut" placeholder="Selectioner une date"
+                      data-language="en" />
                   </div>
                 </td>
                 <td>
-                  <div class="input-group common_date_picker">
-                    <input class="datepicker-here digits" type="text" name="" id="mois"
-                      placeholder="Selectioner une date" data-language="en" />
+                  <div class="input-group common_date_picker"> <label for="">au</label>
+                    <input class="" type="date" name="" id="fin" placeholder="Selectioner une date"
+                      data-language="en" />
                   </div>
                 </td>
+                <td>
+                  <div class="input-group common_date_picker"><label for="">Client : </label>
+                    <select class="form-control js-example-basic-single" style="width: 100%; padding: 20px" onchange=""
+                      id="client_a">
+                      <option value="0">Tous les clients</option>
+
+                    </select>
+                  </div>
+                </td>
+
+                <td colspan="2">
+                  
+                  <div class="white_box">
+                    <button class="btn btn-primary btn-md active" onclick='Filtre_a()'>Filtrer</button>
+                  </div>
+                </td>
+
+              </tr>
+              <tr id="filtre_b" hidden>
+                <td>
+                  <div class="input-group common_date_picker"><label for="">jour</label>
+                    <input class="datepicker-here digits" type="text" data-language="en" data-min-view="days"
+                      data-view="days" data-date-format="dd" id="day" style="border-color: gray;" />
+                  </div>
+                </td>
+                <td>
+                  <div class="input-group common_date_picker"><label for="">mois</label>
+                    <input class="datepicker-here digits" type="text" data-language="en" data-min-view="months"
+                      data-view="months" data-date-format="mm ( MM ) " id="month" style="border-color: gray;" />
+                  </div>
+                </td>
+                <td>
+                  <div class="input-group common_date_picker"><label for="">année</label>
+                    <input class="datepicker-here digits" type="text" data-language="en" data-min-view="years"
+                      data-view="years" data-date-format="yyyy" id="year" style="border-color: gray;" />
+                  </div>
+                </td>
+                <td>
+                  <div class="input-group common_date_picker"><label for="">Client : </label>
+                    <select class="form-control js-example-basic-single" style="width: 100%; padding: 20px" onchange=""
+                      id="client_b">
+                      <option value="0">Tous les clients</option>
+
+                    </select>
+                  </div>
+                </td>
+                <td>
+                 
+                  <div class="white_box">
+                    <button class="btn btn-primary btn-md active" onclick='Filtre_b()'>Filtrer</button>
+                  </div>
+                </td>
+
               </tr>
             </tbody>
           </table>
+          <div id="message">
+
+          </div>
         </div>
-        <div class="white_box">
-          <a href="#" class="btn btn-primary btn-md active" role="button" aria-pressed="true">Filtrer</a>
-        </div>
+
       </div>
     </div>
     <div class="row mb_30">
       <div class="col-md-4">
         <div class="card mb-3 widget-chart border-2 border-success">
-          <div class="widget-numbers text-success">104</div>
+          <div class="widget-numbers text-success" id="depots">-- --</div>
           <div class="widget-subheading">Depots</div>
+
         </div>
       </div>
-      <div class="col-md-4">
+      <!-- <div class="col-md-4">
         <div class="card mb-3 widget-chart border-2 border-info">
-          <div class="widget-numbers text-info">45</div>
+          <div class="widget-numbers text-info" id="clients">-- --</div>
           <div class="widget-subheading">Clients</div>
         </div>
-      </div>
+      </div> -->
       <div class="col-md-4">
         <div class="card mb-3 widget-chart border-2 border-primary">
-          <div class="widget-numbers text-primary">104.450 FCFA</div>
+          <div class="widget-numbers text-primary" id="total">-- --</div>
           <div class="widget-subheading">Total</div>
         </div>
       </div>
       <div class="col-md-4">
         <div class="card mb-3 widget-chart border-2 border-warning">
-          <div class="widget-numbers text-warning">43.575 FCFA</div>
+          <div class="widget-numbers text-warning" id="avance">-- --</div>
           <div class="widget-subheading">Avance</div>
         </div>
       </div>
       <div class="col-md-4">
         <div class="card mb-3 widget-chart border-2 border-danger">
-          <div class="widget-numbers text-danger">60.875 FCFA</div>
+          <div class="widget-numbers text-danger" id="reste">-- --</div>
           <div class="widget-subheading">Reste</div>
         </div>
       </div>
+
     </div>
     <div class="col-12">
       <div class="QA_section">
@@ -153,8 +233,12 @@
   </div>
 </div>
 
-<script src="vendors/datatable/js/jquery.dataTables.min.js"></script>
+<!-- <script src="vendors/datatable/js/jquery.dataTables.min.js"></script> -->
 <script src="js/custom.js"></script>
+
+<script src="vendors/select2/js/select2.js" type="text/javascript"></script>
+<script src="vendors/select2/js/select2.min.js" type="text/javascript"></script>
+
 
 <script src="vendors/datepicker/datepicker.js"></script>
 <script src="vendors/datepicker/datepicker.en.js"></script>

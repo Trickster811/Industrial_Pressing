@@ -90,21 +90,21 @@ function Printing_chart() {
   //function to find occurence of Facture
   Facture.findAndCountAll(condition_date)
     .then((data) => {
-      
+
       //console.log("rerererere" + data)
       tab[0] = 1
       //console.log("tab: " + tab[0])
       //function to find "Reste" of the curent month
       const reste = Facture.sum('montantTotalFacture', condition_date).Values
-      
+
 
     })
     .catch((err) => {
       console.log(err);
     });
-    
 
-    
+
+
 }
 
 /////////////////////////////////////////////////////////////////////////////// //
@@ -112,20 +112,34 @@ function Printing_chart() {
 // ////////////////////////////////////////////////////////////////////////////// //
 
 // Function to find all instances of a Client
-async function findAllCreances() {
-  Facture.findAll({
 
+async function findAllCreances(debut, fin, cli) {
+  condition_date = {
     include: [Client, Service],
-    // where: 
-    // {
-    //   [Op.and]: [
-    //    Sequelize.where(Sequelize.fn("date_part", 'month', Sequelize.col('dateDepotFacture')), 10),
-    //     Sequelize.where(Sequelize.fn("date_part", 'year', Sequelize.col('dateDepotFacture')), 2023),
-    //   ],
-    // },
+    where: {
+      [Op.and]: [
+        sequelize.where(sequelize.fn('date', sequelize.col('dateDepotFacture')), '>=', debut),
+        sequelize.where(sequelize.fn('date', sequelize.col('dateDepotFacture')), '<=', fin),
+      ],
+      idClient : 3 ,
+    }
+  }
+
+  // remove all for `table_body` 
+
+  Facture.findAll({
+    include: [Client, Service],
+    where: {
+      [Op.and]: [
+        sequelize.where(sequelize.fn('date', sequelize.col('dateDepotFacture')), '>=', debut),
+        sequelize.where(sequelize.fn('date', sequelize.col('dateDepotFacture')), '<=', fin),
+      ],
+      idClient : 3 ,
+    }
   })
     .then((data) => {
-      console.log(data)
+      console.log("______<<<<<<<_____<<<<" + data)
+
       var table_body = "", n = 0;
       data
         .reverse()
@@ -168,7 +182,7 @@ async function findAllCreances() {
           table_body += "</tr>";
         })
         .join();
-      console.log(table_body)
+      //console.log(table_body)
       // Assigning `table_body` to the table id within the client screen
       document.getElementById("creance_table_body").innerHTML = table_body;
 
@@ -176,12 +190,69 @@ async function findAllCreances() {
       var js_ = document.createElement("script");
       js_.type = "text/javascript";
       js_.src = "vendors/datatable/js/jquery.dataTables.min.js";
-      //js_.id = "firstClient";
+      js_.id = "firstClient";
+
+      if (n == 0) {
+        document.getElementById("creance_table_body").innerHTML = '<tr><th scope="row"><p name="-"  >-----</p></th><td><p name="-"  >-----</p></td><td><p name="-"  >-----</p></td><td><p name="-"  >Aucun</p></td><td><p name="-"  > enregistrement </p></td><td><p name="-"  >trouvé</p></td><td><p name="-"  >-----</p></td><td><p name="-"  >-----</p></td>"</tr>';
+        document.getElementById("message").innerHTML = '<div class="alert alert-warning alert-dismissible fade show" role="alert">Aucun enregistrement trouvé pour votre recherche<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div > '
+
+      } else {
+        if (n > 0) {
+          document.getElementById("message").innerHTML = '<div class="alert alert-success alert-dismissible fade show" role="alert">Enregistrements trouvées. Résultat dans le tableau ci-dessous<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div > '
+
+
+        } else {
+
+          document.getElementById("message").innerHTML = '<div class="alert alert-danger alert-dismissible fade show" role="alert">Ooopss !!! Une erreure est survenue lors de l\'exécution re votre requete mais pas de panique veuillez juste resseiller .<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div > '
+
+        }
+      }
+
     })
     .catch((err) => {
       console.log(err);
     });
 
+
+  //function to find occurence of Facture
+  Facture.findAndCountAll(condition_date)
+    .then((data) => {
+
+      //console.log("rerererere" + data)
+      document.getElementById("depots").innerHTML = Number(data.count).toLocaleString()
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  //function to find "Total" of the curent month
+  const montantTotal = Number(await Facture.sum('montantTotalFacture', condition_date)).toLocaleString()
+  document.getElementById("total").innerHTML = (montantTotal ??= 0) + " FCFA"
+  //function to find "Avance" of the curent month
+  const montantAvance = Number(await Facture.sum('montantAvanceFacture', condition_date)).toLocaleString()
+  document.getElementById("avance").innerHTML = (montantAvance ??= 0) + " FCFA"
+  //function to find "Reste" of the curent month
+  const reste = await Facture.sum('montantTotalFacture', condition_date) - await Facture.sum('montantAvanceFacture', condition_date)
+  document.getElementById("reste").innerHTML = Number(reste).toLocaleString() + " FCFA"
+
+}
+
+function findAllClient_Creances() {
+  Client.findAll()
+    .then((data) => {
+      //console.log("______<<<<<<<Client_____<<<<" + data)
+      data
+        .reverse()
+        .map((item) => {
+
+          document.getElementById("client_a").innerHTML += '<option value="'+ item.dataValues.idClient+'" >'+ item.dataValues.nomClient+' </option>'
+          document.getElementById("client_b").innerHTML += '<option value="'+ item.dataValues.idClient+'" >'+ item.dataValues.nomClient+' </option>'
+        })
+        .join();
+        
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 
 }
 // ////////////////////////////////////////////////////////////////////////////// //
@@ -921,6 +992,7 @@ contextBridge.exposeInMainWorld("electron", {
   Printing_chart: Printing_chart,
   // function for dashboard creances_client
   findAllCreances: findAllCreances,
+  findAllClient_Creances : findAllClient_Creances,
   // Functions to Manage Client
   findAllClient: findAllClient,
   findOneClient: findOneClient,

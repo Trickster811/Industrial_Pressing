@@ -121,7 +121,7 @@ async function findAllCreances(debut, fin, cli) {
         sequelize.where(sequelize.fn('date', sequelize.col('dateDepotFacture')), '>=', debut),
         sequelize.where(sequelize.fn('date', sequelize.col('dateDepotFacture')), '<=', fin),
       ],
-      idClient : 3 ,
+      //idClient : 3 ,
     }
   }
 
@@ -134,7 +134,7 @@ async function findAllCreances(debut, fin, cli) {
         sequelize.where(sequelize.fn('date', sequelize.col('dateDepotFacture')), '>=', debut),
         sequelize.where(sequelize.fn('date', sequelize.col('dateDepotFacture')), '<=', fin),
       ],
-      idClient : 3 ,
+      //idClient : 3 ,
     }
   })
     .then((data) => {

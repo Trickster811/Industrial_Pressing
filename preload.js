@@ -785,12 +785,37 @@ async function findAllFacture() {
   Facture.findAll({
     include: [Client, Service],
   })
-    .then((data) => {
-      console.log(data);
+    .then(async (data) => {
       let retrait_table_body = "";
-      // ReglementFacture.findAll().then((ele) => {
-      //   console.log(ele);
-      // });
+      ReglementFacture.findAll().then((ele) => {
+        console.log(ele);
+      });
+
+      // Fill boxes on the top of retraits screen
+      // ::::::::::::::::: Total Depots
+      document.getElementById("depots_total").innerHTML = data.length;
+      // ::::::::::::::::: Total Clients
+      const total_Client = Number(
+        await Facture.count("idClient")
+      ).toLocaleString();
+      document.getElementById("totalClient").innerHTML = total_Client;
+      // ::::::::::::::::: Total Depots Amount
+      const totalAmount = Number(
+        await Facture.sum("montantTotalFacture")
+      ).toLocaleString();
+      document.getElementById("totalDepotsAmount").innerHTML =
+        totalAmount + " FCFA";
+      // ::::::::::::::::: Total Avance Amount (Reglement Facture)
+      const totalReglementFactureAmount = Number(
+        await ReglementFacture.sum("montantReglementFacture")
+      ).toLocaleString();
+      document.getElementById("totalReglementFactureAmount").innerHTML =
+        totalReglementFactureAmount + " FCFA";
+      // ::::::::::::::::: Total Remaining Amount
+      document.getElementById("totalRemainingAmount").innerHTML =
+        (
+          parseFloat(totalAmount) - parseFloat(totalReglementFactureAmount)
+        ).toLocaleString() + " FCFA";
 
       // Filling the table with the list of Factures
       data
@@ -806,11 +831,16 @@ async function findAllFacture() {
           retrait_table_body +=
             "<td>" + item.dataValues.Client.nomClient + "</td>";
           retrait_table_body +=
-            "<td>" + item.dataValues.montantTotalFacture + "</td>";
-          retrait_table_body += "<td>" + 0 + "</td>";
+            "<td>" +
+            item.dataValues.montantTotalFacture.toLocaleString() +
+            "</td>";
+          retrait_table_body +=
+            "<td>" + parseFloat(0).toLocaleString() + "</td>";
           retrait_table_body +=
             "<td>" +
-            (parseInt(item.dataValues.montantTotalFacture) - 0) +
+            (
+              parseFloat(item.dataValues.montantTotalFacture) - 0
+            ).toLocaleString() +
             "</td>";
           retrait_table_body +=
             "<td>" +
@@ -865,6 +895,7 @@ async function findAllFacture() {
     })
     .catch((err) => {
       console.log(err);
+      console.log("yo: " + err);
     });
 }
 

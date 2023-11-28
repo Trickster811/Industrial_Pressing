@@ -1,4 +1,6 @@
 const { sequelize, DataTypes } = require("../../../config/database");
+const { Facture } = require("../facture.model/facture.model");
+const { Linge } = require("../linge.model/linge.model");
 
 // module.exports = (sequelize, DataTypes) => {
 const FactureLinge = sequelize.define(
@@ -11,6 +13,20 @@ const FactureLinge = sequelize.define(
       primaryKey: true,
       allowNull: false,
     },
+    // idFacture: {
+    //   type: DataTypes.INTEGER,
+    //   references: {
+    //     model: Facture,
+    //     key: "idFacture",
+    //   },
+    // },
+    // idLinge: {
+    //   type: DataTypes.INTEGER,
+    //   references: {
+    //     model: Linge,
+    //     key: "idLinge",
+    //   },
+    // },
   },
   {
     tableName: "FactureLinge",

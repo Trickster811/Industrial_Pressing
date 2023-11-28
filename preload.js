@@ -1,17 +1,31 @@
+const { sequelize, DataTypes } = require("./config/database");
 
-// Connection to MySQL database via the package SEQUELIZE
-const { Sequelize, DataTypes, QueryTypes } = require("sequelize");
+// Getting all Models to create tables in our database
+require("./src/models/index")(sequelize, DataTypes);
+
+// Syncing Database
+sequelize.sync({ alter: true }).then(() => {
+  console.log("Industrial Pressing database well synced");
+});
+
 const { contextBridge } = require("electron");
 const { Service } = require("./src/models/service.model/service.model");
 const { Client } = require("./src/models/client.model/client.model");
 const { Operateur } = require("./src/models/operateur.model/operateur.model");
 const { Linge } = require("./src/models/linge.model/linge.model");
+const { Facture } = require("./src/models/facture.model/facture.model");
+const {
+  FactureLinge,
+} = require("./src/models/factureLinge.model/factureLinge.model");
+const {
+  ReglementFacture,
+} = require("./src/models/reglementFacture/reglementFacture.model");
 
 // ////////////////////////////////////////////////////////////////////////////// //
 // //////////////////////// Controller For Client /////////////////////////////// //
 // ////////////////////////////////////////////////////////////////////////////// //
 
-// Function to find all instances of a Client
+// Function to find all instances of Client
 async function findAllClient() {
   Client.findAll()
     .then((data) => {
@@ -158,6 +172,7 @@ async function findOneClient(data) {
 
 // Function to create an instance of a Client
 async function createClient(data) {
+  console.log(data);
   Client.create(data)
     .then(() => {
       document.getElementById("message").innerHTML =
@@ -167,6 +182,7 @@ async function createClient(data) {
       findAllClient();
     })
     .catch((err) => {
+      console.log("your err:" + err);
       console.log(err);
     });
 }
@@ -200,7 +216,205 @@ async function deleteClient(data) {
 }
 
 // ////////////////////////////////////////////////////////////////////////////// //
-// //////////////////////// Controller For Operateur //////////////////////////// //
+// //////////////////////// Controller For Depot /////////////////////////////// //
+// ////////////////////////////////////////////////////////////////////////////// //
+
+// Function to find all instances of Client
+async function findAllClientFacture() {
+  Client.findAll()
+    .then((data) => {
+      let client_name_select = "";
+      let client_phone_select = "";
+
+      // Filling the menu select with the list of Clients
+      data
+        .reverse()
+        .map((item) => {
+          // First menu select option
+          client_name_select +=
+            " <option value=" +
+            item.dataValues.idClient +
+            "_" +
+            item.dataValues.reductionClient +
+            ">" +
+            item.dataValues.nomClient +
+            "</option>";
+          // Second menu select option
+          client_phone_select +=
+            "<option value=" +
+            item.dataValues.idClient +
+            ">" +
+            item.dataValues.phoneClient +
+            "</option>";
+        })
+        .join();
+
+      // Assigning `client_name_select` to the select id within the depot screen
+      document.getElementById("client_name_select").innerHTML =
+        client_name_select;
+
+      // Assigning `client_phone_select` to the select id within the depot screen
+      document.getElementById("client_phone_select").innerHTML =
+        client_phone_select;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
+// Function to find all instances of a Linge
+async function findAllLingeFacture(rowIndex) {
+  Linge.findAll()
+    .then((data) => {
+      let clothe_code = "";
+      let clothe_type = "";
+      let clothe_name = "";
+      let clothe_description = "";
+      let clothe_priceUnitary = "";
+      // Filling the table with the list of Services
+      data
+        .reverse()
+        .map((item) => {
+          // First menu select option
+          clothe_code +=
+            " <option value=" +
+            item.dataValues.idLinge +
+            ">" +
+            item.dataValues.codeLinge +
+            "</option>";
+          // Second menu select option
+          clothe_type +=
+            "<option value=" +
+            item.dataValues.idLinge +
+            ">" +
+            item.dataValues.typeLinge +
+            "</option>";
+          // Third menu select option
+          clothe_name +=
+            " <option value=" +
+            item.dataValues.idLinge +
+            ">" +
+            item.dataValues.designationLinge +
+            "</option>";
+          // Fourth menu select option
+          // clothe_description +=
+          //   "<option value=" +
+          //   item.dataValues.idLinge +
+          //   ">" +
+          //   item.dataValues.phoneClient +
+          //   "</option>";
+          // Fifth menu select option
+          clothe_priceUnitary +=
+            "<option value=" +
+            item.dataValues.montantLinge +
+            ">" +
+            item.dataValues.montantLinge +
+            "</option>";
+        })
+        .join();
+
+      // Assigning `ligne_row` to row number `rowIndex` within the depot screen
+      document.getElementById("clothe_code" + rowIndex).innerHTML = clothe_code;
+      document.getElementById("clothe_type" + rowIndex).innerHTML = clothe_type;
+      document.getElementById("clothe_name" + rowIndex).innerHTML = clothe_name;
+      // document.getElementById("clothe_description" + rowIndex).innerHTML =
+      //   clothe_description;
+      document.getElementById("clothe_priceUnitary" + rowIndex).innerHTML =
+        clothe_priceUnitary;
+
+      // Loading js files
+      if (document.getElementById("firstClient")) {
+        const element = document.getElementById("firstClient");
+        element.replaceWith(document.createElement("script"));
+      }
+      if (document.getElementById("firstLinge")) {
+        const element = document.getElementById("firstLinge");
+        element.replaceWith(document.createElement("script"));
+      }
+      if (document.getElementById("firstOperateur")) {
+        const element = document.getElementById("firstOperateur");
+        element.replaceWith(document.createElement("script"));
+      }
+      if (document.getElementById("firstService")) {
+        const element = document.getElementById("firstService");
+        element.replaceWith(document.createElement("script"));
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
+// Function to find all instances of Service
+async function findAllServiceFacture() {
+  Service.findAll()
+    .then((data) => {
+      let service_type = "";
+
+      // Filling the table with the list of Services
+      data
+        .reverse()
+        .map((item) => {
+          service_type +=
+            " <option value=" +
+            item.dataValues.idService +
+            "_" +
+            item.dataValues.dureeService +
+            "*" +
+            item.dataValues.tauxService +
+            ">" +
+            item.dataValues.nomService +
+            "</option>";
+        })
+        .join();
+
+      // Assigning `service_type` to the table id within the service screen
+      document.getElementById("service_type").innerHTML = service_type;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
+// Function to create an instance of a Facture
+async function createFacture(data) {
+  Facture.create(data.depotData)
+    .then((result) => {
+      document.getElementById("message").innerHTML =
+        '<strong style="color: green;">Facture cree avec success!</strong>';
+      console.log(result);
+      if (data.reglementData) {
+        ReglementFacture.create({
+          montantReglementFacture: data.reglementData,
+          idFacture: result.dataValues.idFacture,
+        })
+
+          .then(() => {})
+          .catch((errno) => {
+            console.log("Error Reglement: " + errno);
+            console.log(errno);
+          });
+      }
+      // Add each article in the created `Facture` instance
+      data.lingeData.map((element) => {
+        console.log(element);
+        FactureLinge.create({
+          idFacture: result.dataValues.idFacture,
+          idLinge: element,
+        })
+          .then(() => {})
+          .catch((error) => {
+            console.log("Error FactureLinge: " + error);
+          });
+      });
+    })
+    .catch((err) => {
+      console.log("Error Facture: " + err);
+    });
+}
+
+// ////////////////////////////////////////////////////////////////////////////// //
+// //////////////////////// Controller For Linge //////////////////////////////// //
 // ////////////////////////////////////////////////////////////////////////////// //
 
 // Function to find all instances of a Linge
@@ -563,6 +777,98 @@ async function deleteOperateur(data) {
 }
 
 // ////////////////////////////////////////////////////////////////////////////// //
+// //////////////////////// Controller For Retraits ///////////////////////////// //
+// ////////////////////////////////////////////////////////////////////////////// //
+
+// Function to find all instances of Facture
+async function findAllFacture() {
+  Facture.findAll({
+    include: [Client, Service],
+  })
+    .then((data) => {
+      console.log(data);
+      let retrait_table_body = "";
+      // ReglementFacture.findAll().then((ele) => {
+      //   console.log(ele);
+      // });
+
+      // Filling the table with the list of Factures
+      data
+        .reverse()
+        .map((item) => {
+          retrait_table_body += "<tr>";
+          retrait_table_body += '<th scope="row">';
+          retrait_table_body +=
+            '<a href="#" class="question_content">' +
+            item.dataValues.idFacture +
+            "</a>";
+          retrait_table_body += "</th>";
+          retrait_table_body +=
+            "<td>" + item.dataValues.Client.nomClient + "</td>";
+          retrait_table_body +=
+            "<td>" + item.dataValues.montantTotalFacture + "</td>";
+          retrait_table_body += "<td>" + 0 + "</td>";
+          retrait_table_body +=
+            "<td>" +
+            (parseInt(item.dataValues.montantTotalFacture) - 0) +
+            "</td>";
+          retrait_table_body +=
+            "<td>" +
+            item.dataValues.dateDepotFacture.getDate() +
+            "/" +
+            (item.dataValues.dateDepotFacture.getMonth() + 1) +
+            "/" +
+            item.dataValues.dateDepotFacture.getFullYear() +
+            "</td>";
+          retrait_table_body +=
+            "<td>" +
+            item.dataValues.dateRetraitFacture.getDate() +
+            "/" +
+            (item.dataValues.dateRetraitFacture.getMonth() + 1) +
+            "/" +
+            item.dataValues.dateRetraitFacture.getFullYear() +
+            "</td>";
+          retrait_table_body +=
+            '<td><a href="#" onclick="" class="btn btn-info btn-md text_white" role="button">Retrait\nAvance</a>';
+
+          retrait_table_body += "</td></tr>";
+        })
+        .join();
+
+      // Assigning `table_body` to the table id within the retrait screen
+      document.getElementById("retrait_table_body").innerHTML =
+        retrait_table_body;
+
+      // Loading js files
+      var js_ = document.createElement("script");
+      js_.type = "text/javascript";
+      js_.src = "vendors/datatable/js/jquery.dataTables.min.js";
+      js_.id = "firstRetrait";
+      //   document.body.removeChild(js_);
+      if (document.getElementById("firstRetrait")) {
+        const element = document.getElementById("firstRetrait");
+        element.replaceWith(js_);
+      } else {
+        document.body.appendChild(js_);
+      }
+      var js = document.createElement("script");
+      js.type = "text/javascript";
+      js.src = "js/custom.js";
+      js.id = "secondRetrait";
+      //   document.body.removeChild(js_);
+      if (document.getElementById("secondRetrait")) {
+        const item = document.getElementById("secondRetrait");
+        item.replaceWith(js);
+      } else {
+        document.body.appendChild(js);
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
+// ////////////////////////////////////////////////////////////////////////////// //
 // //////////////////////// Controller For Service ////////////////////////////// //
 // ////////////////////////////////////////////////////////////////////////////// //
 
@@ -745,6 +1051,11 @@ contextBridge.exposeInMainWorld("electron", {
   createClient: createClient,
   updateClient: updateClient,
   deleteClient: deleteClient,
+  // Function to Manage Facture (`Depot`)
+  findAllClientFacture: findAllClientFacture,
+  findAllLingeFacture: findAllLingeFacture,
+  findAllServiceFacture: findAllServiceFacture,
+  createFacture: createFacture,
   // Functions to Manage Linge
   findAllLinge: findAllLinge,
   findOneLinge: findOneLinge,
@@ -757,6 +1068,8 @@ contextBridge.exposeInMainWorld("electron", {
   createOperateur: createOperateur,
   updateOperateur: updateOperateur,
   deleteOperateur: deleteOperateur,
+  // Function to Manage Retraits
+  findAllFacture: findAllFacture,
   // Functions to Manage Service
   findAllService: findAllService,
   findOneService: findOneService,

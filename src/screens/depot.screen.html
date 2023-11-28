@@ -47,31 +47,32 @@
                     class="form-control js-example-basic-single"
                     style="width: 100%; padding: 20px"
                     onchange="autoSelectPhoneOrName(this)"
-                    id="client_name"
-                  >
-                    <option value="3">Moussa</option>
-                    <option value="4">Kevin</option>
-                  </select>
+                    id="client_name_select"
+                  ></select>
                 </td>
                 <td>
                   <select
                     class="form-control js-example-basic-single"
                     style="width: 100%; padding: 20px"
                     onchange="autoSelectPhoneOrName(this)"
-                    id="client_phone"
-                  >
-                    <option value="3">690786195</option>
-                    <option value="4">670256970</option>
-                  </select>
+                    id="client_phone_select"
+                  ></select>
                 </td>
                 <td>
-                  <input type="date" class="form-control" placeholder="depot" />
+                  <input
+                    type="date"
+                    class="form-control"
+                    placeholder="depot"
+                    id="dateDepotFacture"
+                    disabled
+                  />
                 </td>
                 <td>
                   <input
                     type="date"
                     class="form-control"
                     placeholder="retrait"
+                    id="dateRetraitFacture"
                   />
                 </td>
               </tr>
@@ -98,7 +99,7 @@
                 <th scope="col">Code</th>
                 <th scope="col">Type</th>
                 <th scope="col">Designation</th>
-                <th scope="col">Desciption</th>
+                <!-- <th scope="col">Desciption</th> -->
                 <th scope="col">Prix Unitaire (FCFA)</th>
                 <th scope="col">Action</th>
               </tr>
@@ -106,51 +107,46 @@
             <tbody>
               <tr>
                 <td>
-                  <input
+                  <select
                     id="clothe_code1"
-                    type="text"
-                    class="form-control"
-                    value="code"
-                    disabled
-                  />
+                    class="form-control js-example-basic-single"
+                    style="width: 100%"
+                    onchange="autoSelectClothesDetails(this,1)"
+                  ></select>
                 </td>
                 <td>
-                  <input
+                  <select
                     id="clothe_type1"
-                    type="text"
-                    class="form-control"
-                    value="type"
+                    class="form-control js-example-basic-single"
+                    style="width: 100%"
+                    onchange=""
                     disabled
-                  />
+                  ></select>
                 </td>
                 <td>
                   <select
                     id="clothe_name1"
                     class="form-control js-example-basic-single"
                     style="width: 100%"
-                    onchange="update_clothe_info(this)"
-                  >
-                    <option value="3">Saro 3P LONGdddddd</option>
-                    <option value="4">Saro</option>
-                  </select>
+                    onchange="autoSelectClothesDetails(this,1)"
+                  ></select>
                 </td>
-                <td>
-                  <input
+                <!-- <td>
+                  <select
                     id="clothe_description1"
-                    type="text"
-                    class="form-control"
-                    placeholder="description"
-                    value="RAS"
-                  />
-                </td>
+                    class="form-control js-example-basic-single"
+                    style="width: 100%"
+                    onchange=""
+                  ></select>
+                </td> -->
                 <td>
-                  <input
+                  <select
                     id="clothe_priceUnitary1"
-                    type="number"
-                    class="form-control"
-                    value="0"
+                    class="form-control js-example-basic-single"
+                    style="width: 100%"
+                    onchange="update_clothe_info(this)"
                     disabled
-                  />
+                  ></select>
                 </td>
                 <td>
                   <div
@@ -189,12 +185,9 @@
                   <select
                     class="form-control js-example-basic-single"
                     style="width: 100%; padding: 20px"
-                    onchange=""
+                    onchange="update_clothe_info()"
                     id="service_type"
-                  >
-                    <option value="3">Service simple</option>
-                    <option value="4">Service 1h</option>
-                  </select>
+                  ></select>
                 </td>
                 <td>
                   <input
@@ -236,28 +229,39 @@
             </tbody>
           </table>
         </div>
+        <div id="message"></div>
         <div class="white_box">
-          <a
-            href="#"
+          <button
             class="btn btn-primary btn-md active"
             role="button"
             aria-pressed="true"
-            >Valider</a
+            onclick="createFactureController()"
           >
-          <a
-            href="#"
+            Valider
+          </button>
+          <button
             class="btn btn-secondary btn-md active"
             role="button"
             aria-pressed="true"
-            >Annuler</a
+            onclick="window.location.reload()"
           >
+            Annuler
+          </button>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<script src="vendors/select2/js/select2.js" type="text/javascript"></script>
-<script src="vendors/select2/js/select2.min.js" type="text/javascript"></script>
-<script src="js/custom.js"></script>
+<script>
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, "0");
+  var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+  var yyyy = today.getFullYear();
+
+  today = yyyy + "-" + mm + "-" + dd;
+  document.getElementById("dateDepotFacture").value = today;
+</script>
+
+<!-- Import Depot Controller -->
 <script src="../controllers/depot.controller.js"></script>

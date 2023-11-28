@@ -12,7 +12,7 @@ const Client = sequelize.define(
       allowNull: false,
     },
     nomClient: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     sexeClient: {

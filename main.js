@@ -1,6 +1,5 @@
 const { app, BrowserWindow } = require("electron");
 const path = require("path");
-const { sequelize, DataTypes } = require("./config/database");
 
 const mainWindow = () => {
   const mainWindow = new BrowserWindow({
@@ -21,13 +20,6 @@ const mainWindow = () => {
   mainWindow.loadFile("src/screens/login.html");
 };
 
-// Getting all Models to create tables in our database
-require("./src/models/index")(sequelize, DataTypes);
-
-// Syncing Database
-sequelize.sync({ force: true }).then(() => {
-  console.log("Industrial Pressing database well synced");
-});
 
 app.whenReady().then(() => {
   mainWindow();

@@ -1,5 +1,5 @@
-// var date1 = Date.now("11/10/2023")
-// alert(date1.getMonth())
+
+//alert(document.getElementById("id_I").value)
 date = new Date()
 m = date.getMonth() + 1
 y = date.getFullYear()
@@ -10,15 +10,16 @@ d = ""
 //       d = y + '-' + m
 // }
 window.electron.findAllClient_Creances()
-window.electron.findAllCreances(y + '-01-01', y + '-12-31',3)
+window.electron.findAllCreances(y + '-01-01', y + '-12-31', "")
 
 
 
 function Filtre_a() {
 
+
       if (document.getElementById("debut").value != '' && document.getElementById("fin").value != '') {
 
-            window.electron.findAllCreances(document.getElementById("debut").value, document.getElementById("fin").value,document.getElementById('client_a').value)
+            window.electron.findAllCreances(document.getElementById("debut").value, document.getElementById("fin").value, document.getElementById('client_a').value)
 
       }
       else {
@@ -37,6 +38,9 @@ function Filtre_a() {
 
             document.getElementById("reste").innerHTML = 0 + " FCFA"
       }
+
+      document.getElementById("id_I").value = 1
+
 }
 
 function Filtre_b() {
@@ -46,7 +50,7 @@ function Filtre_b() {
             debut = document.getElementById("year").value + '-' + document.getElementById("month").value[0] + document.getElementById("month").value[1] + "-" + document.getElementById("day").value
             fin = document.getElementById("year").value + '-' + document.getElementById("month").value[0] + document.getElementById("month").value[1] + "-" + document.getElementById("day").value
             //alert("debut: " + debut + " fin: " + fin)
-            window.electron.findAllCreances(debut, fin,document.getElementById('client_b').value)
+            window.electron.findAllCreances(debut, fin, document.getElementById('client_b').value)
 
 
       } else {
@@ -56,7 +60,7 @@ function Filtre_b() {
                   debut = document.getElementById("year").value + '-' + document.getElementById("month").value[0] + document.getElementById("month").value[1] + "-" + "01"
                   fin = document.getElementById("year").value + '-' + document.getElementById("month").value[0] + document.getElementById("month").value[1] + "-" + "31"
                   //alert("debut: " + debut + " fin: " + fin)
-                  window.electron.findAllCreances(debut, fin,document.getElementById('client_b').value)
+                  window.electron.findAllCreances(debut, fin, document.getElementById('client_b').value)
 
             } else {
 
@@ -65,7 +69,7 @@ function Filtre_b() {
                         debut = document.getElementById("year").value + '-' + "01" + "-" + "01"
                         fin = document.getElementById("year").value + '-' + "12" + "-" + "31"
                         //alert("debut: " + debut + " fin: " + fin)
-                        window.electron.findAllCreances(debut, fin,document.getElementById('client_b').value)
+                        window.electron.findAllCreances(debut, fin, document.getElementById('client_b').value)
 
                   } else {
                         if (document.getElementById("day").value == "" && document.getElementById("month").value == "" && document.getElementById("year").value == "") {
@@ -153,13 +157,13 @@ function Filtre_b() {
             }
 
       }
-     
+      document.getElementById("id_I").value = 2
 }
 function a() {
       document.getElementById('filtre_a').removeAttribute('hidden')
       document.getElementById('filtre_b').setAttribute('hidden', 'true')
       document.getElementById('btn_a').style.background = 'blue'
-      document.getElementById('btn_b').style.background  = 'gray'
+      document.getElementById('btn_b').style.background = 'gray'
 
 
 }
@@ -167,8 +171,108 @@ function a() {
 function b() {
       document.getElementById('filtre_b').removeAttribute('hidden')
       document.getElementById('filtre_a').setAttribute('hidden', 'true')
-      document.getElementById('btn_a').style.background  = 'gray'
-      document.getElementById('btn_b').style.background  = 'blue'
+      document.getElementById('btn_a').style.background = 'gray'
+      document.getElementById('btn_b').style.background = 'blue'
 
 
 }
+
+
+function filtrer(a) {
+
+      //alert(document.getElementById("select_f").options[document.getElementById("select_f").options.selectedIndex].value)
+      var filtre, tableau, ligne, cellule, i, texte;
+
+      filtre = document.getElementById("maRecherche").value.toUpperCase();
+      tableau = document.getElementById("tableau");
+      ligne = tableau.getElementsByTagName("tr");
+      //alert(ligne.length)
+      for (i = 1; i < ligne.length; i++) {
+            let t = false;
+            for (j = 0; j <= 8; j++) {
+
+                  if (j == 0 || j == 1 || j == 2 || j == 3 || j == 5 || j == 6) {
+                        cellule = ligne[i].getElementsByTagName("td")[j];
+
+
+                        if (cellule) {
+                              texte = cellule.innerText.toLocaleString();
+                              //alert(texte)
+                              if (texte.toUpperCase().indexOf(filtre) > -1) {
+                                    ligne[i].style.display = "";
+                                    t = true;
+                              }
+
+                        }
+                  }
+
+
+            }
+            if (!t) {
+                  ligne[i].style.display = "none";
+
+            }
+
+
+      }
+
+}
+
+
+function imprimer() {
+
+      if (document.getElementById("id_I").value == "") {
+            titre = " Etat des créances de l'année " + y
+            window.electron.generate_Creances_PDFFile(y + '-01-01', y + '-12-31', 0, titre)
+
+      } else {
+            if (document.getElementById("id_I").value == 1) {
+
+
+                  if (document.getElementById("debut").value != '' && document.getElementById("fin").value != '') {
+                        d = new Date(document.getElementById("debut").value)
+                        f = new Date(document.getElementById("fin").value)
+                        titre = " Etat des créances allant du " + d.toLocaleDateString("en-US") + ' au ' + f.toLocaleDateString("en-US")
+                        window.electron.generate_Creances_PDFFile(document.getElementById("debut").value, document.getElementById("fin").value, document.getElementById('client_a').value, titre)
+
+                  }
+
+            } else {
+                  mois = ["", "Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Decembre"]
+
+                  if (document.getElementById("day").value != "" && document.getElementById("month").value != "" && document.getElementById("year").value != "") {
+                        debut = document.getElementById("year").value + '-' + document.getElementById("month").value[0] + document.getElementById("month").value[1] + "-" + document.getElementById("day").value
+                        fin = document.getElementById("year").value + '-' + document.getElementById("month").value[0] + document.getElementById("month").value[1] + "-" + document.getElementById("day").value
+                        titre = "Etat des créances du " + debut
+                        window.electron.generate_Creances_PDFFile(debut, fin, document.getElementById('client_b').value, titre)
+
+
+                  } else {
+
+                        if (document.getElementById("day").value == "" && document.getElementById("month").value != "" && document.getElementById("year").value != "") {
+                              debut = document.getElementById("year").value + '-' + document.getElementById("month").value[0] + document.getElementById("month").value[1] + "-" + "01"
+                              fin = document.getElementById("year").value + '-' + document.getElementById("month").value[0] + document.getElementById("month").value[1] + "-" + "31"
+                              titre = "Etat des créances du mois de " + mois[parseInt(document.getElementById("month").value[1])] + " " + document.getElementById("year").value
+                              window.electron.generate_Creances_PDFFile(debut, fin, document.getElementById('client_b').value, titre)
+
+                        } else {
+
+                              if (document.getElementById("day").value == "" && document.getElementById("month").value == "" && document.getElementById("year").value != "") {
+                                    debut = document.getElementById("year").value + '-' + "01" + "-" + "01"
+                                    fin = document.getElementById("year").value + '-' + "12" + "-" + "31"
+                                    titre = "Etat des créances de l'année "+ document.getElementById("year").value
+                                    window.electron.generate_Creances_PDFFile(debut, fin, document.getElementById('client_b').value, titre)
+
+                              } 
+
+                        }
+
+                  }
+
+
+            }
+      }
+
+
+}
+

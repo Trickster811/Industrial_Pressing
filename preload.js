@@ -1,6 +1,6 @@
 
 // Connection to MySQL database via the package SEQUELIZE
-const { Sequelize, DataTypes, QueryTypes, Op, where } = require("sequelize");
+const { Sequelize, DataTypes, QueryTypes, Op } = require("sequelize");
 const { contextBridge } = require("electron");
 const { Service } = require("./src/models/service.model/service.model");
 const { Client } = require("./src/models/client.model/client.model");
@@ -9,6 +9,11 @@ const { Linge } = require("./src/models/linge.model/linge.model");
 const { Facture } = require("./src/models/facture.model/facture.model");
 const { sequelize } = require("./config/database");
 
+const { jsPDF } = require("jspdf"); // will automatically load the node version
+require("jspdf-autotable");
+const { resolve } = require("path");
+
+const Fs = require("fs");
 
 /////////////////////////////////////////////////////////////////////////////// //
 // //////////////////////// Controller For Dashboard //////////////////////////// //
@@ -64,45 +69,146 @@ async function findStatistics(conditions = {}) {
   const reste = await Facture.sum('montantTotalFacture', condition_date) - await Facture.sum('montantAvanceFacture', condition_date)
   document.getElementById("reste").innerHTML = Number(reste).toLocaleString() + " FCFA"
 
-}
-
-//function to print Chart
-function Printing_chart() {
-
-  date = new Date()
-  m = date.getMonth() + 1
-  y = date.getFullYear()
-  d = ""
-  if (m in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]) {
-    d = y + '-0' + m
-  } else {
-    d = y + '-' + m
-  }
-  condition_date = {
-    where: {
-      [Op.and]: [
-        sequelize.where(sequelize.fn('date', sequelize.col('dateDepotFacture')), '>=', d + '-01'),
-        sequelize.where(sequelize.fn('date', sequelize.col('dateDepotFacture')), '<=', d + '-31'),
-      ]
-    }
-  }
-  tab = []
-  //function to find occurence of Facture
-  Facture.findAndCountAll(condition_date)
+  Service.findAll()
     .then((data) => {
+      let table_body = "";
 
-      //console.log("rerererere" + data)
-      tab[0] = 1
-      //console.log("tab: " + tab[0])
-      //function to find "Reste" of the curent month
-      const reste = Facture.sum('montantTotalFacture', condition_date).Values
+      // Filling the table with the list of Services
+      data
+        .reverse()
+        .map((item) => {
+          table_body += "<tr>";
+          //   First Column
+          table_body +=
+            '<th scope="row"><p name="line' +
+            item.dataValues.idService +
+            '"  class="question_content">' +
+            item.dataValues.nomService +
+            '</p><p name="lineU' +
+            item.dataValues.idService +
+            '" hidden ><input id="nomServiceUpdated' +
+            item.dataValues.idService +
+            '" type="text" class="form-control" placeholder="nom" value="' +
+            item.dataValues.nomService +
+            '"/></p></th>';
+          // Second Column
+          table_body +=
+            '<td><p name="line' +
+            item.dataValues.idService +
+            '" >' +
+            item.dataValues.descriptionService +
+            '</p><p name="lineU' +
+            item.dataValues.idService +
+            '" hidden><input id="descriptionServiceUpdated' +
+            item.dataValues.idService +
+            '" type="text" class="form-control" placeholder="designation" value="' +
+            item.dataValues.descriptionService +
+            '"/></p></td>';
+          // Third Column
+          table_body +=
+            '<td><p name="line' +
+            item.dataValues.idService +
+            '">' +
+            item.dataValues.dureeService +
+            '</p><p name="lineU' +
+            item.dataValues.idService +
+            '" hidden><input id="dureeServiceUpdated' +
+            item.dataValues.idService +
+            '" type="text" class="form-control" placeholder="duree" value="' +
+            item.dataValues.dureeService +
+            '"/></p></td>';
+          // Fourth Column
+          table_body +=
+            '<td><p name="line' +
+            item.dataValues.idService +
+            '">' +
+            item.dataValues.tauxService +
+            '</p><p name="lineU' +
+            item.dataValues.idService +
+            '" hidden><input id="tauxServiceUpdated' +
+            item.dataValues.idService +
+            '" type="text" class="form-control" placeholder="taux" value="' +
+            item.dataValues.tauxService +
+            '"/></p></td>';
+          table_body += "</tr>";
+        })
+        .join();
 
+      // Assigning `table_body` to the table id within the service screen
+      document.getElementById("service_table_body").innerHTML = table_body;
 
+      // Loading js files
+      var js_ = document.createElement("script");
+      js_.type = "text/javascript";
+      js_.src = "vendors/datatable/js/jquery.dataTables.min.js";
+      js_.id = "firstService";
+      //   document.body.removeChild(js_);
+      if (document.getElementById("firstService")) {
+        const element = document.getElementById("firstService");
+        element.replaceWith(js_);
+      } else {
+        document.body.appendChild(js_);
+      }
+      var js = document.createElement("script");
+      js.type = "text/javascript";
+      js.src = "js/custom.js";
+      js.id = "secondService";
+      //   document.body.removeChild(js_);
+      if (document.getElementById("secondService")) {
+        const item = document.getElementById("secondService");
+        item.replaceWith(js);
+      } else {
+        document.body.appendChild(js);
+      }
     })
     .catch((err) => {
       console.log(err);
     });
 
+}
+
+//function to print Chart
+
+async function Printing_chart_data() {
+  datas = ''
+  for (index = 1; index <= 12; index++) {
+    //const element = array[index];
+
+    m = index
+    d = 0
+    if (m in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]) {
+      d = '-0' + m
+
+    } else {
+      d = '-' + m
+    }
+    //alert("2023" + d + '-01')
+    //alert(d)
+    condition_date = {
+
+      where: {
+        [Op.and]: [
+          sequelize.where(sequelize.fn('date', sequelize.col('dateDepotFacture')), '>=', +"2023" + d + '-01'),
+          sequelize.where(sequelize.fn('date', sequelize.col('dateDepotFacture')), '<=', +"2023" + d + '-31'),
+        ]
+      }
+    }
+    const montant = await Facture.sum('montantTotalFacture', condition_date)
+
+    // //console.log("olalalalalalala------->>>>>>" + montant)
+    //montant = montant 
+    document.getElementById("c").innerHTML += montant + '_'
+    datas += montant + '_'
+
+  }
+  return 1
+
+}
+
+
+function Printing_chart() {
+
+  //alert(Printing_chart_data())
 
 
 }
@@ -114,29 +220,40 @@ function Printing_chart() {
 // Function to find all instances of a Client
 
 async function findAllCreances(debut, fin, cli) {
-  condition_date = {
-    include: [Client, Service],
-    where: {
-      [Op.and]: [
-        sequelize.where(sequelize.fn('date', sequelize.col('dateDepotFacture')), '>=', debut),
-        sequelize.where(sequelize.fn('date', sequelize.col('dateDepotFacture')), '<=', fin),
-      ],
-      //idClient : 3 ,
+  if (cli != 0) {
+    condition_date =
+    {
+      include: [Client, Service],
+      order: [
+        ["dateDepotFacture", "ASC"],
+      ],    
+      where: {
+        [Op.and]: [
+          sequelize.where(sequelize.fn('date', sequelize.col('dateDepotFacture')), '>=', debut),
+          sequelize.where(sequelize.fn('date', sequelize.col('dateDepotFacture')), '<=', fin),
+        ],
+        idClient: cli,
+      }
+    }
+  }
+  else {
+    condition_date = {
+      include: [Client, Service],
+      order: [
+        ["dateDepotFacture", "ASC"],
+      ], 
+      where: {
+        [Op.and]: [
+          sequelize.where(sequelize.fn('date', sequelize.col('dateDepotFacture')), '>=', debut),
+          sequelize.where(sequelize.fn('date', sequelize.col('dateDepotFacture')), '<=', fin),
+        ],
+      }
     }
   }
 
   // remove all for `table_body` 
 
-  Facture.findAll({
-    include: [Client, Service],
-    where: {
-      [Op.and]: [
-        sequelize.where(sequelize.fn('date', sequelize.col('dateDepotFacture')), '>=', debut),
-        sequelize.where(sequelize.fn('date', sequelize.col('dateDepotFacture')), '<=', fin),
-      ],
-      //idClient : 3 ,
-    }
-  })
+  Facture.findAll(condition_date)
     .then((data) => {
       console.log("______<<<<<<<_____<<<<" + data)
 
@@ -145,7 +262,7 @@ async function findAllCreances(debut, fin, cli) {
         .reverse()
         .map((item) => {
           n++;
-          table_body += "<tr>";
+          table_body += "<tr id='t" + item.dataValues.idFacture + "'>";
           //   First Column
           table_body +=
             '<th scope="row"><p name="-"  >' + n + '</p></th>';
@@ -191,6 +308,24 @@ async function findAllCreances(debut, fin, cli) {
       js_.type = "text/javascript";
       js_.src = "vendors/datatable/js/jquery.dataTables.min.js";
       js_.id = "firstClient";
+      // //   document.body.removeChild(js_);
+      // if (document.getElementById("firstService")) {
+      //   const element = document.getElementById("firstService");
+      //   element.replaceWith(js_);
+      // } else {
+      //   document.body.appendChild(js_);
+      // }
+      // var js = document.createElement("script");
+      // js.type = "text/javascript";
+      // js.src = "js/custom.js";
+      // js.id = "secondService";
+      // //   document.body.removeChild(js_);
+      // if (document.getElementById("secondService")) {
+      //   const item = document.getElementById("secondService");
+      //   item.replaceWith(js);
+      // } else {
+      //   document.body.appendChild(js);
+      // }
 
       if (n == 0) {
         document.getElementById("creance_table_body").innerHTML = '<tr><th scope="row"><p name="-"  >-----</p></th><td><p name="-"  >-----</p></td><td><p name="-"  >-----</p></td><td><p name="-"  >Aucun</p></td><td><p name="-"  > enregistrement </p></td><td><p name="-"  >trouvé</p></td><td><p name="-"  >-----</p></td><td><p name="-"  >-----</p></td>"</tr>';
@@ -237,24 +372,257 @@ async function findAllCreances(debut, fin, cli) {
 }
 
 function findAllClient_Creances() {
+
+
   Client.findAll()
     .then((data) => {
       //console.log("______<<<<<<<Client_____<<<<" + data)
+      document.getElementById("client_a").innerHTML = '<option value=0>Tous</option>'
+      document.getElementById("client_b").innerHTML = '<option value=0>Tous</option>'
       data
         .reverse()
         .map((item) => {
 
-          document.getElementById("client_a").innerHTML += '<option value="'+ item.dataValues.idClient+'" >'+ item.dataValues.nomClient+' </option>'
-          document.getElementById("client_b").innerHTML += '<option value="'+ item.dataValues.idClient+'" >'+ item.dataValues.nomClient+' </option>'
+          document.getElementById("client_a").innerHTML += '<option value="' + item.dataValues.idClient + '" >' + item.dataValues.nomClient + ' </option>'
+          document.getElementById("client_b").innerHTML += '<option value="' + item.dataValues.idClient + '" >' + item.dataValues.nomClient + ' </option>'
         })
         .join();
-        
+
     })
     .catch((err) => {
       console.log(err);
     });
 
 }
+
+
+async function generate_Creances_PDFFile(debut, fin, cli, t) {
+
+  if (cli != 0) {
+    condition_date =
+    {
+      include: [Client, Service],
+      order: [
+        ["dateDepotFacture", "ASC"],
+      ],
+      where: {
+        [Op.and]: [
+          sequelize.where(sequelize.fn('date', sequelize.col('dateDepotFacture')), '>=', debut),
+          sequelize.where(sequelize.fn('date', sequelize.col('dateDepotFacture')), '<=', fin),
+        ],
+        idClient: cli,
+      }
+    }
+  }
+  else {
+    condition_date = {
+      include: [Client, Service],
+      order: [
+        ["dateDepotFacture", "ASC"],
+      ],
+      where: {
+        [Op.and]: [
+          sequelize.where(sequelize.fn('date', sequelize.col('dateDepotFacture')), '>=', debut),
+          sequelize.where(sequelize.fn('date', sequelize.col('dateDepotFacture')), '<=', fin),
+        ],
+      }
+    }
+  }
+
+  // remove all for `table_body` 
+  //function to find "Total" of the curent month
+  montantTotal = await Facture.sum('montantTotalFacture', condition_date)
+  montantTotal = (montantTotal ??= 0) + " FCFA "
+  //function to find "Avance" of the curent month
+  montantAvance = await Facture.sum('montantAvanceFacture', condition_date)
+  montantAvance = (montantAvance ??= 0) + " FCFA "
+  //function to find "Reste" of the curent month
+  reste = await Facture.sum('montantTotalFacture', condition_date) - await Facture.sum('montantAvanceFacture', condition_date)
+  reste = reste + " FCFA "
+
+  Facture.findAll(condition_date)
+    .then((data) => {
+
+
+      generatePDFFile(data, debut, fin, t, cli, montantTotal, montantAvance, reste)
+
+    });
+
+
+
+};
+
+
+const generatePDFFile = (data, d, f, titre, cli, t, a, r) => {
+
+  const date = new Date();
+  const [month, day, year] = [
+    date.getMonth() + 1,
+    date.getDate(),
+    date.getFullYear(),
+  ];
+  const [hour, minutes, seconds] = [
+    date.getHours(),
+    date.getMinutes(),
+    date.getSeconds(),
+  ];
+
+  const addFooters = doc => {
+    const pageCount = doc.internal.getNumberOfPages()
+    doc.setFont('helvetica', 'italic')
+    doc.setFontSize(8)
+    for (var i = 1; i <= pageCount; i++) {
+      doc.setPage(i)
+      doc.text('Page ' + String(i) + ' / ' + String(pageCount), doc.internal.pageSize.width / 2, 287, {
+        align: 'center'
+      })
+    }
+  }
+
+  var doc = new jsPDF();
+  //var doc = new jsPDF("p", "pt");
+
+  doc.setFont("courier", "italic");
+
+
+  // generate the above data table
+  var body = [];
+
+  console.log(data);
+
+  for (depot of data) {
+    body.push([
+      // counter++,
+      depot.Client.nomClient,
+      depot.Client.phoneClient,
+      depot.montantTotalFacture,
+      depot.montantAvanceFacture,
+      (depot.montantTotalFacture - depot.montantAvanceFacture),
+      depot.dateDepotFacture.toLocaleDateString("en-US"),
+      depot.dateRetraitFacture.toLocaleDateString("en-US"),
+    ]);
+  }
+
+  // New Header and Footer Data Include the table
+  var y = 10;
+  doc.setLineWidth(2);
+
+  // First Table (Bill Head)
+
+  if (cli != 0) {
+    cli = "Client : " + body[0][0]
+  } else {
+    cli = ""
+  }
+  //doc.text("Header or footer text", 5, 2);
+  doc.autoTable({
+    body: [
+      ["INDUSTRIAL PRESSING :", titre],
+
+      [cli],
+    ],
+    startY: 10,
+    theme: 'striped',
+  });
+
+  // Second table (Bill Body)
+  doc.autoTable({
+    body: body,
+    // startY: 200,
+    head: [
+      [
+        // "N°",
+        "Client",
+        "Tel",
+        // "Article",
+        "Total(F)",
+        "Avance(F)",
+        "Rsete(F)",
+        "Date depot",
+        "Date Retrait",
+      ],
+    ],
+    startY: 30,
+    theme: 'striped',
+  });
+
+  // Third Table (Bill Footer)
+  doc.autoTable({
+    body: [
+      [
+        "Montant Total   :" + t,
+      ],
+      [
+        "Montant Avancé  :" + a,
+      ],
+      [
+        "Montant Restant :" + r,
+      ],
+    ],
+    theme: 'striped',
+  });
+
+  // Forth Table (Bill Last element)
+  doc.autoTable({
+    body: [
+      [""],
+    ],
+    styles: {
+      font: "courier",
+      fontStyle: "bold",
+      fontSize: 12,
+    },
+    theme: "plain",
+    columnStyles: {
+      0: { halign: "center" },
+    },
+  });
+
+  // Fifth Table (Bill Signature)
+  // doc.autoTable({
+  //   body: [["Le Directeur", ""]],
+  //   styles: {
+  //     font: "courier",
+  //     fontStyle: "bold",
+  //     minCellHeight: 10,
+  //     // fontSize: 12,
+  //     cellPadding: {
+  //       horizontal: 20,
+  //     },
+  //   },
+  //   theme: "plain",
+  //   columnStyles: {
+  //     0: { halign: "left", valign: "top" },
+  //     1: { halign: "right", valign: "top" },
+  //   },
+  // });
+
+
+
+  addFooters(doc)
+
+  var file_Path =
+    "Facture_de_" +
+    "data.customer_name" +
+    "_du_" +
+    year +
+    "-" +
+    month +
+    "-" +
+    day +
+    "_" +
+    "id_facture" +
+    ".pdf";
+
+  doc.autoPrint({ variant: "non-conform" });
+
+  doc.save(file_Path);
+  var absolutePdfFilePath = resolve(file_Path);
+
+  window.open(absolutePdfFilePath);
+};
+
+
 // ////////////////////////////////////////////////////////////////////////////// //
 // //////////////////////// Controller For Client /////////////////////////////// //
 // ////////////////////////////////////////////////////////////////////////////// //
@@ -990,9 +1358,10 @@ contextBridge.exposeInMainWorld("electron", {
   // function for dashboard statistics elements
   findStatistics: findStatistics,
   Printing_chart: Printing_chart,
-  // function for dashboard creances_client
+  // function for  creances_client
   findAllCreances: findAllCreances,
-  findAllClient_Creances : findAllClient_Creances,
+  findAllClient_Creances: findAllClient_Creances,
+  generate_Creances_PDFFile, generate_Creances_PDFFile,
   // Functions to Manage Client
   findAllClient: findAllClient,
   findOneClient: findOneClient,

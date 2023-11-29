@@ -37,7 +37,7 @@
           <div class="col-md-4">
             <div class="card mb-3 widget-chart border-2 border-info">
               <div class="widget-numbers text-info" id="clients">-- --</div>
-              <div class="widget-subheading">Clients</div>
+              <div class="widget-subheading">Clients<input type="text" id="c" hidden> </div>
             </div>
           </div>
           <div class="col-md-4">
@@ -61,7 +61,7 @@
         </div>
       </div>
     </div>
-    <div class="col-lg-12 col-xl-12">
+    <!-- <div class="col-lg-12 col-xl-12">
       <div class="white_box mb_30">
         <div class="box_header">
           <div class="main-title">
@@ -119,12 +119,12 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <div class="col-lg-12 col-xl-12">
       <div class="white_box QA_section card_height_100">
         <div class="box_header m-0">
           <div class="main-title">
-            <h3 class="m-0">Users according to packages</h3>
+            <h3 class="m-0">Les services proposés</h3>
           </div>
         </div>
         <div class="QA_table">
@@ -137,47 +137,8 @@
                 <th scope="col">Taux</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <th scope="row">
-                  <a href="#" class="question_content">Service Express 24h</a>
-                </th>
-                <td>Tarification ajoutee de 50%</td>
-                <td>24</td>
-                <td>1.5</td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  <a href="#" class="question_content">Service Express 24h</a>
-                </th>
-                <td>Tarification ajoutee de 50%</td>
-                <td>24</td>
-                <td>1.5</td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  <a href="#" class="question_content">Service Express 24h</a>
-                </th>
-                <td>Tarification ajoutee de 50%</td>
-                <td>24</td>
-                <td>1.5</td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  <a href="#" class="question_content">Service Express 24h</a>
-                </th>
-                <td>Tarification ajoutee de 50%</td>
-                <td>24</td>
-                <td>1.5</td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  <a href="#" class="question_content">Service Express 24h</a>
-                </th>
-                <td>Tarification ajoutee de 50%</td>
-                <td>24</td>
-                <td>1.5</td>
-              </tr>
+            <tbody id="service_table_body">
+
             </tbody>
           </table>
         </div>
@@ -186,11 +147,11 @@
   </div>
 </div>
 
-<!-- <script src="vendors/am_chart/amcharts.js"></script> -->
-<script src="vendors/apex_chart/apexcharts.js"></script>
-<!-- <script src="vendors/apex_chart/apex_realestate.js"></script> -->
 
+<!-- <script src="vendors/am_chart/amcharts.js"></script> -->
+<!-- <script src="vendors/apex_chart/apexcharts.js"></script> -->
+<!-- <script src="vendors/apex_chart/apex_realestate.js"></script> -->
+<script src="../controllers/dashboard.controller.js"></script>
 <!-- <script src="js/custom.js"></script> -->
 <!-- <script src="vendors/apex_chart/bar_active_1.js"></script> -->
 <!-- <script src="vendors/apex_chart/apex_chart_list.js"></script> -->
-<script src="../controllers/dashboard.controller.js"></script>

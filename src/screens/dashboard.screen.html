@@ -11,9 +11,7 @@
           <div class="col-lg-6">
             <div class="dashboard_breadcam text-end">
               <p>
-                <a href="#" onclick='loadContent(1,"dashboard.screen.html")'
-                  >Industrial Pressing</a
-                >
+                <a href="#" onclick='loadContent(1,"dashboard.screen.html")'>Industrial Pressing</a>
                 <i class="fas fa-caret-right"></i> Dashboard
               </p>
             </div>
@@ -31,38 +29,39 @@
         <div class="row">
           <div class="col-md-4">
             <div class="card mb-3 widget-chart border-2 border-success">
-              <div class="widget-numbers text-success" id="depots">104</div>
+              <div class="widget-numbers text-success" id="depots">-- --</div>
               <div class="widget-subheading">Depots</div>
+
             </div>
           </div>
           <div class="col-md-4">
             <div class="card mb-3 widget-chart border-2 border-info">
-              <div class="widget-numbers text-info" id="clients">45</div>
-              <div class="widget-subheading">Clients</div>
+              <div class="widget-numbers text-info" id="clients">-- --</div>
+              <div class="widget-subheading">Clients<input type="text" id="c" hidden> </div>
             </div>
           </div>
           <div class="col-md-4">
             <div class="card mb-3 widget-chart border-2 border-primary">
-              <div class="widget-numbers text-primary" id="total">104.450 FCFA</div>
+              <div class="widget-numbers text-primary" id="total">-- --</div>
               <div class="widget-subheading">Total</div>
             </div>
           </div>
           <div class="col-md-4">
             <div class="card mb-3 widget-chart border-2 border-warning">
-              <div class="widget-numbers text-warning" id="avance">43.575 FCFA</div>
+              <div class="widget-numbers text-warning" id="avance">-- --</div>
               <div class="widget-subheading">Avance</div>
             </div>
           </div>
           <div class="col-md-4">
             <div class="card mb-3 widget-chart border-2 border-danger">
-              <div class="widget-numbers text-danger" id="reste">60.875 FCFA</div>
+              <div class="widget-numbers text-danger" id="reste">-- --</div>
               <div class="widget-subheading">Reste</div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="col-lg-12 col-xl-12">
+    <!-- <div class="col-lg-12 col-xl-12">
       <div class="white_box mb_30">
         <div class="box_header">
           <div class="main-title">
@@ -86,8 +85,7 @@
                 <h5 class="me-2">$12,253</h5>
                 <div class="text-success">
                   <i class="fas fa-caret-up font-size-14 line-height-2 me-2">
-                  </i
-                  >2.2 %
+                  </i>2.2 %
                 </div>
               </div>
               <p class="text-muted text-truncate mb-0">This month</p>
@@ -95,17 +93,14 @@
             <div class="col-sm-4 text-center">
               <div class="mt-4 mt-sm-0">
                 <p class="mb-2 text-muted text-truncate">
-                  <i
-                    class="fas fa-circle text-primary me-2 font-size-10 me-1"
-                  ></i>
+                  <i class="fas fa-circle text-primary me-2 font-size-10 me-1"></i>
                   This Year :
                 </p>
                 <div class="d-inline-flex align-items-center">
                   <h5 class="mb-0 me-2">$ 34,254</h5>
                   <div class="text-success">
                     <i class="fas fa-caret-up font-size-14 line-height-2 me-2">
-                    </i
-                    >2.1 %
+                    </i>2.1 %
                   </div>
                 </div>
               </div>
@@ -124,12 +119,12 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <div class="col-lg-12 col-xl-12">
       <div class="white_box QA_section card_height_100">
         <div class="box_header m-0">
           <div class="main-title">
-            <h3 class="m-0">Users according to packages</h3>
+            <h3 class="m-0">Les services proposés</h3>
           </div>
         </div>
         <div class="QA_table">
@@ -142,47 +137,8 @@
                 <th scope="col">Taux</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <th scope="row">
-                  <a href="#" class="question_content">Service Express 24h</a>
-                </th>
-                <td>Tarification ajoutee de 50%</td>
-                <td>24</td>
-                <td>1.5</td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  <a href="#" class="question_content">Service Express 24h</a>
-                </th>
-                <td>Tarification ajoutee de 50%</td>
-                <td>24</td>
-                <td>1.5</td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  <a href="#" class="question_content">Service Express 24h</a>
-                </th>
-                <td>Tarification ajoutee de 50%</td>
-                <td>24</td>
-                <td>1.5</td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  <a href="#" class="question_content">Service Express 24h</a>
-                </th>
-                <td>Tarification ajoutee de 50%</td>
-                <td>24</td>
-                <td>1.5</td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  <a href="#" class="question_content">Service Express 24h</a>
-                </th>
-                <td>Tarification ajoutee de 50%</td>
-                <td>24</td>
-                <td>1.5</td>
-              </tr>
+            <tbody id="service_table_body">
+
             </tbody>
           </table>
         </div>
@@ -191,11 +147,11 @@
   </div>
 </div>
 
-<script src="vendors/am_chart/amcharts.js"></script>
-<script src="vendors/apex_chart/apexcharts.js"></script>
-<script src="vendors/apex_chart/apex_realestate.js"></script>
 
-<script src="js/custom.js"></script>
-<script src="vendors/apex_chart/bar_active_1.js"></script>
-<script src="vendors/apex_chart/apex_chart_list.js"></script>
+<!-- <script src="vendors/am_chart/amcharts.js"></script> -->
+<!-- <script src="vendors/apex_chart/apexcharts.js"></script> -->
+<!-- <script src="vendors/apex_chart/apex_realestate.js"></script> -->
 <script src="../controllers/dashboard.controller.js"></script>
+<!-- <script src="js/custom.js"></script> -->
+<!-- <script src="vendors/apex_chart/bar_active_1.js"></script> -->
+<!-- <script src="vendors/apex_chart/apex_chart_list.js"></script> -->

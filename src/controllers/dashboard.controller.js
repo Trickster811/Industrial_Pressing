@@ -9,7 +9,13 @@ window.electron.findStatistics();
 
 // Retrieve Operateur Data from Url after he Logged In
 let params = new URL(document.location).searchParams;
-document.getElementById("nomOperateur").innerHTML =
-  params.get("nomOperateur");
+document.getElementById("nomOperateur").innerHTML = params.get("nomOperateur");
 document.getElementById("roleOperateur").innerHTML =
   params.get("roleOperateur");
+
+// Hide / Show options within the sidebar (depending on user function)
+if (params.get("roleOperateur").toLowerCase() !== "administrateur") {
+  document.getElementById("5").hidden = true; // Hidding `Linges` Option
+  document.getElementById("6").hidden = true; // Hidding `Creances Clients` Option
+  document.getElementById("ressources").hidden = true; // Hidding `Ressources` Menu
+}

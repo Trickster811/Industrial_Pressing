@@ -28,6 +28,32 @@ const { resolve } = require("path");
 
 const Fs = require("fs");
 
+// ////////////////////////////////////////////////////////////////////////////// //
+// //////////////////////// Controller For Log IN / OUT ///////////////////////// //
+// ////////////////////////////////////////////////////////////////////////////// //
+
+// Function to log in an user
+async function login(data) {
+  Operateur.findOne({ where: { loginOperateur: data.login } })
+    .then((result) => {
+      console.log(result);
+      if (!result || result.passwordOperateur !== data.password) {
+        document.getElementById("message").innerHTML =
+          '<strong style="color: red;">Login ou Mot de Passe Incorrect !!!!!!!!</strong>';
+        return;
+      }
+      window.location.href =
+        "index.html?nomOperateur=" +
+        result.dataValues.nameOperateur +
+        "&roleOperateur=" +
+        result.dataValues.fonctionOperateur;
+    })
+    .catch((errno) => {
+      console.log(errno);
+      console.log("yo", errno);
+    });
+}
+
 /////////////////////////////////////////////////////////////////////////////// //
 // //////////////////////// Controller For Dashboard //////////////////////////// //
 // ////////////////////////////////////////////////////////////////////////////// //
@@ -1443,44 +1469,71 @@ async function deleteOperateur(data) {
 // Function to find all instances of Facture
 async function findAllFacture() {
   Facture.findAll({
-    include: [Client, Service],
+    attributes: {
+      include: [
+        [
+          sequelize.fn(
+            "sum",
+            sequelize.col("ReglementFactures.montantReglementFacture")
+          ),
+          "total_reglement",
+        ],
+      ],
+    },
+    include: [
+      {
+        model: Client,
+        attributes: ["nomClient"],
+      },
+      Service,
+      {
+        model: ReglementFacture,
+        as: "ReglementFactures",
+        // attributes: ["montantReglementFacture"]
+        attributes: [],
+      },
+    ],
+    group: ["Facture.idFacture", "Client.idClient", "Service.idService"],
   })
     .then(async (data) => {
       let retrait_table_body = "";
-      ReglementFacture.findAll().then((ele) => {
-        console.log(ele);
-      });
 
       // Fill boxes on the top of retraits screen
       // ::::::::::::::::: Total Depots
       document.getElementById("depots_total").innerHTML = data.length;
       // ::::::::::::::::: Total Clients
       const total_Client = Number(
-        await Facture.count("idClient")
+        await Facture.count({
+          distinct: true,
+          col: "idClient",
+        })
       ).toLocaleString();
       document.getElementById("totalClient").innerHTML = total_Client;
       // ::::::::::::::::: Total Depots Amount
-      const totalAmount = Number(
-        await Facture.sum("montantTotalFacture")
-      ).toLocaleString();
-      document.getElementById("totalDepotsAmount").innerHTML =
-        totalAmount + " FCFA";
+      const totalAmount = await Facture.sum("montantTotalFacture");
+      document.getElementById("totalDepotsAmount").innerHTML = totalAmount
+        ? totalAmount.toLocaleString() + " FCFA"
+        : "-- --";
       // ::::::::::::::::: Total Avance Amount (Reglement Facture)
-      const totalReglementFactureAmount = Number(
-        await ReglementFacture.sum("montantReglementFacture")
-      ).toLocaleString();
+      const totalReglementFactureAmount = await ReglementFacture.sum(
+        "montantReglementFacture"
+      );
       document.getElementById("totalReglementFactureAmount").innerHTML =
-        totalReglementFactureAmount + " FCFA";
+        totalReglementFactureAmount
+          ? totalReglementFactureAmount.toLocaleString() + " FCFA"
+          : "-- --";
       // ::::::::::::::::: Total Remaining Amount
       document.getElementById("totalRemainingAmount").innerHTML =
-        (
-          parseFloat(totalAmount) - parseFloat(totalReglementFactureAmount)
-        ).toLocaleString() + " FCFA";
+        totalAmount && totalReglementFactureAmount
+          ? (
+              parseFloat(totalAmount) - parseFloat(totalReglementFactureAmount)
+            ).toLocaleString() + " FCFA"
+          : "-- --";
 
       // Filling the table with the list of Factures
       data
         .reverse()
-        .map((item) => {
+        .map(async (item) => {
           retrait_table_body += "<tr>";
           retrait_table_body += '<th scope="row">';
           retrait_table_body +=
@@ -1488,18 +1541,23 @@ async function findAllFacture() {
             item.dataValues.idFacture +
             "</a>";
           retrait_table_body += "</th>";
-          retrait_table_body +=
-            "<td>" + item.dataValues.Client.nomClient + "</td>";
+          retrait_table_body += "<td>" + item.Client.nomClient + "</td>";
           retrait_table_body +=
             "<td>" +
             item.dataValues.montantTotalFacture.toLocaleString() +
             "</td>";
-          retrait_table_body +=
-            "<td>" + parseFloat(0).toLocaleString() + "</td>";
+          retrait_table_body += item.dataValues.total_reglement
+            ? "<td>" +
+              parseFloat(item.dataValues.total_reglement).toLocaleString() +
+              "</td>"
+            : "<td>0.0</td>";
           retrait_table_body +=
             "<td>" +
             (
-              parseFloat(item.dataValues.montantTotalFacture) - 0
+              parseFloat(item.dataValues.montantTotalFacture) -
+              (item.dataValues.total_reglement
+                ? parseFloat(item.dataValues.total_reglement)
+                : 0)
             ).toLocaleString() +
             "</td>";
           retrait_table_body +=
@@ -1736,6 +1794,8 @@ async function deleteService(data) {
 }
 
 contextBridge.exposeInMainWorld("electron", {
+  // Function to Manage user Log IN / OUT
+  login: login,
   // function for dashboard statistics elements
   findStatistics: findStatistics,
   Printing_chart: Printing_chart,

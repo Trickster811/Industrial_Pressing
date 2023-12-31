@@ -20,7 +20,6 @@ const mainWindow = () => {
   mainWindow.loadFile("src/screens/login.html");
 };
 
-
 app.whenReady().then(() => {
   mainWindow();
 

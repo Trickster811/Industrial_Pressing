@@ -309,8 +309,8 @@
                   <img src="img/client_img.png" alt="#" />
                   <div class="profile_info_iner">
                     <div class="profile_author_name">
-                      <p>Neurologist</p>
-                      <h5>Dr. Robar Smith</h5>
+                      <p id="roleOperateur">Null</p>
+                      <h5 id="nomOperateur">User</h5>
                     </div>
                     <div class="profile_info_details">
                       <a href="#">My Profile </a>
@@ -963,8 +963,10 @@
     <script>
       let current_page_id = 1;
       $("#main_content").load(`dashboard.screen.html`);
+
       function loadContent(elememt, page_url) {
         $("#main_content").load(`${page_url}`);
+        
         document.getElementById(current_page_id).classList.remove("active");
         document.getElementById(elememt).classList.add("active");
         current_page_id = document.getElementById(elememt).id;

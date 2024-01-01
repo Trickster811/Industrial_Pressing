@@ -16,6 +16,10 @@ const ReglementFacture = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    dateReglementFacture: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
     // idFacture: {
     //   type: DataTypes.INTEGER,
     //   references: {

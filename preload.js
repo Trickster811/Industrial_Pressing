@@ -110,49 +110,34 @@ async function findStatistics(conditions = {}) {
       console.log(err);
     });
   //function to find "Total" of the curent month
-  const montantTotal = Number(
-    await Facture.sum("montantTotalFacture", condition_date)
-  ).toLocaleString();
-  document.getElementById("total").innerHTML = (montantTotal ??= 0) + " FCFA";
+  const montantTotal = await Facture.sum("montantTotalFacture", condition_date);
+  document.getElementById("total").innerHTML =
+    Number((montantTotal ??= 0)).toLocaleString() + " FCFA";
+
   //function to find "Avance" of the curent month
-  const montantAvance = Number(
-    await ReglementFacture.sum("montantReglementFacture", {
-      where: {
-        [Op.and]: [
-          sequelize.where(
-            sequelize.fn("date", sequelize.col("createdAt")),
-            ">=",
-            d + "-01"
-          ),
-          sequelize.where(
-            sequelize.fn("date", sequelize.col("createdAt")),
-            "<=",
-            d + "-31"
-          ),
-        ],
-      },
-    })
+  const montantAvance = await ReglementFacture.sum("montantReglementFacture", {
+    where: {
+      [Op.and]: [
+        sequelize.where(
+          sequelize.fn("date", sequelize.col("dateReglementFacture")),
+          ">=",
+          d + "-01"
+        ),
+        sequelize.where(
+          sequelize.fn("date", sequelize.col("dateReglementFacture")),
+          "<=",
+          d + "-31"
+        ),
+      ],
+    },
+  });
+
+  document.getElementById("avance").innerHTML = Number(
+    (montantAvance ??= 0)
   ).toLocaleString();
-  document.getElementById("avance").innerHTML = (montantAvance ??= 0) + " FCFA";
+  +" FCFA";
   //function to find "Reste" of the curent month
-  const reste =
-    (await Facture.sum("montantTotalFacture", condition_date)) -
-    (await ReglementFacture.sum("montantReglementFacture", {
-      where: {
-        [Op.and]: [
-          sequelize.where(
-            sequelize.fn("date", sequelize.col("createdAt")),
-            ">=",
-            d + "-01"
-          ),
-          sequelize.where(
-            sequelize.fn("date", sequelize.col("createdAt")),
-            "<=",
-            d + "-31"
-          ),
-        ],
-      },
-    }));
+  const reste = parseFloat(montantTotal) - parseFloat(montantAvance);
   document.getElementById("reste").innerHTML =
     Number(reste).toLocaleString() + " FCFA";
 
@@ -319,7 +304,16 @@ async function findAllCreances(debut, fin, cli) {
           ],
         ],
       },
-      include: [Client, Service],
+      include: [
+        Client,
+        Service,
+        {
+          model: ReglementFacture,
+          as: "ReglementFactures",
+          // attributes: ["montantReglementFacture"]
+          attributes: [],
+        },
+      ],
       order: [["dateDepotFacture", "ASC"]],
       where: {
         [Op.and]: [
@@ -351,7 +345,16 @@ async function findAllCreances(debut, fin, cli) {
           ],
         ],
       },
-      include: [Client, Service],
+      include: [
+        Client,
+        Service,
+        {
+          model: ReglementFacture,
+          as: "ReglementFactures",
+          // attributes: ["montantReglementFacture"]
+          attributes: [],
+        },
+      ],
       order: [["dateDepotFacture", "ASC"]],
       where: {
         [Op.and]: [
@@ -375,7 +378,52 @@ async function findAllCreances(debut, fin, cli) {
 
   Facture.findAll(condition_date)
     .then(async (data) => {
-      console.log("______<<<<<<<_____<<<<" + data);
+      //function to find occurence of Facture ___start___
+      document.getElementById("depots").innerHTML = Number(
+        data.length
+      ).toLocaleString();
+      //function to find occurence of Facture ___end___
+      //function to find "Total" of the curent month ___start___
+      const montantTotal = data.reduce(
+        (total, item) => total + item.montantTotalFacture,
+        0
+      );
+      document.getElementById("total").innerHTML =
+        Number((montantTotal ??= 0)).toLocaleString() + " FCFA";
+      //function to find "Total" of the curent month ___end___
+
+      //function to find "Avance" of the curent month ___start___
+      const montantAvance = await ReglementFacture.sum(
+        "montantReglementFacture",
+        {
+          where: {
+            [Op.and]: [
+              sequelize.where(
+                sequelize.fn("date", sequelize.col("dateReglementFacture")),
+                ">=",
+                new Date(debut)
+              ),
+              sequelize.where(
+                sequelize.fn("date", sequelize.col("dateReglementFacture")),
+                "<=",
+                new Date(fin)
+              ),
+            ],
+          },
+        }
+      );
+      document.getElementById("avance").innerHTML = Number(
+        montantAvance ? montantAvance : 0
+      ).toLocaleString();
+      +" FCFA";
+      //function to find "Avance" of the curent month ___end___
+      //function to find "Reste" of the curent month ___start___
+      const reste =
+        parseFloat(montantTotal) -
+        parseFloat(montantAvance ? montantAvance : 0);
+      document.getElementById("reste").innerHTML =
+        Number(reste).toLocaleString() + " FCFA";
+      //function to find "Reste" of the curent month ___end___
 
       var table_body = "",
         n = 0;
@@ -471,66 +519,10 @@ async function findAllCreances(debut, fin, cli) {
       }
     })
     .catch((err) => {
-      console.log(err);
+      console.log("yo =>>>>>>>>>>>>>>>" + err);
     });
 
-  //function to find occurence of Facture
-  Facture.findAndCountAll(condition_date)
-    .then((data) => {
-      //console.log("rerererere" + data)
-      document.getElementById("depots").innerHTML = Number(
-        data.count
-      ).toLocaleString();
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  //function to find "Total" of the curent month
-  const montantTotal = Number(
-    await Facture.sum("montantTotalFacture", condition_date)
-  ).toLocaleString();
-  document.getElementById("total").innerHTML = (montantTotal ??= 0) + " FCFA";
-  //function to find "Avance" of the curent month
-  const montantAvance = Number(
-    await ReglementFacture.sum("montantReglementFacture", {
-      where: {
-        [Op.and]: [
-          sequelize.where(
-            sequelize.fn("date", sequelize.col("createdAt")),
-            ">=",
-            debut
-          ),
-          sequelize.where(
-            sequelize.fn("date", sequelize.col("createdAt")),
-            "<=",
-            fin
-          ),
-        ],
-      },
-    })
-  ).toLocaleString();
-  document.getElementById("avance").innerHTML = (montantAvance ??= 0) + " FCFA";
-  //function to find "Reste" of the curent month
-  const reste =
-    (await Facture.sum("montantTotalFacture", condition_date)) -
-    (await ReglementFacture.sum("montantReglementFacture", {
-      where: {
-        [Op.and]: [
-          sequelize.where(
-            sequelize.fn("date", sequelize.col("createdAt")),
-            ">=",
-            debut
-          ),
-          sequelize.where(
-            sequelize.fn("date", sequelize.col("createdAt")),
-            "<=",
-            fin
-          ),
-        ],
-      },
-    }));
-  document.getElementById("reste").innerHTML =
-    Number(reste).toLocaleString() + " FCFA";
+  // const montantTotal = await Facture.sum("montantTotalFacture", condition_date);
 }
 
 function findAllClient_Creances() {
@@ -567,7 +559,27 @@ function findAllClient_Creances() {
 async function generate_Creances_PDFFile(debut, fin, cli, t) {
   if (cli != 0) {
     condition_date = {
-      include: [Client, Service],
+      attributes: {
+        include: [
+          [
+            sequelize.fn(
+              "sum",
+              sequelize.col("ReglementFactures.montantReglementFacture")
+            ),
+            "total_reglement",
+          ],
+        ],
+      },
+      include: [
+        Client,
+        Service,
+        {
+          model: ReglementFacture,
+          as: "ReglementFactures",
+          // attributes: ["montantReglementFacture"]
+          attributes: [],
+        },
+      ],
       order: [["dateDepotFacture", "ASC"]],
       where: {
         [Op.and]: [
@@ -584,10 +596,36 @@ async function generate_Creances_PDFFile(debut, fin, cli, t) {
         ],
         idClient: cli,
       },
+      group: [
+        "Facture.idFacture",
+        "Facture.dateDepotFacture",
+        "Client.idClient",
+        "Service.idService",
+      ],
     };
   } else {
     condition_date = {
-      include: [Client, Service],
+      attributes: {
+        include: [
+          [
+            sequelize.fn(
+              "sum",
+              sequelize.col("ReglementFactures.montantReglementFacture")
+            ),
+            "total_reglement",
+          ],
+        ],
+      },
+      include: [
+        Client,
+        Service,
+        {
+          model: ReglementFacture,
+          as: "ReglementFactures",
+          // attributes: ["montantReglementFacture"]
+          attributes: [],
+        },
+      ],
       order: [["dateDepotFacture", "ASC"]],
       where: {
         [Op.and]: [
@@ -603,52 +641,66 @@ async function generate_Creances_PDFFile(debut, fin, cli, t) {
           ),
         ],
       },
+      group: [
+        "Facture.idFacture",
+        "Facture.dateDepotFacture",
+        "Client.idClient",
+        "Service.idService",
+      ],
     };
   }
 
   // remove all for `table_body`
-  //function to find "Total" of the curent month
-  montantTotal = await Facture.sum("montantTotalFacture", condition_date);
-  montantTotal = (montantTotal ??= 0) + " FCFA ";
-  //function to find "Avance" of the curent month
-  montantAvance = await ReglementFacture.sum(
-    "montantReglementFacture",
-    condition_date
-  );
-  montantAvance = (montantAvance ??= 0) + " FCFA ";
-  //function to find "Reste" of the curent month
-  reste =
-    (await Facture.sum("montantTotalFacture", condition_date)) -
-    (await ReglementFacture.sum("montantReglementFacture", {
-      where: {
-        [Op.and]: [
-          sequelize.where(
-            sequelize.fn("date", sequelize.col("createdAt")),
-            ">=",
-            debut
-          ),
-          sequelize.where(
-            sequelize.fn("date", sequelize.col("createdAt")),
-            "<=",
-            fin
-          ),
-        ],
-      },
-    }));
-  reste = reste + " FCFA ";
 
-  Facture.findAll(condition_date).then((data) => {
-    generatePDFFile(
-      data,
-      debut,
-      fin,
-      t,
-      cli,
-      montantTotal,
-      montantAvance,
-      reste
-    );
-  });
+  Facture.findAll(condition_date)
+    .then(async (data) => {
+      //function to find "Total" of the curent month
+      let montantTotal = data.reduce(
+        (total, item) => total + item.montantTotalFacture,
+        0
+      );
+      montantTotal = (montantTotal ??= 0) + " FCFA ";
+      //function to find "Avance" of the curent month
+      let montantAvance = await ReglementFacture.sum(
+        "montantReglementFacture",
+        {
+          where: {
+            [Op.and]: [
+              sequelize.where(
+                sequelize.fn("date", sequelize.col("dateReglementFacture")),
+                ">=",
+                new Date(debut)
+              ),
+              sequelize.where(
+                sequelize.fn("date", sequelize.col("dateReglementFacture")),
+                "<=",
+                new Date(fin)
+              ),
+            ],
+          },
+        }
+      );
+      montantAvance = (montantAvance ??= 0) + " FCFA ";
+      //function to find "Reste" of the curent month
+      let reste =
+        parseFloat(montantTotal) -
+        parseFloat(montantAvance ? montantAvance : 0);
+      reste = reste + " FCFA ";
+
+      generatePDFFile(
+        data,
+        debut,
+        fin,
+        t,
+        cli,
+        montantTotal,
+        montantAvance,
+        reste
+      );
+    })
+    .catch((errno) => {
+      console.log("bro:=>>>>>>>>>>" + errno);
+    });
 }
 
 const generatePDFFile = (data, d, f, titre, cli, t, a, r) => {
@@ -697,8 +749,13 @@ const generatePDFFile = (data, d, f, titre, cli, t, a, r) => {
       depot.Client.nomClient,
       depot.Client.phoneClient,
       depot.montantTotalFacture,
-      depot.montantAvanceFacture,
-      depot.montantTotalFacture - depot.montantAvanceFacture,
+      depot.dataValues.total_reglement ? depot.dataValues.total_reglement : 0,
+      parseFloat(depot.montantTotalFacture) -
+        parseFloat(
+          depot.dataValues.total_reglement
+            ? depot.dataValues.total_reglement
+            : 0
+        ),
       depot.dateDepotFacture.toLocaleDateString("en-US"),
       depot.dateRetraitFacture.toLocaleDateString("en-US"),
     ]);
@@ -1175,6 +1232,7 @@ async function createFacture(data) {
         ReglementFacture.create({
           montantReglementFacture: data.reglementData,
           idFacture: result.dataValues.idFacture,
+          dateReglementFacture: new Date(),
         })
 
           .then(() => {})
@@ -1595,6 +1653,9 @@ async function findAllFacture() {
         attributes: [],
       },
     ],
+    where: {
+      etatFacture: false,
+    },
     group: ["Facture.idFacture", "Client.idClient", "Service.idService"],
   })
     .then(async (data) => {
@@ -1612,7 +1673,11 @@ async function findAllFacture() {
       ).toLocaleString();
       document.getElementById("totalClient").innerHTML = total_Client;
       // ::::::::::::::::: Total Depots Amount
-      const totalAmount = await Facture.sum("montantTotalFacture");
+      const totalAmount = await Facture.sum("montantTotalFacture", {
+        where: {
+          etatFacture: false,
+        },
+      });
       document.getElementById("totalDepotsAmount").innerHTML = totalAmount
         ? totalAmount.toLocaleString() + " FCFA"
         : "-- --";

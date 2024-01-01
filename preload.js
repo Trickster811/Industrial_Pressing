@@ -7,6 +7,8 @@ require("./src/models/index")(sequelize, DataTypes);
 // Syncing Database
 sequelize.sync({ alter: true }).then(() => {
   console.log("Industrial Pressing database well synced");
+  document.getElementById("loadingState").hidden = true;
+  document.getElementById("main_content").hidden = false;
 });
 
 const { contextBridge } = require("electron");
@@ -1683,7 +1685,18 @@ async function findAllFacture() {
         : "-- --";
       // ::::::::::::::::: Total Avance Amount (Reglement Facture)
       const totalReglementFactureAmount = await ReglementFacture.sum(
-        "montantReglementFacture"
+        "montantReglementFacture",
+        {
+          include: [
+            {
+              model: Facture,
+              where: {
+                etatFacture: false,
+              },
+            },
+          ],
+          group: ["Facture.idFacture"],
+        }
       );
       document.getElementById("totalReglementFactureAmount").innerHTML =
         totalReglementFactureAmount

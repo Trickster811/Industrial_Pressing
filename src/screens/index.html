@@ -132,7 +132,7 @@
         </li>
         <!-- Ressources Section -->
         <li id="ressources" class="">
-        <a class="has-arrow" href="#" aria-expanded="false">
+          <a class="has-arrow" href="#" aria-expanded="false">
             <img src="img/menu-icon/4.svg" alt />
             <span>Ressources</span>
           </a>
@@ -155,7 +155,6 @@
             </li>
           </ul>
         </li>
-        
 
         <li class>
           <a class="has-arrow" href="#" aria-expanded="false">
@@ -325,7 +324,28 @@
         </div>
       </div>
       <!-- Page Body Content Body -->
-      <div id="main_content" class="main_content_iner">
+      <div id="loadingState" class="p-4">
+        <div
+          class="h-100 d-flex flex-column justify-content-center align-items-center w-auto white_box container-fluid sm_padding_15px"
+        >
+          <div class="loader--grid colord_bg_1 mb_30">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+          <div class="dashboard_header dashboard_header_title text-center">
+            <h2>Chargement Des Donnees</h2>
+          </div>
+        </div>
+      </div>
+
+      <div id="main_content" class="main_content_iner" hidden>
         <!-- <div class="container-fluid p-0 sm_padding_15px">
           <div class="row justify-content-center">
             <div class="col-12">
@@ -966,7 +986,7 @@
 
       function loadContent(elememt, page_url) {
         $("#main_content").load(`${page_url}`);
-        
+
         document.getElementById(current_page_id).classList.remove("active");
         document.getElementById(elememt).classList.add("active");
         current_page_id = document.getElementById(elememt).id;

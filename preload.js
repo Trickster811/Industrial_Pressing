@@ -134,10 +134,8 @@ async function findStatistics(conditions = {}) {
     },
   });
 
-  document.getElementById("avance").innerHTML = Number(
-    (montantAvance ??= 0)
-  ).toLocaleString();
-  +" FCFA";
+  document.getElementById("avance").innerHTML =
+    Number((montantAvance ??= 0)).toLocaleString() + " FCFA";
   //function to find "Reste" of the curent month
   const reste = parseFloat(montantTotal) - parseFloat(montantAvance);
   document.getElementById("reste").innerHTML =
@@ -215,10 +213,10 @@ async function findStatistics(conditions = {}) {
       var js_ = document.createElement("script");
       js_.type = "text/javascript";
       js_.src = "vendors/datatable/js/jquery.dataTables.min.js";
-      js_.id = "firstService";
+      js_.id = "firstJSFile";
       //   document.body.removeChild(js_);
-      if (document.getElementById("firstService")) {
-        const element = document.getElementById("firstService");
+      if (document.getElementById("firstJSFile")) {
+        const element = document.getElementById("firstJSFile");
         element.replaceWith(js_);
       } else {
         document.body.appendChild(js_);
@@ -226,10 +224,10 @@ async function findStatistics(conditions = {}) {
       var js = document.createElement("script");
       js.type = "text/javascript";
       js.src = "js/custom.js";
-      js.id = "secondService";
+      js.id = "secondJSFile";
       //   document.body.removeChild(js_);
-      if (document.getElementById("secondService")) {
-        const item = document.getElementById("secondService");
+      if (document.getElementById("secondJSFile")) {
+        const item = document.getElementById("secondJSFile");
         item.replaceWith(js);
       } else {
         document.body.appendChild(js);
@@ -480,30 +478,6 @@ async function findAllCreances(debut, fin, cli) {
       //console.log(table_body)
       // Assigning `table_body` to the table id within the client screen
       document.getElementById("creance_table_body").innerHTML = table_body;
-
-      // Loading js files
-      var js_ = document.createElement("script");
-      js_.type = "text/javascript";
-      js_.src = "vendors/datatable/js/jquery.dataTables.min.js";
-      js_.id = "firstClient";
-      // //   document.body.removeChild(js_);
-      // if (document.getElementById("firstService")) {
-      //   const element = document.getElementById("firstService");
-      //   element.replaceWith(js_);
-      // } else {
-      //   document.body.appendChild(js_);
-      // }
-      // var js = document.createElement("script");
-      // js.type = "text/javascript";
-      // js.src = "js/custom.js";
-      // js.id = "secondService";
-      // //   document.body.removeChild(js_);
-      // if (document.getElementById("secondService")) {
-      //   const item = document.getElementById("secondService");
-      //   item.replaceWith(js);
-      // } else {
-      //   document.body.appendChild(js);
-      // }
 
       if (n == 0) {
         document.getElementById("creance_table_body").innerHTML =
@@ -978,30 +952,6 @@ async function findAllClient() {
 
       // Assigning `table_body` to the table id within the client screen
       document.getElementById("client_table_body").innerHTML = table_body;
-
-      // Loading js files
-      var js_ = document.createElement("script");
-      js_.type = "text/javascript";
-      js_.src = "vendors/datatable/js/jquery.dataTables.min.js";
-      js_.id = "firstClient";
-      //   document.body.removeChild(js_);
-      if (document.getElementById("firstClient")) {
-        const element = document.getElementById("firstClient");
-        element.replaceWith(js_);
-      } else {
-        document.body.appendChild(js_);
-      }
-      var js = document.createElement("script");
-      js.type = "text/javascript";
-      js.src = "js/custom.js";
-      js.id = "secondClient";
-      //   document.body.removeChild(js_);
-      if (document.getElementById("secondClient")) {
-        const item = document.getElementById("secondClient");
-        item.replaceWith(js);
-      } else {
-        document.body.appendChild(js);
-      }
     })
     .catch((err) => {
       console.log(err);
@@ -1170,22 +1120,22 @@ async function findAllLingeFacture(rowIndex) {
         clothe_priceUnitary;
 
       // Loading js files
-      if (document.getElementById("firstClient")) {
-        const element = document.getElementById("firstClient");
+      if (document.getElementById("firstJSFile")) {
+        const element = document.getElementById("firstJSFile");
         element.replaceWith(document.createElement("script"));
       }
-      if (document.getElementById("firstLinge")) {
-        const element = document.getElementById("firstLinge");
-        element.replaceWith(document.createElement("script"));
-      }
-      if (document.getElementById("firstOperateur")) {
-        const element = document.getElementById("firstOperateur");
-        element.replaceWith(document.createElement("script"));
-      }
-      if (document.getElementById("firstService")) {
-        const element = document.getElementById("firstService");
-        element.replaceWith(document.createElement("script"));
-      }
+      // if (document.getElementById("firstLinge")) {
+      //   const element = document.getElementById("firstLinge");
+      //   element.replaceWith(document.createElement("script"));
+      // }
+      // if (document.getElementById("firstJSFile")) {
+      //   const element = document.getElementById("firstJSFile");
+      //   element.replaceWith(document.createElement("script"));
+      // }
+      // if (document.getElementById("firstJSFile")) {
+      //   const element = document.getElementById("firstJSFile");
+      //   element.replaceWith(document.createElement("script"));
+      // }
     })
     .catch((err) => {
       console.log(err);
@@ -1355,30 +1305,6 @@ async function findAllLinge() {
 
       // Assigning `table_body` to the table id within the service screen
       document.getElementById("linge_table_body").innerHTML = table_body;
-
-      // Loading js files
-      var js_ = document.createElement("script");
-      js_.type = "text/javascript";
-      js_.src = "vendors/datatable/js/jquery.dataTables.min.js";
-      js_.id = "firstLinge";
-      //   document.body.removeChild(js_);
-      if (document.getElementById("firstLinge")) {
-        const element = document.getElementById("firstLinge");
-        element.replaceWith(js_);
-      } else {
-        document.body.appendChild(js_);
-      }
-      var js = document.createElement("script");
-      js.type = "text/javascript";
-      js.src = "js/custom.js";
-      js.id = "secondLinge";
-      //   document.body.removeChild(js_);
-      if (document.getElementById("secondLinge")) {
-        const item = document.getElementById("secondLinge");
-        item.replaceWith(js);
-      } else {
-        document.body.appendChild(js);
-      }
     })
     .catch((err) => {
       console.log(err);
@@ -1542,30 +1468,6 @@ async function findAllOperateur() {
 
       // Assigning `table_body` to the table id within the service screen
       document.getElementById("operateur_table_body").innerHTML = table_body;
-
-      // Loading js files
-      var js_ = document.createElement("script");
-      js_.type = "text/javascript";
-      js_.src = "vendors/datatable/js/jquery.dataTables.min.js";
-      js_.id = "firstOperateur";
-      //   document.body.removeChild(js_);
-      if (document.getElementById("firstOperateur")) {
-        const element = document.getElementById("firstOperateur");
-        element.replaceWith(js_);
-      } else {
-        document.body.appendChild(js_);
-      }
-      var js = document.createElement("script");
-      js.type = "text/javascript";
-      js.src = "js/custom.js";
-      js.id = "secondOperateur";
-      //   document.body.removeChild(js_);
-      if (document.getElementById("secondOperateur")) {
-        const item = document.getElementById("secondOperateur");
-        item.replaceWith(js);
-      } else {
-        document.body.appendChild(js);
-      }
     })
     .catch((err) => {
       console.log(err);
@@ -1632,35 +1534,41 @@ async function deleteOperateur(data) {
 async function findAllFacture() {
   Facture.findAll({
     attributes: {
-      include: [
-        [
-          sequelize.fn(
-            "sum",
-            sequelize.col("ReglementFactures.montantReglementFacture")
-          ),
-          "total_reglement",
-        ],
-      ],
+      // include: [
+      //   [
+      //     sequelize.fn(
+      //       "sum",
+      //       sequelize.col("ReglementFactures.montantReglementFacture")
+      //     ),
+      //     "total_reglement",
+      //   ],
+      // ],
     },
     include: [
       {
         model: Client,
-        attributes: ["nomClient"],
+        attributes: ["nomClient","phoneClient"],
       },
       Service,
       {
         model: ReglementFacture,
         as: "ReglementFactures",
-        // attributes: ["montantReglementFacture"]
-        attributes: [],
+        required: false,
       },
     ],
     where: {
       etatFacture: false,
     },
-    group: ["Facture.idFacture", "Client.idClient", "Service.idService"],
+    order: [["dateDepotFacture", "DESC"]],
+    group: [
+      "Facture.idFacture",
+      "Client.idClient",
+      "Service.idService",
+      "ReglementFactures.idReglementFacture",
+    ],
   })
     .then(async (data) => {
+      console.log(data);
       let retrait_table_body = "";
 
       // Fill boxes on the top of retraits screen
@@ -1687,15 +1595,15 @@ async function findAllFacture() {
       const totalReglementFactureAmount = await ReglementFacture.sum(
         "montantReglementFacture",
         {
-          include: [
-            {
-              model: Facture,
-              where: {
-                etatFacture: false,
-              },
-            },
-          ],
-          group: ["Facture.idFacture"],
+          // include: [
+          //   {
+          //     model: Facture,
+          //     where: {
+          //       etatFacture: false,
+          //     },
+          //   },
+          // ],
+          // group: ["Facture.idFacture"],
         }
       );
       document.getElementById("totalReglementFactureAmount").innerHTML =
@@ -1712,25 +1620,36 @@ async function findAllFacture() {
 
       // Filling the table with the list of Factures
       data
-        .reverse()
+        // .reverse()
         .map(async (item) => {
           retrait_table_body += "<tr>";
           retrait_table_body += '<th scope="row">';
           retrait_table_body +=
             '<a href="#" class="question_content">' +
-            item.dataValues.idFacture +
+            item.Client.nomClient +
             "</a>";
           retrait_table_body += "</th>";
-          retrait_table_body += "<td>" + item.Client.nomClient + "</td>";
+          retrait_table_body += "<td>" + item.Client.phoneClient + "</td>";
           retrait_table_body +=
             "<td>" +
             item.dataValues.montantTotalFacture.toLocaleString() +
             "</td>";
-          retrait_table_body += item.dataValues.total_reglement
-            ? "<td>" +
-              parseFloat(item.dataValues.total_reglement).toLocaleString() +
-              "</td>"
-            : "<td>0.0</td>";
+          retrait_table_body +=
+            '<td><p name="line' +
+            item.dataValues.idFacture +
+            '">' +
+            (item.dataValues.total_reglement
+              ? parseFloat(item.dataValues.total_reglement).toLocaleString()
+              : 0) +
+            '</p><p name="lineU' +
+            item.dataValues.idFacture +
+            '" hidden><input id="reglementFactureUpdate' +
+            item.dataValues.idFacture +
+            '" type="number" class="form-control" placeholder="avance" value="' +
+            (item.dataValues.total_reglement
+              ? parseFloat(item.dataValues.total_reglement)
+              : 0) +
+            '"/></p></td>';
           retrait_table_body +=
             "<td>" +
             (
@@ -1742,22 +1661,25 @@ async function findAllFacture() {
             "</td>";
           retrait_table_body +=
             "<td>" +
-            item.dataValues.dateDepotFacture.getDate() +
-            "/" +
-            (item.dataValues.dateDepotFacture.getMonth() + 1) +
-            "/" +
-            item.dataValues.dateDepotFacture.getFullYear() +
+            item.dataValues.dateDepotFacture.toISOString().split("T")[0] +
             "</td>";
           retrait_table_body +=
             "<td>" +
-            item.dataValues.dateRetraitFacture.getDate() +
-            "/" +
-            (item.dataValues.dateRetraitFacture.getMonth() + 1) +
-            "/" +
-            item.dataValues.dateRetraitFacture.getFullYear() +
+            item.dataValues.dateRetraitFacture.toISOString().split("T")[0] +
             "</td>";
+          // First Button
           retrait_table_body +=
-            '<td><a href="#" onclick="" class="btn btn-info btn-md text_white" role="button">Retrait\nAvance</a>';
+            '<td><button id="updateButton_0" name="updateButtonName" onclick="toggleUpdateReglementFacture(' +
+            item.dataValues.idFacture +
+            "," +
+            (parseFloat(item.dataValues.montantTotalFacture) -
+              (item.dataValues.total_reglement
+                ? parseFloat(item.dataValues.total_reglement)
+                : 0)) +
+            ')" class="btn btn-success btn-md text_white" role="button">Payer</button>';
+          // Second Button
+          retrait_table_body +=
+            '<button onclick="" class="btn btn-danger btn-md text_white" role="button">Supp&nbsp;</button>';
 
           retrait_table_body += "</td></tr>";
         })
@@ -1771,10 +1693,10 @@ async function findAllFacture() {
       var js_ = document.createElement("script");
       js_.type = "text/javascript";
       js_.src = "vendors/datatable/js/jquery.dataTables.min.js";
-      js_.id = "firstRetrait";
+      js_.id = "firstJSRetrait";
       //   document.body.removeChild(js_);
-      if (document.getElementById("firstRetrait")) {
-        const element = document.getElementById("firstRetrait");
+      if (document.getElementById("firstJSRetrait")) {
+        const element = document.getElementById("firstJSRetrait");
         element.replaceWith(js_);
       } else {
         document.body.appendChild(js_);
@@ -1782,10 +1704,10 @@ async function findAllFacture() {
       var js = document.createElement("script");
       js.type = "text/javascript";
       js.src = "js/custom.js";
-      js.id = "secondRetrait";
+      js.id = "secondJSRetrait";
       //   document.body.removeChild(js_);
-      if (document.getElementById("secondRetrait")) {
-        const item = document.getElementById("secondRetrait");
+      if (document.getElementById("secondJSRetrait")) {
+        const item = document.getElementById("secondJSRetrait");
         item.replaceWith(js);
       } else {
         document.body.appendChild(js);
@@ -1798,17 +1720,25 @@ async function findAllFacture() {
 }
 
 // Function to update an instance of Facture (Reglement Facture)
-async function updateReglementFacture(data) {
-  ReglementFacture.update({
-    montantReglementFacture: data.reglementData,
-    idFacture: data.idFacture,
-  })
-    .then((result) => {
-      findAllFacture();
-    })
-    .catch((errno) => {
-      console.log(errno);
-    });
+async function updateReglementFacture(data, remainingAmount) {
+  const updateReglementFacture = await ReglementFacture.create(data);
+  // console.log(updateReglementFacture)
+  if (
+    updateReglementFacture &&
+    remainingAmount === data.montantReglementFacture
+  ) {
+    await Facture.update(
+      {
+        etatFacture: true,
+      },
+      {
+        where: {
+          idFacture: data.idFacture,
+        },
+      }
+    );
+  }
+  findAllFacture();
 }
 
 // ////////////////////////////////////////////////////////////////////////////// //
@@ -1905,30 +1835,6 @@ async function findAllService() {
 
       // Assigning `table_body` to the table id within the service screen
       document.getElementById("service_table_body").innerHTML = table_body;
-
-      // Loading js files
-      var js_ = document.createElement("script");
-      js_.type = "text/javascript";
-      js_.src = "vendors/datatable/js/jquery.dataTables.min.js";
-      js_.id = "firstService";
-      //   document.body.removeChild(js_);
-      if (document.getElementById("firstService")) {
-        const element = document.getElementById("firstService");
-        element.replaceWith(js_);
-      } else {
-        document.body.appendChild(js_);
-      }
-      var js = document.createElement("script");
-      js.type = "text/javascript";
-      js.src = "js/custom.js";
-      js.id = "secondService";
-      //   document.body.removeChild(js_);
-      if (document.getElementById("secondService")) {
-        const item = document.getElementById("secondService");
-        item.replaceWith(js);
-      } else {
-        document.body.appendChild(js);
-      }
     })
     .catch((err) => {
       console.log(err);

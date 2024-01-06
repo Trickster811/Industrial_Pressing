@@ -36,9 +36,7 @@
       </div>
       <div class="col-md-4">
         <div class="card mb-3 widget-chart border-2 border-primary">
-          <div class="widget-numbers text-primary" id="totalDepotsAmount">
-            
-          </div>
+          <div class="widget-numbers text-primary" id="totalDepotsAmount"></div>
           <div class="widget-subheading">Total</div>
         </div>
       </div>
@@ -47,17 +45,16 @@
           <div
             class="widget-numbers text-warning"
             id="totalReglementFactureAmount"
-          >
-           
-          </div>
+          ></div>
           <div class="widget-subheading">Avance</div>
         </div>
       </div>
       <div class="col-md-4">
         <div class="card mb-3 widget-chart border-2 border-danger">
-          <div class="widget-numbers text-danger" id="totalRemainingAmount">
-           
-          </div>
+          <div
+            class="widget-numbers text-danger"
+            id="totalRemainingAmount"
+          ></div>
           <div class="widget-subheading">Reste</div>
         </div>
       </div>
@@ -68,25 +65,21 @@
           <h4>Depot Effectues</h4>
           <div class="box_right d-flex lms_block">
             <div class="serach_field_2">
-              <div class="search_inner">
-                <form class="theme-form" Active="#">
-                  <div class="search_field">
-                    <div class="input-group common_date_picker">
-                      <input
-                        class="datepicker-here digits"
-                        type="text"
-                        name=""
-                        id=""
-                        placeholder="Selectioner une date"
-                        data-language="en"
-                      />
-                    </div>
-                  </div>
-                  <button type="submit">
-                    <i class="fa fa-calendar-alt"></i>
-                  </button>
-                </form>
+              <!-- <form class="theme-form" Active="#"> -->
+              <div class="d-flex h-100">
+                <select
+                  class="form-control js-example-basic-single h-100"
+                  onchange="autoSelectPhoneOrName(this)"
+                  id="client_name_select"
+                ></select>
+                <select
+                  class="form-control js-example-basic-single h-100"
+                  onchange="autoSelectPhoneOrName(this)"
+                  id="client_phone_select"
+                ></select>
               </div>
+
+              <!-- </form> -->
             </div>
             <div class="add_button ms-2">
               <a
@@ -115,8 +108,8 @@
           <table class="table lms_table_active">
             <thead>
               <tr>
-                <th scope="col">N.Facture</th>
                 <th scope="col">Client</th>
+                <th scope="col">Contact</th>
                 <th scope="col">Total (F)</th>
                 <th scope="col">Avance (F)</th>
                 <th scope="col">Reste (F)</th>
@@ -149,8 +142,8 @@
             </tbody>
             <thead>
               <tr>
-                <th scope="col">N.Facture</th>
                 <th scope="col">Client</th>
+                <th scope="col">Contact</th>
                 <th scope="col">Total (F)</th>
                 <th scope="col">Avance (F)</th>
                 <th scope="col">Reste (F)</th>

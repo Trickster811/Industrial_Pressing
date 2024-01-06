@@ -24,8 +24,9 @@ function createClientController() {
       document.getElementById("reductionClient").value
     ),
   };
-
+  // for (let index = 0; index < 10; index++) {
   window.electron.createClient(data);
+  // }
 }
 
 // Function to update an instance of a Client

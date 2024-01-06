@@ -989,6 +989,34 @@
 
         document.getElementById(current_page_id).classList.remove("active");
         document.getElementById(elememt).classList.add("active");
+
+        // Loading js files
+        var js_ = document.createElement("script");
+        js_.type = "text/javascript";
+        js_.src = "vendors/datatable/js/jquery.dataTables.min.js";
+        js_.id = "firstJSFile";
+        //   document.body.removeChild(js_);
+        if (document.getElementById("firstJSFile")) {
+          const element = document.getElementById(
+            "firstJSFile"
+          );
+          element.replaceWith(js_);
+        } else {
+          document.body.appendChild(js_);
+        }
+        var js = document.createElement("script");
+        js.type = "text/javascript";
+        js.src = "js/custom.js";
+        js.id = "secondJSFile";
+        //   document.body.removeChild(js_);
+        if (document.getElementById("secondJSFile")) {
+          const item = document.getElementById(
+            "secondJSFile"
+          );
+          item.replaceWith(js);
+        } else {
+          document.body.appendChild(js);
+        }
         current_page_id = document.getElementById(elememt).id;
       }
     </script>
@@ -1020,7 +1048,6 @@
 
     <script src="vendors/gijgo/gijgo.min.js"></script>
 
-    <script src="vendors/datatable/js/jquery.dataTables.min.js"></script>
     <script src="vendors/datatable/js/dataTables.responsive.min.js"></script>
     <script src="vendors/datatable/js/dataTables.buttons.min.js"></script>
     <script src="vendors/datatable/js/buttons.flash.min.js"></script>
@@ -1040,7 +1067,5 @@
     <script src="vendors/tagsinput/tagsinput.js"></script>
 
     <script src="vendors/text_editor/summernote-bs4.js"></script>
-
-    <script src="js/custom.js"></script>
   </body>
 </html>

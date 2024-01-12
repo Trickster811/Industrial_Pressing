@@ -1534,20 +1534,20 @@ async function deleteOperateur(data) {
 async function findAllFacture() {
   Facture.findAll({
     attributes: {
-      // include: [
-      //   [
-      //     sequelize.fn(
-      //       "sum",
-      //       sequelize.col("ReglementFactures.montantReglementFacture")
-      //     ),
-      //     "total_reglement",
-      //   ],
-      // ],
+      include: [
+        [
+          sequelize.fn(
+            "sum",
+            sequelize.col("ReglementFactures.montantReglementFacture")
+          ),
+          "total_reglement",
+        ],
+      ],
     },
     include: [
       {
         model: Client,
-        attributes: ["nomClient","phoneClient"],
+        attributes: ["nomClient", "phoneClient"],
       },
       Service,
       {
@@ -1568,7 +1568,7 @@ async function findAllFacture() {
     ],
   })
     .then(async (data) => {
-      console.log(data);
+      // console.log(data);
       let retrait_table_body = "";
 
       // Fill boxes on the top of retraits screen

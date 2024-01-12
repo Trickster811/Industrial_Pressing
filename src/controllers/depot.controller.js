@@ -241,9 +241,9 @@ function createFactureController() {
     );
   }
   // console.log(data);
-  for (let index = 0; index < 50; index++) {
-    window.electron.createFacture(data);
-  }
+  // for (let index = 0; index < 50; index++) {
+  window.electron.createFacture(data);
+  // }
 }
 
 // Function to load additonnal Js files

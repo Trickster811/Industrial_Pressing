@@ -17,7 +17,7 @@ function toggleUpdateReglementFacture(idFacture, remainingAmount) {
     }
     updateButton[0].id = "updateButton_1";
   } else {
-    alert("yaya");
+    // alert("yaya");
     const data = {
       montantReglementFacture: document.getElementById(
         "reglementFactureUpdate" + idFacture

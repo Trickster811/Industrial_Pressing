@@ -989,6 +989,7 @@
 
         document.getElementById(current_page_id).classList.remove("active");
         document.getElementById(elememt).classList.add("active");
+        current_page_id = document.getElementById(elememt).id;
 
         // Loading js files
         var js_ = document.createElement("script");
@@ -1017,7 +1018,6 @@
         } else {
           document.body.appendChild(js);
         }
-        current_page_id = document.getElementById(elememt).id;
       }
     </script>
     <!-- Function to change page End -->

@@ -2,15 +2,15 @@
 const { Sequelize, DataTypes } = require("sequelize");
 
 // Enable connection with database
-// const sequelize = new Sequelize( {
-//   dialect: "sqlite",
-//   storage: './industrial_pressing.base.sqlite'
-// });
-
-const sequelize = new Sequelize("industrial_pressing_base", "postgres", "leslie02", {
-  host: "localhost",
-  dialect: "postgres", 
+const sequelize = new Sequelize( {
+  dialect: "sqlite",
+  storage: './industrial_pressing.base.sqlite'
 });
+
+// const sequelize = new Sequelize("industrial_pressing_base", "postgres", "leslie02", {
+//   host: "localhost",
+//   dialect: "postgres", 
+// });
 // Sync database
 sequelize
   .authenticate()

@@ -585,7 +585,6 @@ async function findAllCreancesByExercieYear(anneExercice, chiffreAffraire) {
                 "=",
                 new Date(anneExercice)
               ),
-             
             ],
           },
         }
@@ -674,10 +673,10 @@ async function findAllCreancesByExercieYear(anneExercice, chiffreAffraire) {
       var js_ = document.createElement("script");
       js_.type = "text/javascript";
       js_.src = "vendors/datatable/js/jquery.dataTables.min.js";
-      js_.id = "firstJSRetrait";
+      js_.id = "firstJSFileCreancesClients";
       //   document.body.removeChild(js_);
-      if (document.getElementById("firstJSRetrait")) {
-        const element = document.getElementById("firstJSRetrait");
+      if (document.getElementById("firstJSFileCreancesClients")) {
+        const element = document.getElementById("firstJSFileCreancesClients");
         element.replaceWith(js_);
       } else {
         document.body.appendChild(js_);
@@ -685,10 +684,10 @@ async function findAllCreancesByExercieYear(anneExercice, chiffreAffraire) {
       var js = document.createElement("script");
       js.type = "text/javascript";
       js.src = "js/custom.js";
-      js.id = "secondJSRetrait";
+      js.id = "secondJSFileCreancesClients";
       //   document.body.removeChild(js_);
-      if (document.getElementById("secondJSRetrait")) {
-        const item = document.getElementById("secondJSRetrait");
+      if (document.getElementById("secondJSFileCreancesClients")) {
+        const item = document.getElementById("secondJSFileCreancesClients");
         item.replaceWith(js);
       } else {
         document.body.appendChild(js);
@@ -1152,6 +1151,30 @@ async function findAllClient() {
 
       // Assigning `table_body` to the table id within the client screen
       document.getElementById("client_table_body").innerHTML = table_body;
+
+      // Loading js files
+      var js_ = document.createElement("script");
+      js_.type = "text/javascript";
+      js_.src = "vendors/datatable/js/jquery.dataTables.min.js";
+      js_.id = "firstJSFileClient";
+      //   document.body.removeChild(js_);
+      if (document.getElementById("firstJSFileClient")) {
+        const element = document.getElementById("firstJSFileClient");
+        element.replaceWith(js_);
+      } else {
+        document.body.appendChild(js_);
+      }
+      var js = document.createElement("script");
+      js.type = "text/javascript";
+      js.src = "js/custom.js";
+      js.id = "secondJSFileClient";
+      //   document.body.removeChild(js_);
+      if (document.getElementById("secondJSFileClient")) {
+        const item = document.getElementById("secondJSFileClient");
+        item.replaceWith(js);
+      } else {
+        document.body.appendChild(js);
+      }
     })
     .catch((err) => {
       console.log(err);
@@ -1505,6 +1528,30 @@ async function findAllLinge() {
 
       // Assigning `table_body` to the table id within the service screen
       document.getElementById("linge_table_body").innerHTML = table_body;
+
+      // Loading js files
+      var js_ = document.createElement("script");
+      js_.type = "text/javascript";
+      js_.src = "vendors/datatable/js/jquery.dataTables.min.js";
+      js_.id = "firstJSFileLinge";
+      //   document.body.removeChild(js_);
+      if (document.getElementById("firstJSFileLinge")) {
+        const element = document.getElementById("firstJSFileLinge");
+        element.replaceWith(js_);
+      } else {
+        document.body.appendChild(js_);
+      }
+      var js = document.createElement("script");
+      js.type = "text/javascript";
+      js.src = "js/custom.js";
+      js.id = "secondJSFileLinge";
+      //   document.body.removeChild(js_);
+      if (document.getElementById("secondJSFileLinge")) {
+        const item = document.getElementById("secondJSFileLinge");
+        item.replaceWith(js);
+      } else {
+        document.body.appendChild(js);
+      }
     })
     .catch((err) => {
       console.log(err);
@@ -1668,6 +1715,30 @@ async function findAllOperateur() {
 
       // Assigning `table_body` to the table id within the service screen
       document.getElementById("operateur_table_body").innerHTML = table_body;
+
+      // Loading js files
+      var js_ = document.createElement("script");
+      js_.type = "text/javascript";
+      js_.src = "vendors/datatable/js/jquery.dataTables.min.js";
+      js_.id = "firstJSFileOperateur";
+      //   document.body.removeChild(js_);
+      if (document.getElementById("firstJSFileOperateur")) {
+        const element = document.getElementById("firstJSFileOperateur");
+        element.replaceWith(js_);
+      } else {
+        document.body.appendChild(js_);
+      }
+      var js = document.createElement("script");
+      js.type = "text/javascript";
+      js.src = "js/custom.js";
+      js.id = "secondJSFileOperateur";
+      //   document.body.removeChild(js_);
+      if (document.getElementById("secondJSFileOperateur")) {
+        const item = document.getElementById("secondJSFileOperateur");
+        item.replaceWith(js);
+      } else {
+        document.body.appendChild(js);
+      }
     })
     .catch((err) => {
       console.log(err);
@@ -2035,6 +2106,30 @@ async function findAllService() {
 
       // Assigning `table_body` to the table id within the service screen
       document.getElementById("service_table_body").innerHTML = table_body;
+
+      // Loading js files
+      var js_ = document.createElement("script");
+      js_.type = "text/javascript";
+      js_.src = "vendors/datatable/js/jquery.dataTables.min.js";
+      js_.id = "firstJSFileService";
+      //   document.body.removeChild(js_);
+      if (document.getElementById("firstJSFileService")) {
+        const element = document.getElementById("firstJSFileService");
+        element.replaceWith(js_);
+      } else {
+        document.body.appendChild(js_);
+      }
+      var js = document.createElement("script");
+      js.type = "text/javascript";
+      js.src = "js/custom.js";
+      js.id = "secondJSFileService";
+      //   document.body.removeChild(js_);
+      if (document.getElementById("secondJSFileService")) {
+        const item = document.getElementById("secondJSFileService");
+        item.replaceWith(js);
+      } else {
+        document.body.appendChild(js);
+      }
     })
     .catch((err) => {
       console.log(err);

@@ -1050,29 +1050,6 @@
         } else {
           document.getElementById("settings_button").hidden = true;
         }
-        // Loading js files
-        var js_ = document.createElement("script");
-        js_.type = "text/javascript";
-        js_.src = "vendors/datatable/js/jquery.dataTables.min.js";
-        js_.id = "firstJSFile";
-        //   document.body.removeChild(js_);
-        if (document.getElementById("firstJSFile") && current_page_id !== 3) {
-          const element = document.getElementById("firstJSFile");
-          element.replaceWith(js_);
-        } else {
-          document.body.appendChild(js_);
-        }
-        var js = document.createElement("script");
-        js.type = "text/javascript";
-        js.src = "js/custom.js";
-        js.id = "secondJSFile";
-        //   document.body.removeChild(js_);
-        if (document.getElementById("secondJSFile") && current_page_id !== 3) {
-          const item = document.getElementById("secondJSFile");
-          item.replaceWith(js);
-        } else {
-          document.body.appendChild(js);
-        }
       }
     </script>
     <!-- Function to change page End -->

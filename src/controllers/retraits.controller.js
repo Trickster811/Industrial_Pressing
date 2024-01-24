@@ -45,30 +45,3 @@ function autoSelectPhoneOrName(element) {
   }
   update_total();
 }
-
-// Function to load additonnal Js files
-function loadJsFiles() {
-  // Loading js files
-  var js_0 = document.createElement("script");
-  js_0.type = "text/javascript";
-  js_0.src = "vendors/select2/js/select2.js";
-  js_0.id = "firstSelect";
-  //   document.body.removeChild(js_);
-  if (document.getElementById("firstSelect")) {
-    const item = document.getElementById("firstSelect");
-    item.replaceWith(js_0);
-  } else {
-    document.body.appendChild(js_0);
-  }
-  var js_1 = document.createElement("script");
-  js_1.type = "text/javascript";
-  js_1.src = "vendors/select2/js/select2.min.js";
-  js_1.id = "secondSelect";
-  //   document.body.removeChild(js_);
-  if (document.getElementById("secondSelect")) {
-    const item = document.getElementById("secondSelect");
-    item.replaceWith(js_1);
-  } else {
-    document.body.appendChild(js_1);
-  }
-}

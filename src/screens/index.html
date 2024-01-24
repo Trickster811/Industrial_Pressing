@@ -304,6 +304,59 @@
               <div
                 class="header_right d-flex justify-content-between align-items-center"
               >
+                <div
+                  id="settings_button"
+                  class="header_notification_warp d-flex align-items-center"
+                  hidden
+                >
+                  <li>
+                    <a
+                      class="bell_notification_clicker d-flex justify-content-center align-items-center"
+                      href="#"
+                    >
+                      <i class="fa fa-egg"> </i>
+                    </a>
+
+                    <div class="Menu_NOtification_Wrap">
+                      <div class="notification_Header">
+                        <h4>Parametrage des Creances</h4>
+                      </div>
+                      <div class="Notification_body">
+                        <!-- <div class="single_notify d-flex align-items-center">
+                          <div class="notify_thumb">
+                            <a href="#"><img src="img/staf/2.png" alt /></a>
+                          </div>
+                          <div class="notify_content">
+                            <a href="#"><h5>Cool Directory</h5></a>
+                            <p>Lorem ipsum dolor sit amet</p>
+                          </div>
+                        </div> -->
+                        <h5>Exercice</h5>
+                        <input
+                          type="date"
+                          class="form-control"
+                          placeholder="annee_exercice"
+                          id="annee_exercice"
+                        />
+                        <h5>Chiffre Affaire</h5>
+                        <input
+                          id="chiffreAffaire"
+                          type="number"
+                          class="form-control"
+                          onchange='document.getElementById("message").innerHTML=""'
+                          placeholder="somme"
+                          value="0"
+                        />
+                      </div>
+                      <div class="nofity_footer">
+                        <div class="submit_button text-center pt_20">
+                          <!-- onclick='loadContent(9,"creances_clients_hack.screen.html")' -->
+                          <button onclick="customCreanceClient()" class="btn_1">Ok</button>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                </div>
                 <div class="profile_info">
                   <img src="img/client_img.png" alt="#" />
                   <div class="profile_info_iner">
@@ -985,22 +1038,26 @@
       $("#main_content").load(`dashboard.screen.html`);
 
       function loadContent(elememt, page_url) {
+        // Loading the corresponding page
         $("#main_content").load(`${page_url}`);
 
         document.getElementById(current_page_id).classList.remove("active");
         document.getElementById(elememt).classList.add("active");
         current_page_id = document.getElementById(elememt).id;
-
+        // Hide/Show the Settings Button
+        if (current_page_id === 6) {
+          document.getElementById("settings_button").hidden = false;
+        } else {
+          document.getElementById("settings_button").hidden = true;
+        }
         // Loading js files
         var js_ = document.createElement("script");
         js_.type = "text/javascript";
         js_.src = "vendors/datatable/js/jquery.dataTables.min.js";
         js_.id = "firstJSFile";
         //   document.body.removeChild(js_);
-        if (document.getElementById("firstJSFile")) {
-          const element = document.getElementById(
-            "firstJSFile"
-          );
+        if (document.getElementById("firstJSFile") && current_page_id !== 3) {
+          const element = document.getElementById("firstJSFile");
           element.replaceWith(js_);
         } else {
           document.body.appendChild(js_);
@@ -1010,10 +1067,8 @@
         js.src = "js/custom.js";
         js.id = "secondJSFile";
         //   document.body.removeChild(js_);
-        if (document.getElementById("secondJSFile")) {
-          const item = document.getElementById(
-            "secondJSFile"
-          );
+        if (document.getElementById("secondJSFile") && current_page_id !== 3) {
+          const item = document.getElementById("secondJSFile");
           item.replaceWith(js);
         } else {
           document.body.appendChild(js);

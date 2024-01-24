@@ -1,0 +1,138 @@
+<div class="container-fluid p-0">
+  <div class="row justify-content-center">
+    <div class="col-12">
+      <div class="dashboard_header mb_50">
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="dashboard_header_title">
+              <h3>Creances Clients H</h3>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="dashboard_breadcam text-end">
+              <p>
+                <a href="#" onclick='loadContent(1,"dashboard.screen.html")'
+                  >Dashboard</a
+                >
+                <i class="fas fa-caret-right"></i> Creances Clients
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mb_30">
+      <div class="col-md-4">
+        <div class="card mb-3 widget-chart border-2 border-success">
+          <div class="widget-numbers text-success" id="depots">-- --</div>
+          <div class="widget-subheading">Depots</div>
+        </div>
+      </div>
+      <!-- <div class="col-md-4">
+        <div class="card mb-3 widget-chart border-2 border-info">
+          <div class="widget-numbers text-info" id="clients">-- --</div>
+          <div class="widget-subheading">Clients</div>
+        </div>
+      </div> -->
+      <div class="col-md-4">
+        <div class="card mb-3 widget-chart border-2 border-primary">
+          <div class="widget-numbers text-primary" id="total">-- --</div>
+          <div class="widget-subheading">Total</div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card mb-3 widget-chart border-2 border-warning">
+          <div class="widget-numbers text-warning" id="avance">-- --</div>
+          <div class="widget-subheading">Avance</div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card mb-3 widget-chart border-2 border-danger">
+          <div class="widget-numbers text-danger" id="reste">-- --</div>
+          <div class="widget-subheading">Reste</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="QA_section">
+        <div class="white_box_tittle list_header">
+          <h4>Liste des Creances</h4>
+          <div class="box_right d-flex lms_block">
+            <div class="serach_field_2">
+              <div class="search_inner">
+                <div class="search_field">
+                  <input
+                    class="form-control"
+                    type="text"
+                    name=""
+                    id="maRecherche"
+                    onkeyup="filtrer(1)"
+                    placeholder="Saisissez un mot cle"
+                  />
+                </div>
+                <button>
+                  <i class="fa fa-search"></i>
+                </button>
+              </div>
+            </div>
+            <!-- <div class="add_button ms-2">
+              <a href="#" onclick="loadContent(2,'depot.screen.html')" data-bs-toggle="modal"
+                data-bs-target="#addcategory" class="btn_1">Rechercher</a>
+            </div> -->
+            <div class="add_button ms-2">
+              <button
+                onclick="imprimer()"
+                data-bs-toggle="modal"
+                data-bs-target="#addcategory"
+                class="btn btn-success btn-md text_white"
+                role="button"
+              >
+                Imprimer Etat
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="QA_table mb_30">
+          <table class="table lms_table_active" id="tableau">
+            <thead>
+              <tr>
+                <th scope="col">N°</th>
+                <th scope="col">Client</th>
+                <th scope="col">Numero</th>
+                <th scope="col">Total (F)</th>
+                <th scope="col">Avance (F)</th>
+                <th scope="col">Reste (F)</th>
+                <th scope="col">Date Depot</th>
+                <th scope="col">Date Retrait</th>
+              </tr>
+            </thead>
+            <tbody id="creance_table_body"></tbody>
+            <thead>
+              <tr>
+                <th scope="col">N°</th>
+                <th scope="col">Client</th>
+                <th scope="col">Numero</th>
+                <th scope="col">Total (F)</th>
+                <th scope="col">Avance (F)</th>
+                <th scope="col">Reste (F)</th>
+                <th scope="col">Date Depot</th>
+                <th scope="col">Date Retrait</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <script src="vendors/datatable/js/jquery.dataTables.min.js"></script> -->
+<script src="js/custom.js"></script>
+
+<script src="vendors/select2/js/select2.js" type="text/javascript"></script>
+<script src="vendors/select2/js/select2.min.js" type="text/javascript"></script>
+
+<script src="vendors/datepicker/datepicker.js"></script>
+<script src="vendors/datepicker/datepicker.en.js"></script>
+<script src="vendors/datepicker/datepicker.custom.js"></script>
+<script src="../controllers/creances_clients.controller.js"></script>

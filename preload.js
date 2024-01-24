@@ -412,10 +412,8 @@ async function findAllCreances(debut, fin, cli) {
           },
         }
       );
-      document.getElementById("avance").innerHTML = Number(
-        montantAvance ? montantAvance : 0
-      ).toLocaleString();
-      +" FCFA";
+      document.getElementById("avance").innerHTML =
+        Number(montantAvance ? montantAvance : 0).toLocaleString() + " FCFA";
       //function to find "Avance" of the curent month ___end___
       //function to find "Reste" of the curent month ___start___
       const reste =
@@ -492,6 +490,208 @@ async function findAllCreances(debut, fin, cli) {
           document.getElementById("message").innerHTML =
             '<div class="alert alert-danger alert-dismissible fade show" role="alert">Ooopss !!! Une erreure est survenue lors de l\'exécution re votre requete mais pas de panique veuillez juste resseiller .<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div > ';
         }
+      }
+
+      // Loading js files
+      var js_ = document.createElement("script");
+      js_.type = "text/javascript";
+      js_.src = "vendors/datatable/js/jquery.dataTables.min.js";
+      js_.id = "firstJSRetrait";
+      //   document.body.removeChild(js_);
+      if (document.getElementById("firstJSRetrait")) {
+        const element = document.getElementById("firstJSRetrait");
+        element.replaceWith(js_);
+      } else {
+        document.body.appendChild(js_);
+      }
+      var js = document.createElement("script");
+      js.type = "text/javascript";
+      js.src = "js/custom.js";
+      js.id = "secondJSRetrait";
+      //   document.body.removeChild(js_);
+      if (document.getElementById("secondJSRetrait")) {
+        const item = document.getElementById("secondJSRetrait");
+        item.replaceWith(js);
+      } else {
+        document.body.appendChild(js);
+      }
+    })
+    .catch((err) => {
+      console.log("yo =>>>>>>>>>>>>>>>" + err);
+    });
+
+  // const montantTotal = await Facture.sum("montantTotalFacture", condition_date);
+}
+
+async function findAllCreancesByExercieYear(anneExercice, chiffreAffraire) {
+  // remove all for `table_body`
+
+  Facture.findAll({
+    attributes: {
+      include: [
+        [
+          sequelize.fn(
+            "sum",
+            sequelize.col("ReglementFactures.montantReglementFacture")
+          ),
+          "total_reglement",
+        ],
+      ],
+    },
+    include: [
+      Client,
+      Service,
+      {
+        model: ReglementFacture,
+        as: "ReglementFactures",
+        attributes: [],
+      },
+    ],
+    order: [["dateDepotFacture", "ASC"]],
+    where: {
+      [Op.and]: [
+        sequelize.where(
+          sequelize.fn("date", sequelize.col("dateDepotFacture")),
+          "=",
+          new Date(anneExercice)
+        ),
+      ],
+    },
+    group: ["Facture.idFacture", "Client.idClient", "Service.idService"],
+  })
+    .then(async (data) => {
+      //function to find occurence of Facture ___start___
+      document.getElementById("depots").innerHTML = Number(
+        data.length
+      ).toLocaleString();
+      //function to find occurence of Facture ___end___
+      //function to find "Total" of the curent month ___start___
+      const montantTotal = data.reduce(
+        (total, item) => total + item.montantTotalFacture,
+        0
+      );
+      document.getElementById("total").innerHTML =
+        Number((montantTotal ??= 0)).toLocaleString() + " FCFA";
+      //function to find "Total" of the curent month ___end___
+
+      //function to find "Avance" of the curent month ___start___
+      const montantAvance = await ReglementFacture.sum(
+        "montantReglementFacture",
+        {
+          where: {
+            [Op.and]: [
+              sequelize.where(
+                sequelize.fn("date", sequelize.col("dateReglementFacture")),
+                "=",
+                new Date(anneExercice)
+              ),
+             
+            ],
+          },
+        }
+      );
+      document.getElementById("avance").innerHTML =
+        Number(montantAvance ? montantAvance : 0).toLocaleString() + " FCFA";
+      //function to find "Avance" of the curent month ___end___
+      //function to find "Reste" of the curent month ___start___
+      const reste =
+        parseFloat(montantTotal) -
+        parseFloat(montantAvance ? montantAvance : 0);
+      document.getElementById("reste").innerHTML =
+        Number(reste).toLocaleString() + " FCFA";
+      //function to find "Reste" of the curent month ___end___
+
+      var table_body = "",
+        n = 0;
+      data
+        .reverse()
+        .map((item) => {
+          n++;
+          table_body += "<tr id='t" + item.dataValues.idFacture + "'>";
+          //   First Column
+          table_body += '<th scope="row"><p name="-"  >' + n + "</p></th>";
+          // Second Column
+          table_body +=
+            '<td><p name="-"  >' +
+            item.dataValues.Client.nomClient +
+            "</p></td>";
+          // Third Column
+          table_body +=
+            '<td><p name="-"  >' +
+            item.dataValues.Client.phoneClient +
+            "</p></td>";
+          // Fourth Column
+          table_body +=
+            '<td><p name="-"  >' +
+            Number(item.dataValues.montantTotalFacture).toLocaleString() +
+            "</p></td>";
+          // Fifth Column
+          table_body +=
+            '<td><p name="-"  >' +
+            Number(item.dataValues.total_reglement).toLocaleString() +
+            "</p></td>";
+          // Sixth Column
+          table_body +=
+            '<td><p name="-"  >' +
+            Number(
+              item.dataValues.montantTotalFacture -
+                item.dataValues.total_reglement
+            ).toLocaleString() +
+            "</p></td>";
+          // Seventh Column
+          table_body +=
+            '<td><p name="-"  >' +
+            item.dataValues.dateDepotFacture.toLocaleDateString("en-US") +
+            "</p></td>";
+          // Eigth Column
+          table_body +=
+            '<td><p name="-"  >' +
+            item.dataValues.dateRetraitFacture.toLocaleDateString("en-US") +
+            "</p></td>";
+          table_body += "</tr>";
+        })
+        .join();
+      //console.log(table_body)
+      // Assigning `table_body` to the table id within the client screen
+      document.getElementById("creance_table_body").innerHTML = table_body;
+
+      if (n == 0) {
+        document.getElementById("creance_table_body").innerHTML =
+          '<tr><th scope="row"><p name="-"  >-----</p></th><td><p name="-"  >-----</p></td><td><p name="-"  >-----</p></td><td><p name="-"  >Aucun</p></td><td><p name="-"  > enregistrement </p></td><td><p name="-"  >trouvé</p></td><td><p name="-"  >-----</p></td><td><p name="-"  >-----</p></td>"</tr>';
+        document.getElementById("message").innerHTML =
+          '<div class="alert alert-warning alert-dismissible fade show" role="alert">Aucun enregistrement trouvé pour votre recherche<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div > ';
+      } else {
+        if (n > 0) {
+          document.getElementById("message").innerHTML =
+            '<div class="alert alert-success alert-dismissible fade show" role="alert">Enregistrements trouvées. Résultat dans le tableau ci-dessous<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div > ';
+        } else {
+          document.getElementById("message").innerHTML =
+            '<div class="alert alert-danger alert-dismissible fade show" role="alert">Ooopss !!! Une erreure est survenue lors de l\'exécution re votre requete mais pas de panique veuillez juste resseiller .<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div > ';
+        }
+      }
+
+      // Loading js files
+      var js_ = document.createElement("script");
+      js_.type = "text/javascript";
+      js_.src = "vendors/datatable/js/jquery.dataTables.min.js";
+      js_.id = "firstJSRetrait";
+      //   document.body.removeChild(js_);
+      if (document.getElementById("firstJSRetrait")) {
+        const element = document.getElementById("firstJSRetrait");
+        element.replaceWith(js_);
+      } else {
+        document.body.appendChild(js_);
+      }
+      var js = document.createElement("script");
+      js.type = "text/javascript";
+      js.src = "js/custom.js";
+      js.id = "secondJSRetrait";
+      //   document.body.removeChild(js_);
+      if (document.getElementById("secondJSRetrait")) {
+        const item = document.getElementById("secondJSRetrait");
+        item.replaceWith(js);
+      } else {
+        document.body.appendChild(js);
       }
     })
     .catch((err) => {
@@ -1901,6 +2101,7 @@ contextBridge.exposeInMainWorld("electron", {
   Printing_chart: Printing_chart,
   // function for  creances_client
   findAllCreances: findAllCreances,
+  findAllCreancesByExercieYear: findAllCreancesByExercieYear,
   findAllClient_Creances: findAllClient_Creances,
   generate_Creances_PDFFile,
   generate_Creances_PDFFile,

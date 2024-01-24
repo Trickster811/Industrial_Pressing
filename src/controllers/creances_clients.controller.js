@@ -384,3 +384,23 @@ function imprimer() {
     }
   }
 }
+
+// Function to manage settings
+
+function customCreanceClient(params) {
+  if (
+    document.getElementById("annee_exercice").value == null &&
+    document.getElementById("chiffreAffaire").value === 0
+  ) {
+    return;
+  }
+  anneExercice = document.getElementById("annee_exercice").value;
+  chiffreAffraire = document.getElementById("chiffreAffaire").value;
+  // Hide the filter panel
+  document.getElementById("new_service_form").hidden = true;
+  document.getElementById("page_title").innerHTML =
+    "Creances Clients (Exercice " + new Date(anneExercice).getFullYear() + ")";
+
+  // Find All Creances Client
+  window.electron.findAllCreancesByExercieYear(anneExercice, chiffreAffraire);
+}

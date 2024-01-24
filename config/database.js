@@ -7,10 +7,16 @@ const { Sequelize, DataTypes } = require("sequelize");
 //   storage: './industrial_pressing.base.sqlite'
 // });
 
-const sequelize = new Sequelize("industrial_pressing_base", "postgres", "leslie02", {
-  host: "localhost",
-  dialect: "postgres", 
-});
+// const sequelize = new Sequelize("industrial_pressing_base", "postgres", "leslie02", {
+//   host: "localhost",
+//   dialect: "postgres", 
+// });
+
+const sequelize = new Sequelize("industrial_pressing_base", "root", "", {
+    host: "localhost",
+    dialect: "mysql", 
+  });
+
 // Sync database
 sequelize
   .authenticate()

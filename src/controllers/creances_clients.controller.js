@@ -1,4 +1,4 @@
-//alert(document.getElementById("id_I").value)
+//alert(document.getElementById("CHF").value)
 date = new Date();
 m = date.getMonth() + 1;
 y = date.getFullYear();
@@ -9,8 +9,25 @@ d = "";
 //       d = y + '-' + m
 // }
 window.electron.findAllClient_Creances();
-window.electron.findAllCreances(y + "-01-01", y + "-12-31", "");
+//window.electron.findAllCreances(y + "-01-01", y + "-12-31", "");
+window.electron.findAllCreances_CHF(y + "-01-01", y + "-12-31", "", document.getElementById("CHF").value);
 
+function hidden_elememts() {
+  if (document.getElementById("id_m").value == 0) {
+    document.getElementById("btn_b").removeAttribute("hidden");
+    document.getElementById("btn_a").removeAttribute("hidden");
+    document.getElementById("btn_c").removeAttribute("hidden");
+    document.getElementById("champ_CHF").removeAttribute("hidden");
+    document.getElementById("id_m").value = 1
+  } else {
+    document.getElementById("btn_b").setAttribute("hidden", "true");
+    document.getElementById("btn_a").setAttribute("hidden", "true");
+    document.getElementById("btn_c").setAttribute("hidden", "true");
+    document.getElementById("champ_CHF").setAttribute("hidden", "true");
+    document.getElementById("id_m").value = 0
+  }
+
+}
 function Filtre_a() {
   if (
     document.getElementById("debut").value != "" &&
@@ -212,18 +229,50 @@ function Filtre_b() {
   }
   document.getElementById("id_I").value = 2;
 }
+
+
+function Filtre_c() {
+
+  if (
+    document.getElementById("year_CH").value != ""
+  ) {
+    //alert("cas 3:  year: " + document.getElementById("year").value)
+    debut = document.getElementById("year_CH").value + "-" + "01" + "-" + "01";
+    fin = document.getElementById("year_CH").value + "-" + "12" + "-" + "31";
+    alert("debut: " + debut + " fin: " + fin)
+    // window.electron.findAllCreances(
+    //   debut,
+    //   fin,
+    //   document.getElementById("client_c").value
+    // );
+  }
+  document.getElementById("id_I").value = 3;
+}
 function a() {
   document.getElementById("filtre_a").removeAttribute("hidden");
   document.getElementById("filtre_b").setAttribute("hidden", "true");
+  document.getElementById("filtre_c").setAttribute("hidden", "true");
   document.getElementById("btn_a").style.background = "blue";
   document.getElementById("btn_b").style.background = "gray";
+  document.getElementById("btn_c").style.background = "gray";
 }
 
 function b() {
   document.getElementById("filtre_b").removeAttribute("hidden");
   document.getElementById("filtre_a").setAttribute("hidden", "true");
+  document.getElementById("filtre_c").setAttribute("hidden", "true");
   document.getElementById("btn_a").style.background = "gray";
   document.getElementById("btn_b").style.background = "blue";
+  document.getElementById("btn_c").style.background = "gray";
+
+}
+function c() {
+  document.getElementById("filtre_c").removeAttribute("hidden");
+  document.getElementById("filtre_a").setAttribute("hidden", "true");
+  document.getElementById("filtre_b").setAttribute("hidden", "true");
+  document.getElementById("btn_c").style.background = "blue";
+  document.getElementById("btn_b").style.background = "gray";
+  document.getElementById("btn_a").style.background = "gray";
 }
 
 function filtrer(a) {

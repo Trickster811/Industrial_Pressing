@@ -11,7 +11,9 @@
           <div class="col-lg-6">
             <div class="dashboard_breadcam text-end">
               <p>
-                <a href="#" onclick='loadContent(1,"dashboard.screen.html")'>Dashboard</a>
+                <a href="#" onclick='loadContent(1,"dashboard.screen.html")'
+                  >Dashboard</a
+                >
                 <i class="fas fa-caret-right"></i> Creances Clients
               </p>
             </div>
@@ -42,16 +44,31 @@
                   <th scope="col"></th>
                   <th scope="col"></th>
                   <th scope="col">
-                    <button  hidden class="btn btn-primary btn-md" onclick="a()" style="background-color: gray" id="btn_a">
+                    <button
+                      hidden
+                      class="btn btn-primary btn-md"
+                      onclick="a()"
+                      style="background-color: gray"
+                      id="btn_a"
+                    >
                       Filtrer par periode
-                    </button >
-                    <button class="btn btn-primary btn-md active" onclick="b()" style="background-color: gray"
-                      id="btn_b" hidden>
-                      Filtrer en une date précise
-
                     </button>
-                    <button class="btn btn-primary btn-md active" onclick="c()" style="background-color: blue"
-                      id="btn_c" hidden>
+                    <button
+                      class="btn btn-primary btn-md active"
+                      onclick="b()"
+                      style="background-color: gray"
+                      id="btn_b"
+                      hidden
+                    >
+                      Filtrer en une date précise
+                    </button>
+                    <button
+                      class="btn btn-primary btn-md active"
+                      onclick="c()"
+                      style="background-color: blue"
+                      id="btn_c"
+                      hidden
+                    >
                       Filtrer par Chiffre d'affaire
                     </button>
                   </th>
@@ -68,22 +85,38 @@
                 <td>
                   <div class="input-group common_date_picker">
                     <label for="">du</label>
-                    <input class="" type="date" name="" id="debut" placeholder="Selectioner une date"
-                      data-language="en" />
+                    <input
+                      class=""
+                      type="date"
+                      name=""
+                      id="debut"
+                      placeholder="Selectioner une date"
+                      data-language="en"
+                    />
                   </div>
                 </td>
                 <td>
                   <div class="input-group common_date_picker">
                     <label for="">au</label>
-                    <input class="" type="date" name="" id="fin" placeholder="Selectioner une date"
-                      data-language="en" />
+                    <input
+                      class=""
+                      type="date"
+                      name=""
+                      id="fin"
+                      placeholder="Selectioner une date"
+                      data-language="en"
+                    />
                   </div>
                 </td>
                 <td>
                   <div class="input-group common_date_picker">
                     <label for="">Client : </label>
-                    <select class="form-control js-example-basic-single" style="width: 100%; padding: 20px" onchange=""
-                      id="client_a">
+                    <select
+                      class="form-control js-example-basic-single"
+                      style="width: 100%; padding: 20px"
+                      onchange=""
+                      id="client_a"
+                    >
                       <option value="0">Tous</option>
                     </select>
                   </div>
@@ -91,7 +124,10 @@
 
                 <td colspan="2">
                   <div class="white_box">
-                    <button class="btn btn-primary btn-md active" onclick="Filtre_a()">
+                    <button
+                      class="btn btn-primary btn-md active"
+                      onclick="Filtre_a()"
+                    >
                       Filtrer
                     </button>
                   </div>
@@ -101,98 +137,143 @@
                 <td>
                   <div class="input-group common_date_picker">
                     <label for="">jour</label>
-                    <input class="datepicker-here digits" type="text" data-language="en" data-min-view="days"
-                      data-view="days" data-date-format="dd" id="day" style="border-color: gray" />
+                    <input
+                      class="datepicker-here digits"
+                      type="text"
+                      data-language="en"
+                      data-min-view="days"
+                      data-view="days"
+                      data-date-format="dd"
+                      id="day"
+                      style="border-color: gray"
+                    />
                   </div>
                 </td>
                 <td>
                   <div class="input-group common_date_picker">
                     <label for="">mois</label>
-                    <input class="datepicker-here digits" type="text" data-language="en" data-min-view="months"
-                      data-view="months" data-date-format="mm ( MM ) " id="month" style="border-color: gray" />
+                    <input
+                      class="datepicker-here digits"
+                      type="text"
+                      data-language="en"
+                      data-min-view="months"
+                      data-view="months"
+                      data-date-format="mm ( MM ) "
+                      id="month"
+                      style="border-color: gray"
+                    />
                   </div>
                 </td>
                 <td>
                   <div class="input-group common_date_picker">
                     <label for="">année</label>
-                    <input class="datepicker-here digits" type="text" data-language="en" data-min-view="years"
-                      data-view="years" data-date-format="yyyy" id="year" style="border-color: gray" />
+                    <input
+                      class="datepicker-here digits"
+                      type="text"
+                      data-language="en"
+                      data-min-view="years"
+                      data-view="years"
+                      data-date-format="yyyy"
+                      id="year"
+                      style="border-color: gray"
+                    />
                   </div>
                 </td>
                 <td>
                   <div class="input-group common_date_picker">
                     <label for="">Client : </label>
-                    <select class="form-control js-example-basic-single" style="width: 100%; padding: 20px" onchange=""
-                      id="client_b">
+                    <select
+                      class="form-control js-example-basic-single"
+                      style="width: 100%; padding: 20px"
+                      onchange=""
+                      id="client_b"
+                    >
                       <option value="0">Tous</option>
                     </select>
                   </div>
                 </td>
                 <td>
                   <div class="white_box">
-                    <button class="btn btn-primary btn-md active" onclick="Filtre_b()">
+                    <button
+                      class="btn btn-primary btn-md active"
+                      onclick="Filtre_b()"
+                    >
                       Filtrer
                     </button>
                   </div>
                 </td>
               </tr>
-              <tr id="filtre_c" >
-                <td>
-                  <!-- <div class="input-group common_date_picker">
-                    <label for="">jour</label>
-                    <input class="datepicker-here digits" type="text" data-language="en" data-min-view="days"
-                      data-view="days" data-date-format="dd" id="day" style="border-color: gray" />
-                  </div>-->
-                </td>
-                <td>
-                  <!-- <div class="input-group common_date_picker">
-                    <label for="">mois</label>
-                    <input class="datepicker-here digits" type="text" data-language="en" data-min-view="months"
-                      data-view="months" data-date-format="mm ( MM ) " id="month" style="border-color: gray" />
-                  </div>-->
-                </td>
+              <tr id="filtre_c">
+                
                 <td>
                   <div class="input-group common_date_picker">
                     <label for="">année</label>
-                    <input class="datepicker-here digits" type="text" data-language="en" data-min-view="years"
-                      data-view="years" data-date-format="yyyy" id="year_CH" style="border-color: gray" />
+                    <input
+                      class="datepicker-here digits"
+                      type="text"
+                      data-language="en"
+                      data-min-view="years"
+                      data-view="years"
+                      data-date-format="yyyy"
+                      id="year_CH"
+                      style="border-color: gray"
+                    />
                   </div>
                 </td>
                 <td id="champ_CHF" hidden>
                   <div class="">
                     <label for="">Chiffre d'affaire</label>
-                    <input  type="number" class="form-control" value="0" id="CHF" >
-                     </div>
+                    <input
+                      type="number"
+                      class="form-control"
+                      value="0"
+                      id="CHF"
+                    />
+                  </div>
                 </td>
                 <td>
                   <div class="input-group common_date_picker">
                     <label for="">Client : </label>
-                    <select class="form-control js-example-basic-single" style="width: 100%; padding: 20px" onchange=""
-                      id="client_c">
+                    <select
+                      class="form-control js-example-basic-single"
+                      style="width: 100%; padding: 20px"
+                      onchange=""
+                      id="client_c"
+                    >
                       <option value="0">Tous</option>
                     </select>
                   </div>
                 </td>
                 <td>
                   <div class="white_box">
-                    <button class="btn btn-primary btn-md active" onclick="Filtre_c()">
+                    <button
+                      class="btn btn-primary btn-md active"
+                      onclick="Filtre_c()"
+                    >
                       Filtrer
                     </button>
                   </div>
                 </td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-
-
+                
               </tr>
             </tbody>
           </table>
-          <input hidden class="form-control" type="text" name="" id="id_I" value="" />
-          <input hidden class="form-control" type="text" name="" id="id_m" value="0" />
+          <input
+            hidden
+            class="form-control"
+            type="text"
+            name=""
+            id="id_I"
+            value=""
+          />
+          <input
+            hidden
+            class="form-control"
+            type="text"
+            name=""
+            id="id_m"
+            value="0"
+          />
 
           <div id="message"></div>
         </div>
@@ -238,8 +319,14 @@
             <div class="serach_field_2">
               <div class="search_inner">
                 <div class="search_field">
-                  <input class="form-control" type="text" name="" id="maRecherche" onkeyup="filtrer(1)"
-                    placeholder="Saisissez un mot cle" />
+                  <input
+                    class="form-control"
+                    type="text"
+                    name=""
+                    id="maRecherche"
+                    onkeyup="filtrer(1)"
+                    placeholder="Saisissez un mot cle"
+                  />
                 </div>
                 <button>
                   <i class="fa fa-search"></i>
@@ -251,8 +338,13 @@
                 data-bs-target="#addcategory" class="btn_1">Rechercher</a>
             </div> -->
             <div class="add_button ms-2">
-              <button onclick="imprimer()" data-bs-toggle="modal" data-bs-target="#addcategory"
-                class="btn btn-success btn-md text_white" role="button">
+              <button
+                onclick="imprimer()"
+                data-bs-toggle="modal"
+                data-bs-target="#addcategory"
+                class="btn btn-success btn-md text_white"
+                role="button"
+              >
                 Imprimer Etat
               </button>
             </div>

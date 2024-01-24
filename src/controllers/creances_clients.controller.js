@@ -24,6 +24,14 @@ function hidden_elememts() {
     document.getElementById("btn_a").setAttribute("hidden", "true");
     document.getElementById("btn_c").setAttribute("hidden", "true");
     document.getElementById("champ_CHF").setAttribute("hidden", "true");
+
+    document.getElementById("filtre_c").removeAttribute("hidden");
+    document.getElementById("filtre_a").setAttribute("hidden", "true");
+    document.getElementById("filtre_b").setAttribute("hidden", "true");
+    document.getElementById("btn_c").style.background = "blue";
+    document.getElementById("btn_b").style.background = "gray";
+    document.getElementById("btn_a").style.background = "gray";
+    Filtre_c()
     document.getElementById("id_m").value = 0
   }
 
@@ -239,12 +247,31 @@ function Filtre_c() {
     //alert("cas 3:  year: " + document.getElementById("year").value)
     debut = document.getElementById("year_CH").value + "-" + "01" + "-" + "01";
     fin = document.getElementById("year_CH").value + "-" + "12" + "-" + "31";
-    alert("debut: " + debut + " fin: " + fin)
-    // window.electron.findAllCreances(
-    //   debut,
-    //   fin,
-    //   document.getElementById("client_c").value
-    // );
+    //alert("debut: " + debut + " fin: " + fin)
+    window.electron.findAllCreances_CHF(
+      debut,
+      fin,
+      document.getElementById("client_c").value,
+      document.getElementById("CHF").value
+    );
+  }
+  else {
+    document.getElementById("message").innerHTML =
+      '<div class="alert alert-danger alert-dismissible fade show" role="alert">veuillez choisir  l\'année pour filtrer<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div > ';
+    document.getElementById("creance_table_body").innerHTML =
+      '<tr><th scope="row"><p name="-"  >-----</p></th><td><p name="-"  >-----</p></td><td><p name="-"  >-----</p></td><td><p name="-"  >Aucun</p></td><td><p name="-"  > enregistrement </p></td><td><p name="-"  >trouvé</p></td><td><p name="-"  >-----</p></td><td><p name="-"  >-----</p></td>"</tr>';
+    document.getElementById("depots").innerHTML = 0;
+
+    //function to find "Total" of the curent month
+
+    document.getElementById("total").innerHTML = 0 + " FCFA";
+    //function to find "Avance" of the curent month
+
+    document.getElementById("avance").innerHTML = 0 + " FCFA";
+    //function to find "Reste" of the curent month
+
+    document.getElementById("reste").innerHTML = 0 + " FCFA";
+
   }
   document.getElementById("id_I").value = 3;
 }

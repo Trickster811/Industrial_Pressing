@@ -20,13 +20,10 @@ const FactureLinge = sequelize.define(
     //     key: "idFacture",
     //   },
     // },
-    // idLinge: {
-    //   type: DataTypes.INTEGER,
-    //   references: {
-    //     model: Linge,
-    //     key: "idLinge",
-    //   },
-    // },
+    descriptionLinge: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   },
   {
     tableName: "FactureLinge",

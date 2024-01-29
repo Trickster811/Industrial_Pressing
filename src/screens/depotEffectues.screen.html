@@ -5,7 +5,7 @@
         <div class="row">
           <div class="col-lg-6">
             <div class="dashboard_header_title">
-              <h3>Retraits</h3>
+              <h3>Depots Effectues</h3>
             </div>
           </div>
           <div class="col-lg-6">
@@ -14,7 +14,7 @@
                 <a href="#" onclick='loadContent(1,"dashboard.screen.html")'
                   >Dashboard</a
                 >
-                <i class="fas fa-caret-right"></i> Retraits
+                <i class="fas fa-caret-right"></i> Depots Effectues
               </p>
             </div>
           </div>
@@ -40,11 +40,29 @@
           <div class="widget-subheading">Total</div>
         </div>
       </div>
+      <div class="col-md-4">
+        <div class="card mb-3 widget-chart border-2 border-warning">
+          <div
+            class="widget-numbers text-warning"
+            id="totalReglementFactureAmount"
+          ></div>
+          <div class="widget-subheading">Avance</div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card mb-3 widget-chart border-2 border-danger">
+          <div
+            class="widget-numbers text-danger"
+            id="totalRemainingAmount"
+          ></div>
+          <div class="widget-subheading">Reste</div>
+        </div>
+      </div>
     </div>
     <div class="col-12">
       <div class="QA_section">
         <div class="white_box_tittle list_header">
-          <h4>Retraits</h4>
+          <h4>Depot Effectues</h4>
           <div class="box_right d-flex lms_block">
             <div class="serach_field_2">
               <!-- <form class="theme-form" Active="#"> -->
@@ -116,7 +134,7 @@
                 <th scope="col">Action</th>
               </tr>
             </thead>
-            <tbody id="retrait_table_body">
+            <tbody id="depots_effectues_table_body">
               <!-- <tr>
                 <th scope="row">
                   <a href="#" class="question_content">02777G/09</a>
@@ -158,7 +176,7 @@
 </div>
 
 <!-- Import Retraits Controller -->
-<script src="../controllers/retraits.controller.js"></script>
+<script src="../controllers/depotEffectues.controller.js"></script>
 <!-- 
 <script src="vendors/datatable/js/jquery.dataTables.min.js"></script>
 <script src="js/custom.js"></script> -->

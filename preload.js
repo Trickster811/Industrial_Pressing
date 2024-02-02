@@ -658,9 +658,56 @@ async function findAllCreances_CHF(debut, fin, cli, CHF) {
 
       var table_body = "",
         n = 0;
+      i = 0;
+      tab = []
+      tab[0] = data[0].dataValues.dateDepotFacture.toLocaleDateString("en-US")
+      total = 0
+      data.map((item) => {
+        //alert("bbbbbbbb" + item.dataValues.dateDepotFacture.toLocaleDateString("en-US"))
+        if (item.dataValues.dateDepotFacture.toLocaleDateString("en-US") != tab[i]) {
+          tab[i + 1] = item.dataValues.dateDepotFacture.toLocaleDateString("en-US")
+          i++;
+        }
+      })
+      //alert("aaaaaaaaaaa" + tab)
+      index = 0
+      i = 1
+      deja = 0
+      data.splice(0, 1)
+      data.map((item) => {
+        //alert("bbbbbbbb" + item.dataValues.dateDepotFacture.toLocaleDateString("en-US"))
+        //alert(tab[i])
+        if (item.dataValues.dateDepotFacture.toLocaleDateString("en-US") != tab[i] ) {
+          //alert(tab[i])
+          data.splice(index+1, 1)
+          
+         // deja = 1
+          i++
+        } else {
+          //alert("eeee"+tab[i])
+          //deja = 0
+        }
+        //alert(deja)
+        index++
+        
+      })
+
+      data.map((item) => {
+        //alert("bbbbbbbb" + item.dataValues.dateDepotFacture.toLocaleDateString("en-US"))
+        // if (item.dataValues.dateDepotFacture.toLocaleDateString("en-US") != tab[i]) {
+        //   tab[i + 1] = item.dataValues.dateDepotFacture.toLocaleDateString("en-US")
+        //   i++;
+        // }
+        total += parseFloat(item.dataValues.montantTotalFacture)
+
+      })
+
+      alert(total)
+
       data
         .reverse()
         .map((item) => {
+          //alert(item.dataValues.dateDepotFacture.toLocaleDateString("en-US"))
           n++;
           table_body += "<tr id='t" + item.dataValues.idFacture + "'>";
           //   First Column

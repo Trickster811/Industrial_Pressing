@@ -7,8 +7,8 @@ function createClientController() {
     document.getElementById("nomClient").value === "" ||
     document.getElementById("sexeClient").value === "" ||
     document.getElementById("phoneClient").value === "" ||
-    document.getElementById("residenceClient").value === "" ||
-    document.getElementById("reductionClient").value === ""
+    document.getElementById("residenceClient").value === ""
+    // document.getElementById("reductionClient").value === ""
   ) {
     document.getElementById("message").innerHTML =
       '<strong style="color: red;">Veuillez renseigner le / les information(s) manquante(s) !!!!!!!!</strong>';
@@ -21,7 +21,8 @@ function createClientController() {
     phoneClient: parseInt(document.getElementById("phoneClient").value),
     residenceClient: document.getElementById("residenceClient").value,
     reductionClient: parseFloat(
-      document.getElementById("reductionClient").value
+      0
+      // document.getElementById("reductionClient").value
     ),
   };
   // for (let index = 0; index < 10; index++) {

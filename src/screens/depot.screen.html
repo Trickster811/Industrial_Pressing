@@ -73,6 +73,7 @@
                     class="form-control"
                     placeholder="retrait"
                     id="dateRetraitFacture"
+                    disabled
                   />
                 </td>
               </tr>
@@ -86,6 +87,7 @@
           </div>
           <a
             onclick="AddRow()"
+            id="buttonToAddRowInTable"
             class="btn btn-info btn-md text_white"
             role="button"
             aria-pressed="true"
@@ -99,7 +101,7 @@
                 <th scope="col">Code</th>
                 <th scope="col">Type</th>
                 <th scope="col">Designation</th>
-                <!-- <th scope="col">Desciption</th> -->
+                <th scope="col">Desciption</th>
                 <th scope="col">Prix Unitaire (FCFA)</th>
                 <th scope="col">Action</th>
               </tr>
@@ -131,14 +133,20 @@
                     onchange="autoSelectClothesDetails(this,1)"
                   ></select>
                 </td>
-                <!-- <td>
-                  <select
-                    id="clothe_description1"
+                <td>
+                  <!-- <select
+                    id=""
                     class="form-control js-example-basic-single"
                     style="width: 100%"
                     onchange=""
-                  ></select>
-                </td> -->
+                  ></select> -->
+                  <input
+                    id="clothe_description1"
+                    type="text"
+                    class="form-control"
+                    value="RAS"
+                  />
+                </td>
                 <td>
                   <select
                     id="clothe_priceUnitary1"
@@ -255,12 +263,22 @@
 
 <script>
   var today = new Date();
-  var dd = String(today.getDate()).padStart(2, "0");
-  var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-  var yyyy = today.getFullYear();
+  var nextWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
 
-  today = yyyy + "-" + mm + "-" + dd;
+  var ddToday = String(today.getDate()).padStart(2, "0");
+  var mmToday = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+  var yyyyToday = today.getFullYear();
+
+  today = yyyyToday + "-" + mmToday + "-" + ddToday;
+
+  var ddNextWeek = String(nextWeek.getDate()).padStart(2, "0");
+  var mmNextWeek = String(nextWeek.getMonth() + 1).padStart(2, "0"); //January is 0!
+  var yyyyNextWeek = nextWeek.getFullYear();
+
+  nextWeek = yyyyNextWeek + "-" + mmNextWeek + "-" + ddNextWeek;
+
   document.getElementById("dateDepotFacture").value = today;
+  document.getElementById("dateRetraitFacture").value = nextWeek;
 </script>
 
 <!-- Import Depot Controller -->

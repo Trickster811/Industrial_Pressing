@@ -73,32 +73,39 @@
               <a
                 id="1"
                 class="active"
-                href=""
+                href="#"
                 onclick='loadContent(1, "dashboard.screen.html")'
                 >Dashboard</a
               >
             </li>
-            <li><a href="index_2.html">Default</a></li>
+            <!-- <li><a href="index_2.html">Default</a></li> -->
           </ul>
         </li>
         <!-- Recption Section -->
         <li class="">
           <a class="has-arrow" href="#" aria-expanded="false">
             <img src="img/menu-icon/8.svg" alt />
-            <span>Reception</span>
+            <span>Nouveau</span>
           </a>
           <ul>
+            <!-- All users -->
             <li>
               <a id="2" class="" onclick='loadContent(2, "depot.screen.html")'
                 >Depot</a
               >
             </li>
             <li>
+              <a id="3" class="" onclick='loadContent(3, "clients.screen.html")'
+                >Clients</a
+              >
+            </li>
+            <!-- Admin only -->
+            <li>
               <a
-                id="3"
+                id="4"
                 class=""
-                onclick='loadContent(3, "retraits.screen.html")'
-                >Retraits</a
+                onclick='loadContent(4, "personnel.screen.html")'
+                >Operateur</a
               >
             </li>
           </ul>
@@ -107,25 +114,33 @@
         <li class="">
           <a class="has-arrow" href="#" aria-expanded="false">
             <img src="img/menu-icon/3.svg" alt />
-            <span>Inventaire</span>
+            <span>Affichage</span>
           </a>
           <ul>
+            <!-- All users -->
             <li>
-              <a id="4" class="" onclick='loadContent(4, "clients.screen.html")'
-                >Clients</a
-              >
-            </li>
-            <li>
-              <a id="5" class="" onclick='loadContent(5, "linges.screen.html")'
-                >Linges</a
+              <a
+                id="5"
+                class=""
+                onclick='loadContent(5, "depotEffectues.screen.html")'
+                >Depots Effectues</a
               >
             </li>
             <li>
               <a
                 id="6"
                 class=""
-                onclick='loadContent(6, "creances_clients.screen.html")'
-                >Creances Clients</a
+                onclick='loadContent(6, "retraits.screen.html")'
+                >Retraits</a
+              >
+            </li>
+            <!-- Admin Only -->
+            <li>
+              <a
+                id="7"
+                class=""
+                onclick='loadContent(7, "creances_clients.screen.html")'
+                >Creances</a
               >
             </li>
           </ul>
@@ -134,22 +149,20 @@
         <li id="ressources" class="">
           <a class="has-arrow" href="#" aria-expanded="false">
             <img src="img/menu-icon/4.svg" alt />
-            <span>Ressources</span>
+            <span>Parametrage</span>
           </a>
           <ul>
+            <!-- Admin only -->
             <li>
-              <a
-                id="7"
-                class=""
-                onclick='loadContent(7, "personnel.screen.html")'
-                >Personnels</a
+              <a id="8" class="" onclick='loadContent(8, "linges.screen.html")'
+                >Grilles des Prix</a
               >
             </li>
             <li>
               <a
-                id="8"
+                id="9"
                 class=""
-                onclick='loadContent(8, "services.screen.html")'
+                onclick='loadContent(9, "services.screen.html")'
                 >Services</a
               >
             </li>
@@ -159,7 +172,7 @@
         <li class>
           <a class="has-arrow" href="#" aria-expanded="false">
             <img src="img/menu-icon/2.svg" alt />
-            <span>Pages</span>
+            <span>Session</span>
           </a>
           <ul>
             <li><a href="login.html">Login</a></li>
@@ -170,7 +183,7 @@
             <li><a href="gallery.html">Gallery</a></li>
           </ul>
         </li>
-        <li class>
+        <li hidden>
           <a class="has-arrow" href="#" aria-expanded="false">
             <img src="img/menu-icon/3.svg" alt />
             <span>Applications</span>
@@ -181,7 +194,7 @@
             <li><a href="faq.html">FAQ</a></li>
           </ul>
         </li>
-        <li class>
+        <li hidden>
           <a class="has-arrow" href="#" aria-expanded="false">
             <img src="img/menu-icon/4.svg" alt />
             <span>Components</span>
@@ -194,7 +207,7 @@
             <li><a href="Pagination.html">Pagination</a></li>
           </ul>
         </li>
-        <li class>
+        <li hidden>
           <a class="has-arrow" href="#" aria-expanded="false">
             <img src="img/menu-icon/5.svg" alt />
             <span>UI Elements</span>
@@ -209,7 +222,7 @@
             <li><a href="datepicker.html">Date Picker</a></li>
           </ul>
         </li>
-        <li class>
+        <li hidden>
           <a class="has-arrow" href="#" aria-expanded="false">
             <img src="img/menu-icon/6.svg" alt />
             <span>Animations</span>
@@ -220,7 +233,7 @@
             <li><a href="tilt.html">Tilt Animation</a></li>
           </ul>
         </li>
-        <li class>
+        <li hidden>
           <a class="has-arrow" href="#" aria-expanded="false">
             <img src="img/menu-icon/7.svg" alt />
             <span>Cards</span>
@@ -231,7 +244,7 @@
             <li><a href="dargable_card.html">Draggable Card</a></li>
           </ul>
         </li>
-        <li class>
+        <li hidden>
           <a class="has-arrow" href="#" aria-expanded="false">
             <img src="img/menu-icon/8.svg" alt />
             <span>Table</span>
@@ -241,7 +254,7 @@
             <li><a href="bootstrap_table.html">Grid Tables</a></li>
           </ul>
         </li>
-        <li class>
+        <li hidden>
           <a class="has-arrow" href="#" aria-expanded="false">
             <img src="img/menu-icon/9.svg" alt />
             <span>Charts</span>
@@ -254,7 +267,7 @@
             <li><a href="nvd3_charts.html">nvd3 charts.</a></li>
           </ul>
         </li>
-        <li class>
+        <li hidden>
           <a class="has-arrow" href="#" aria-expanded="false">
             <img src="img/menu-icon/10.svg" alt />
             <span>Widgets</span>
@@ -264,7 +277,7 @@
             <li><a href="profilebox.html">Profile Box</a></li>
           </ul>
         </li>
-        <li class>
+        <li hidden>
           <a class="has-arrow" href="#" aria-expanded="false">
             <img src="img/menu-icon/map.svg" alt />
             <span>Maps</span>
@@ -310,10 +323,7 @@
                   hidden
                 >
                   <li>
-                    <a
-                      class=""
-                      onclick="hidden_elememts()"
-                    >
+                    <a class="" onclick="hidden_elememts()">
                       <i class="fa fa-egg"> </i>
                     </a>
 
@@ -351,7 +361,9 @@
                       <div class="nofity_footer">
                         <div class="submit_button text-center pt_20">
                           <!-- onclick='loadContent(9,"creances_clients_hack.screen.html")' -->
-                          <button onclick="customCreanceClient()" class="btn_1">Ok</button>
+                          <button onclick="customCreanceClient()" class="btn_1">
+                            Ok
+                          </button>
                         </div>
                       </div>
                     </div>

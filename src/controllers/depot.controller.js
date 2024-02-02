@@ -28,7 +28,10 @@ function update_total() {
     );
   }
   // Get service TAX
-  total = total * getServiceTAX() - getClientReduction();
+  total =
+    total +
+    (getServiceTAX() * total) / 100 -
+    (getClientReduction() * total) / 100;
   document.getElementById("total_to_pay").value = total;
   update_remaining_to_pay();
 }
@@ -36,13 +39,13 @@ function update_total() {
 // Function to get the service TAX
 function getServiceTAX() {
   const serviceTAX = document.getElementById("service_type").value;
-  return serviceTAX.substring(serviceTAX.indexOf("*") + 1);
+  return parseFloat(serviceTAX.substring(serviceTAX.indexOf("*") + 1));
 }
 
 // Function to get the client reduction
 function getClientReduction() {
   const serviceTAX = document.getElementById("client_name_select").value;
-  return serviceTAX.substring(serviceTAX.indexOf("_") + 1);
+  return parseFloat(serviceTAX.substring(serviceTAX.indexOf("_") + 1));
 }
 
 // Function to update remaining amount to pay
@@ -63,7 +66,7 @@ function AddRow() {
   var cell3 = row.insertCell(2);
   var cell4 = row.insertCell(3);
   var cell5 = row.insertCell(4);
-  // var cell6 = row.insertCell(5);
+  var cell6 = row.insertCell(5);
 
   cell1.innerHTML =
     '<select id="clothe_code' +
@@ -81,15 +84,15 @@ function AddRow() {
     '" class="form-control js-example-basic-single" style="width: 100%;" onchange="autoSelectClothesDetails(this,' +
     n +
     ')"></select>';
-  // cell4.innerHTML =
-  //   '<select id="clothe_description' +
-  //   n +
-  //   '" class="form-control js-example-basic-single" style="width: 100%;" onchange="" disabled></select>';
   cell4.innerHTML =
+    '<select id="clothe_description' +
+    n +
+    '" class="form-control js-example-basic-single" style="width: 100%;" onchange="" disabled></select>';
+  cell5.innerHTML =
     '<select id="clothe_priceUnitary' +
     n +
     '" class="form-control js-example-basic-single" style="width: 100%;" onchange="update_clothe_info(this)" disabled></select>';
-  cell5.innerHTML =
+  cell6.innerHTML =
     '<div onclick="RemoveRow(this)" class="text-center rounded bg-danger"><div class="center-svg"><i class="fa fa-minus"> </i></div></div>';
 
   document.getElementById("clothes_number").value = n;
@@ -98,6 +101,12 @@ function AddRow() {
   window.electron.findAllLingeFacture(n);
   // Function to load Js Files
   loadJsFiles();
+  // Hide or Show button to Add Row in the table
+  if (n === 10) {
+    document.getElementById("buttonToAddRowInTable").hidden = true;
+  } else {
+    document.getElementById("buttonToAddRowInTable").hidden = false;
+  }
   // Function to update the total amount to pay
   setTimeout(() => {
     update_total();
@@ -126,6 +135,12 @@ function RemoveRow(x) {
   }
   //   Update the number of rows
   n--;
+  // Hide or Show button to Add Row in the table
+  if (n === 10) {
+    document.getElementById("buttonToAddRowInTable").hidden = true;
+  } else {
+    document.getElementById("buttonToAddRowInTable").hidden = false;
+  }
   //   Update the clothe number
   document.getElementById("clothes_number").value = n;
   //   Update the total amount to pay
@@ -236,9 +251,14 @@ function createFactureController() {
     lingeData: [],
   };
   for (let indexRow = 1; indexRow <= n; indexRow++) {
-    data.lingeData.push(
-      parseInt(document.getElementById("clothe_name" + indexRow).value)
-    );
+    data.lingeData.push({
+      idClothe: parseInt(
+        document.getElementById("clothe_name" + indexRow).value
+      ),
+      descriptionClothe: document.getElementById(
+        "clothe_description" + indexRow
+      ).value,
+    });
   }
   // console.log(data);
   // for (let index = 0; index < 50; index++) {
@@ -271,4 +291,9 @@ function loadJsFiles() {
   } else {
     document.body.appendChild(js_1);
   }
+}
+
+// Function to update Withdraw date
+function withdrawDateUpdate() {
+  
 }

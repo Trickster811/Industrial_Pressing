@@ -3,7 +3,6 @@ const { Op } = require("sequelize");
 
 // Getting all Models to create tables in our database
 require("./src/models/index")(sequelize, DataTypes);
-
 // Syncing Database
 sequelize.sync({ alter: true }).then(() => {
   console.log("Industrial Pressing database well synced");
@@ -457,7 +456,7 @@ async function findAllCreances(debut, fin, cli) {
             '<td><p name="-"  >' +
             Number(
               item.dataValues.montantTotalFacture -
-              item.dataValues.total_reglement
+                item.dataValues.total_reglement
             ).toLocaleString() +
             "</p></td>";
           // Seventh Column
@@ -737,7 +736,7 @@ async function findAllCreances_CHF(debut, fin, cli, CHF) {
             '<td><p name="-"  >' +
             Number(
               item.dataValues.montantTotalFacture -
-              item.dataValues.total_reglement
+                item.dataValues.total_reglement
             ).toLocaleString() +
             "</p></td>";
           // Seventh Column
@@ -802,7 +801,6 @@ async function findAllCreances_CHF(debut, fin, cli, CHF) {
 
   // const montantTotal = await Facture.sum("montantTotalFacture", condition_date);
 }
-
 
 async function findAllCreancesByExercieYear(anneExercice, chiffreAffraire) {
   // remove all for `table_body`
@@ -915,7 +913,7 @@ async function findAllCreancesByExercieYear(anneExercice, chiffreAffraire) {
             '<td><p name="-"  >' +
             Number(
               item.dataValues.montantTotalFacture -
-              item.dataValues.total_reglement
+                item.dataValues.total_reglement
             ).toLocaleString() +
             "</p></td>";
           // Seventh Column
@@ -1213,11 +1211,11 @@ const generatePDFFile = (data, d, f, titre, cli, t, a, r) => {
       depot.montantTotalFacture,
       depot.dataValues.total_reglement ? depot.dataValues.total_reglement : 0,
       parseFloat(depot.montantTotalFacture) -
-      parseFloat(
-        depot.dataValues.total_reglement
-          ? depot.dataValues.total_reglement
-          : 0
-      ),
+        parseFloat(
+          depot.dataValues.total_reglement
+            ? depot.dataValues.total_reglement
+            : 0
+        ),
       depot.dateDepotFacture.toLocaleDateString("en-US"),
       depot.dateRetraitFacture.toLocaleDateString("en-US"),
     ]);
@@ -1471,7 +1469,7 @@ async function findAllClient() {
 // Function to find one instance of a Client
 async function findOneClient(data) {
   Client.findOne()
-    .then(() => { })
+    .then(() => {})
     .catch((err) => {
       console.log(err);
     });
@@ -1687,9 +1685,7 @@ async function findAllServiceFacture() {
 async function createFacture(data) {
   Facture.create(data.depotData)
     .then((result) => {
-      document.getElementById("message").innerHTML =
-        '<strong style="color: green;">Facture cree avec success!</strong>';
-      console.log(result);
+      // console.log(result);
       if (data.reglementData) {
         ReglementFacture.create({
           montantReglementFacture: data.reglementData,
@@ -1697,7 +1693,7 @@ async function createFacture(data) {
           dateReglementFacture: new Date(),
         })
 
-          .then(() => { })
+          .then(() => {})
           .catch((errno) => {
             console.log("Error Reglement: " + errno);
             console.log(errno);
@@ -1708,9 +1704,13 @@ async function createFacture(data) {
         console.log(element);
         FactureLinge.create({
           idFacture: result.dataValues.idFacture,
-          idLinge: element,
+          idLinge: element.idClothe,
+          descriptionLinge: element.descriptionClothe,
         })
-          .then(() => { })
+          .then(() => {
+            document.getElementById("message").innerHTML =
+              '<strong style="color: green;">Facture cree avec success!</strong>';
+          })
           .catch((error) => {
             console.log("Error FactureLinge: " + error);
           });
@@ -1848,7 +1848,7 @@ async function findAllLinge() {
 // Function to find one instance of a Linge
 async function findOneLinge(data) {
   Linge.findOne()
-    .then(() => { })
+    .then(() => {})
     .catch((err) => {
       console.log(err);
     });
@@ -2035,7 +2035,7 @@ async function findAllOperateur() {
 // Function to find one instance of a Operateur
 async function findOneOperateur(data) {
   Operateur.findOne()
-    .then(() => { })
+    .then(() => {})
     .catch((err) => {
       console.log(err);
     });
@@ -2089,7 +2089,7 @@ async function deleteOperateur(data) {
 // ////////////////////////////////////////////////////////////////////////////// //
 
 // Function to find all instances of Facture
-async function findAllFacture() {
+async function findAllRetraits() {
   Facture.findAll({
     attributes: {
       include: [
@@ -2115,7 +2115,7 @@ async function findAllFacture() {
       },
     ],
     where: {
-      etatFacture: false,
+      etatFacture: true,
     },
     order: [["dateDepotFacture", "DESC"]],
     group: [
@@ -2128,7 +2128,8 @@ async function findAllFacture() {
     .then(async (data) => {
       // console.log(data);
       let retrait_table_body = "";
-
+      const factureLinge = await FactureLinge.findAll();
+      console.log(factureLinge);
       // Fill boxes on the top of retraits screen
       // ::::::::::::::::: Total Depots
       document.getElementById("depots_total").innerHTML = data.length;
@@ -2149,32 +2150,6 @@ async function findAllFacture() {
       document.getElementById("totalDepotsAmount").innerHTML = totalAmount
         ? totalAmount.toLocaleString() + " FCFA"
         : "-- --";
-      // ::::::::::::::::: Total Avance Amount (Reglement Facture)
-      const totalReglementFactureAmount = await ReglementFacture.sum(
-        "montantReglementFacture",
-        {
-          // include: [
-          //   {
-          //     model: Facture,
-          //     where: {
-          //       etatFacture: false,
-          //     },
-          //   },
-          // ],
-          // group: ["Facture.idFacture"],
-        }
-      );
-      document.getElementById("totalReglementFactureAmount").innerHTML =
-        totalReglementFactureAmount
-          ? totalReglementFactureAmount.toLocaleString() + " FCFA"
-          : "-- --";
-      // ::::::::::::::::: Total Remaining Amount
-      document.getElementById("totalRemainingAmount").innerHTML =
-        totalAmount && totalReglementFactureAmount
-          ? (
-            parseFloat(totalAmount) - parseFloat(totalReglementFactureAmount)
-          ).toLocaleString() + " FCFA"
-          : "-- --";
 
       // Filling the table with the list of Factures
       data
@@ -2246,6 +2221,200 @@ async function findAllFacture() {
       // Assigning `table_body` to the table id within the retrait screen
       document.getElementById("retrait_table_body").innerHTML =
         retrait_table_body;
+
+      // Loading js files
+      var js_ = document.createElement("script");
+      js_.type = "text/javascript";
+      js_.src = "vendors/datatable/js/jquery.dataTables.min.js";
+      js_.id = "firstJSRetrait";
+      //   document.body.removeChild(js_);
+      if (document.getElementById("firstJSRetrait")) {
+        const element = document.getElementById("firstJSRetrait");
+        element.replaceWith(js_);
+      } else {
+        document.body.appendChild(js_);
+      }
+      var js = document.createElement("script");
+      js.type = "text/javascript";
+      js.src = "js/custom.js";
+      js.id = "secondJSRetrait";
+      //   document.body.removeChild(js_);
+      if (document.getElementById("secondJSRetrait")) {
+        const item = document.getElementById("secondJSRetrait");
+        item.replaceWith(js);
+      } else {
+        document.body.appendChild(js);
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      console.log("yo: " + err);
+    });
+}
+
+// ////////////////////////////////////////////////////////////////////////////// //
+// //////////////////////// Controller For Depots Effectues ///////////////////// //
+// ////////////////////////////////////////////////////////////////////////////// //
+
+// Function to find all instances of Facture
+async function findAllFacture() {
+  Facture.findAll({
+    attributes: {
+      include: [
+        [
+          sequelize.fn(
+            "sum",
+            sequelize.col("ReglementFactures.montantReglementFacture")
+          ),
+          "total_reglement",
+        ],
+      ],
+    },
+    include: [
+      {
+        model: Client,
+        attributes: ["nomClient", "phoneClient"],
+      },
+      Service,
+      {
+        model: ReglementFacture,
+        as: "ReglementFactures",
+        required: false,
+      },
+    ],
+    where: {
+      etatFacture: false,
+    },
+    order: [["dateDepotFacture", "DESC"]],
+    group: [
+      "Facture.idFacture",
+      "Client.idClient",
+      "Service.idService",
+      "ReglementFactures.idReglementFacture",
+    ],
+  })
+    .then(async (data) => {
+      // console.log(data);
+      let depots_effectues_table_body = "";
+      const factureLinge = await FactureLinge.findAll();
+      console.log(factureLinge);
+      // Fill boxes on the top of retraits screen
+      // ::::::::::::::::: Total Depots
+      document.getElementById("depots_total").innerHTML = data.length;
+      // ::::::::::::::::: Total Clients
+      const total_Client = Number(
+        await Facture.count({
+          distinct: true,
+          col: "idClient",
+        })
+      ).toLocaleString();
+      document.getElementById("totalClient").innerHTML = total_Client;
+      // ::::::::::::::::: Total Depots Amount
+      const totalAmount = await Facture.sum("montantTotalFacture", {
+        where: {
+          etatFacture: false,
+        },
+      });
+      document.getElementById("totalDepotsAmount").innerHTML = totalAmount
+        ? totalAmount.toLocaleString() + " FCFA"
+        : "-- --";
+      // ::::::::::::::::: Total Avance Amount (Reglement Facture)
+      const totalReglementFactureAmount = await ReglementFacture.sum(
+        "montantReglementFacture",
+        {
+          // include: [
+          //   {
+          //     model: Facture,
+          //     where: {
+          //       etatFacture: false,
+          //     },
+          //   },
+          // ],
+          // group: ["Facture.idFacture"],
+        }
+      );
+      document.getElementById("totalReglementFactureAmount").innerHTML =
+        totalReglementFactureAmount
+          ? totalReglementFactureAmount.toLocaleString() + " FCFA"
+          : "-- --";
+      // ::::::::::::::::: Total Remaining Amount
+      document.getElementById("totalRemainingAmount").innerHTML =
+        totalAmount && totalReglementFactureAmount
+          ? (
+              parseFloat(totalAmount) - parseFloat(totalReglementFactureAmount)
+            ).toLocaleString() + " FCFA"
+          : "-- --";
+
+      // Filling the table with the list of Factures
+      data
+        // .reverse()
+        .map(async (item) => {
+          retrait_table_body += "<tr>";
+          retrait_table_body += '<th scope="row">';
+          retrait_table_body +=
+            '<a href="#" class="question_content">' +
+            item.Client.nomClient +
+            "</a>";
+          retrait_table_body += "</th>";
+          retrait_table_body += "<td>" + item.Client.phoneClient + "</td>";
+          retrait_table_body +=
+            "<td>" +
+            item.dataValues.montantTotalFacture.toLocaleString() +
+            "</td>";
+          retrait_table_body +=
+            '<td><p name="line' +
+            item.dataValues.idFacture +
+            '">' +
+            (item.dataValues.total_reglement
+              ? parseFloat(item.dataValues.total_reglement).toLocaleString()
+              : 0) +
+            '</p><p name="lineU' +
+            item.dataValues.idFacture +
+            '" hidden><input id="reglementFactureUpdate' +
+            item.dataValues.idFacture +
+            '" type="number" class="form-control" placeholder="avance" value="' +
+            (item.dataValues.total_reglement
+              ? parseFloat(item.dataValues.total_reglement)
+              : 0) +
+            '"/></p></td>';
+          retrait_table_body +=
+            "<td>" +
+            (
+              parseFloat(item.dataValues.montantTotalFacture) -
+              (item.dataValues.total_reglement
+                ? parseFloat(item.dataValues.total_reglement)
+                : 0)
+            ).toLocaleString() +
+            "</td>";
+          retrait_table_body +=
+            "<td>" +
+            item.dataValues.dateDepotFacture.toISOString().split("T")[0] +
+            "</td>";
+          retrait_table_body +=
+            "<td>" +
+            item.dataValues.dateRetraitFacture.toISOString().split("T")[0] +
+            "</td>";
+          // First Button
+          retrait_table_body +=
+            '<td><button id="updateButton_0" name="updateButtonName" onclick="toggleUpdateReglementFacture(' +
+            item.dataValues.idFacture +
+            "," +
+            (parseFloat(item.dataValues.montantTotalFacture) -
+              (item.dataValues.total_reglement
+                ? parseFloat(item.dataValues.total_reglement)
+                : 0)) +
+            ')" class="btn btn-success btn-md text_white" role="button">Payer</button>';
+          // Second Button
+          retrait_table_body +=
+            '<button onclick="" class="btn btn-danger btn-md text_white" role="button">Supp&nbsp;</button>';
+
+          retrait_table_body += "</td></tr>";
+        })
+        .join();
+
+      // Assigning `table_body` to the table id within the retrait screen
+      document.getElementById("depots_effectues_table_body").innerHTML =
+      depots_effectues_table_body;
 
       // Loading js files
       var js_ = document.createElement("script");
@@ -2426,7 +2595,7 @@ async function findAllService() {
 // Function to find one instance of a Service
 async function findOneService(data) {
   Service.findOne()
-    .then(() => { })
+    .then(() => {})
     .catch((err) => {
       console.log(err);
     });
@@ -2512,6 +2681,8 @@ contextBridge.exposeInMainWorld("electron", {
   updateOperateur: updateOperateur,
   deleteOperateur: deleteOperateur,
   // Function to Manage Retraits
+  findAllRetraits: findAllRetraits,
+  // Function to Manage Depots Effectues
   findAllFacture: findAllFacture,
   updateReglementFacture: updateReglementFacture,
   // Functions to Manage Service

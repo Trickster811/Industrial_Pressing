@@ -1,4 +1,4 @@
 // Function to load all Factures registered in the database
-window.electron.findAllRetraits();
+window.electron.findAllFacture();
 // Function to load Js Files
 loadJsFiles();

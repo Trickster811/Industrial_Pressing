@@ -1,4 +1,4 @@
-//alert(document.getElementById("CHF").value)
+//alert(0)
 date = new Date();
 m = date.getMonth() + 1;
 y = date.getFullYear();
@@ -10,20 +10,21 @@ d = "";
 // }
 window.electron.findAllClient_Creances();
 //window.electron.findAllCreances(y + "-01-01", y + "-12-31", "");
-window.electron.findAllCreances_CHF(0,y + "-01-01", y + "-12-31", "", document.getElementById("CHF").value);
+window.electron.findAllCreances_CHF(0, y + "-01-01", y + "-12-31", "", 0);
 
 function hidden_elememts() {
   if (document.getElementById("id_m").value == 0) {
     document.getElementById("btn_b").removeAttribute("hidden");
     document.getElementById("btn_a").removeAttribute("hidden");
     document.getElementById("btn_c").removeAttribute("hidden");
-    document.getElementById("champ_CHF").removeAttribute("hidden");
+    //document.getElementById("champ_CHF").removeAttribute("hidden");
     document.getElementById("id_m").value = 1
+    //alert(1)
   } else {
     document.getElementById("btn_b").setAttribute("hidden", "true");
     document.getElementById("btn_a").setAttribute("hidden", "true");
     document.getElementById("btn_c").setAttribute("hidden", "true");
-    document.getElementById("champ_CHF").setAttribute("hidden", "true");
+    // document.getElementById("champ_CHF").setAttribute("hidden", "true");
 
     document.getElementById("filtre_c").removeAttribute("hidden");
     document.getElementById("filtre_a").setAttribute("hidden", "true");
@@ -265,7 +266,7 @@ function Filtre_c() {
     window.electron.findAllCreances_CHF(1,
       debut,
       fin,
-      document.getElementById("client_CHF").value, document.getElementById("CHF").value
+      '', 0
     );
   } else {
     if (
@@ -292,7 +293,7 @@ function Filtre_c() {
       window.electron.findAllCreances_CHF(2,
         debut,
         fin,
-        document.getElementById("client_CHF").value, document.getElementById("CHF").value
+        '', 0
       );
     } else {
       if (
@@ -307,7 +308,7 @@ function Filtre_c() {
         window.electron.findAllCreances_CHF(3,
           debut,
           fin,
-          document.getElementById("client_CHF").value, document.getElementById("CHF").value
+          '', 0
         );
       } else {
         if (
@@ -419,7 +420,7 @@ function Filtre_c() {
   //     debut,
   //     fin,
   //     document.getElementById("client_c").value,
-  //     document.getElementById("CHF").value
+  //     0
   //   );
   // }
   // else {
@@ -449,6 +450,7 @@ function a() {
   document.getElementById("btn_a").style.background = "blue";
   document.getElementById("btn_b").style.background = "gray";
   document.getElementById("btn_c").style.background = "gray";
+  document.getElementById("id_m_").value = 0
 }
 
 function b() {
@@ -458,6 +460,7 @@ function b() {
   document.getElementById("btn_a").style.background = "gray";
   document.getElementById("btn_b").style.background = "blue";
   document.getElementById("btn_c").style.background = "gray";
+  document.getElementById("id_m_").value = 0
 
 }
 function c() {
@@ -467,6 +470,7 @@ function c() {
   document.getElementById("btn_c").style.background = "blue";
   document.getElementById("btn_b").style.background = "gray";
   document.getElementById("btn_a").style.background = "gray";
+  document.getElementById("id_m_").value = 1
 }
 
 function filtrer(a) {
@@ -544,80 +548,56 @@ function filtre_mois(a) {
 
 
 function imprimer() {
-  if (document.getElementById("id_I").value == "") {
-    titre = " Etat des créances de l'année " + y;
-    window.electron.generate_Creances_PDFFile(
-      y + "-01-01",
-      y + "-12-31",
-      0,
-      titre
-    );
-  } else {
-    if (document.getElementById("id_I").value == 1) {
-      if (
-        document.getElementById("debut").value != "" &&
-        document.getElementById("fin").value != ""
-      ) {
-        d = new Date(document.getElementById("debut").value);
-        f = new Date(document.getElementById("fin").value);
-        titre =
-          " Etat des créances allant du " +
-          d.toLocaleDateString("en-US") +
-          " au " +
-          f.toLocaleDateString("en-US");
-        window.electron.generate_Creances_PDFFile(
-          document.getElementById("debut").value,
-          document.getElementById("fin").value,
-          document.getElementById("client_a").value,
-          titre
-        );
-      }
-    } else {
-      mois = [
-        "",
-        "Janvier",
-        "Fevrier",
-        "Mars",
-        "Avril",
-        "Mai",
-        "Juin",
-        "Juillet",
-        "Août",
-        "Septembre",
-        "Octobre",
-        "Novembre",
-        "Decembre",
-      ];
+  mois = [
+    "",
+    "Janvier",
+    "Fevrier",
+    "Mars",
+    "Avril",
+    "Mai",
+    "Juin",
+    "Juillet",
+    "Août",
+    "Septembre",
+    "Octobre",
+    "Novembre",
+    "Decembre",
+  ];
+  if (document.getElementById("id_m").value == 1 && document.getElementById("id_m_").value == 0) {
 
-      if (
-        document.getElementById("day").value != "" &&
-        document.getElementById("month").value != "" &&
-        document.getElementById("year").value != ""
-      ) {
-        debut =
-          document.getElementById("year").value +
-          "-" +
-          document.getElementById("month").value[0] +
-          document.getElementById("month").value[1] +
-          "-" +
-          document.getElementById("day").value;
-        fin =
-          document.getElementById("year").value +
-          "-" +
-          document.getElementById("month").value[0] +
-          document.getElementById("month").value[1] +
-          "-" +
-          document.getElementById("day").value;
-        titre = "Etat des créances du " + debut;
-        window.electron.generate_Creances_PDFFile(
-          debut,
-          fin,
-          document.getElementById("client_b").value,
-          titre
-        );
-      } else {
+    if (document.getElementById("id_I").value == "") {
+      titre = " Etat des créances de l'année " + y;
+      window.electron.generate_Creances_PDFFile(
+        y + "-01-01",
+        y + "-12-31",
+        0,
+        titre
+      );
+    } else {
+      if (document.getElementById("id_I").value == 1) {
         if (
-          document.getElementById("day").value == "" &&
+          document.getElementById("debut").value != "" &&
+          document.getElementById("fin").value != ""
+        ) {
+          d = new Date(document.getElementById("debut").value);
+          f = new Date(document.getElementById("fin").value);
+          titre =
+            " Etat des créances allant du " +
+            d.toLocaleDateString("en-US") +
+            " au " +
+            f.toLocaleDateString("en-US");
+          window.electron.generate_Creances_PDFFile(
+            document.getElementById("debut").value,
+            document.getElementById("fin").value,
+            document.getElementById("client_a").value,
+            titre
+          );
+        }
+      } else {
+        
+
+        if (
+          document.getElementById("day").value != "" &&
           document.getElementById("month").value != "" &&
           document.getElementById("year").value != ""
         ) {
@@ -627,19 +607,15 @@ function imprimer() {
             document.getElementById("month").value[0] +
             document.getElementById("month").value[1] +
             "-" +
-            "01";
+            document.getElementById("day").value;
           fin =
             document.getElementById("year").value +
             "-" +
             document.getElementById("month").value[0] +
             document.getElementById("month").value[1] +
             "-" +
-            "31";
-          titre =
-            "Etat des créances du mois de " +
-            mois[parseInt(document.getElementById("month").value[1])] +
-            " " +
-            document.getElementById("year").value;
+            document.getElementById("day").value;
+          titre = "Etat des créances du " + debut;
           window.electron.generate_Creances_PDFFile(
             debut,
             fin,
@@ -649,15 +625,27 @@ function imprimer() {
         } else {
           if (
             document.getElementById("day").value == "" &&
-            document.getElementById("month").value == "" &&
+            document.getElementById("month").value != "" &&
             document.getElementById("year").value != ""
           ) {
             debut =
-              document.getElementById("year").value + "-" + "01" + "-" + "01";
+              document.getElementById("year").value +
+              "-" +
+              document.getElementById("month").value[0] +
+              document.getElementById("month").value[1] +
+              "-" +
+              "01";
             fin =
-              document.getElementById("year").value + "-" + "12" + "-" + "31";
+              document.getElementById("year").value +
+              "-" +
+              document.getElementById("month").value[0] +
+              document.getElementById("month").value[1] +
+              "-" +
+              "31";
             titre =
-              "Etat des créances de l'année " +
+              "Etat des créances du mois de " +
+              mois[parseInt(document.getElementById("month").value[1])] +
+              " " +
               document.getElementById("year").value;
             window.electron.generate_Creances_PDFFile(
               debut,
@@ -665,7 +653,112 @@ function imprimer() {
               document.getElementById("client_b").value,
               titre
             );
+          } else {
+            if (
+              document.getElementById("day").value == "" &&
+              document.getElementById("month").value == "" &&
+              document.getElementById("year").value != ""
+            ) {
+              debut =
+                document.getElementById("year").value + "-" + "01" + "-" + "01";
+              fin =
+                document.getElementById("year").value + "-" + "12" + "-" + "31";
+              titre =
+                "Etat des créances de l'année " +
+                document.getElementById("year").value;
+              window.electron.generate_Creances_PDFFile(
+                debut,
+                fin,
+                document.getElementById("client_b").value,
+                titre
+              );
+            }
           }
+        }
+      }
+    }
+  } else {
+    
+
+    if (
+      document.getElementById("day_CHF").value != "" &&
+      document.getElementById("month_CHF").value != "" &&
+      document.getElementById("year_CHF").value != ""
+    ) {
+      //alert(" cas 1: Day: " + document.getElementById("day_CHF").value + "Month: " + document.getElementById("month_CHF").value + " year: " + document.getElementById("year_CHF").value)
+      debut =
+        document.getElementById("year_CHF").value +
+        "-" +
+        document.getElementById("month_CHF").value[0] +
+        document.getElementById("month_CHF").value[1] +
+        "-" +
+        document.getElementById("day_CHF").value;
+      fin =
+        document.getElementById("year_CHF").value +
+        "-" +
+        document.getElementById("month_CHF").value[0] +
+        document.getElementById("month_CHF").value[1] +
+        "-" +
+        document.getElementById("day_CHF").value;
+      //alert("debut: " + debut + " fin: " + fin)
+      window.electron.generate_Creances_PDFFile_CHF(1,
+        debut,
+        fin,
+        document.getElementById("client_CHF").value, titre
+      );
+    } else {
+      if (
+        document.getElementById("day_CHF").value == "" &&
+        document.getElementById("month_CHF").value != "" &&
+        document.getElementById("year_CHF").value != ""
+      ) {
+        //alert("cas 2: Month: " + document.getElementById("month_CHF").value + " year: " + document.getElementById("year_CHF").value)
+        debut =
+          document.getElementById("year_CHF").value +
+          "-" +
+          document.getElementById("month_CHF").value[0] +
+          document.getElementById("month_CHF").value[1] +
+          "-" +
+          "01";
+        fin =
+          document.getElementById("year_CHF").value +
+          "-" +
+          document.getElementById("month_CHF").value[0] +
+          document.getElementById("month_CHF").value[1] +
+          "-" +
+          "31";
+          titre =
+              "Etat des créances du mois de " +
+              mois[parseInt(document.getElementById("month_CHF").value[1])] +
+              " " +
+              document.getElementById("year_CHF").value;
+        //alert("debut: " + debut + " fin: " + fin)
+        window.electron.generate_Creances_PDFFile_CHF(2,
+          debut,
+          fin,
+          '', titre
+        );
+      } else {
+        if (
+          document.getElementById("day_CHF").value == "" &&
+          document.getElementById("month_CHF").value == "" &&
+          document.getElementById("year_CHF").value != ""
+        ) {
+          
+          y = document.getElementById("year_CHF").value != '' ? document.getElementById("year_CHF").value : y
+          titre = " Etat des créances de l'année " + y;
+          
+          //alert("cas 3:  year: " + document.getElementById("year_CHF").value)
+          debut = document.getElementById("year_CHF").value + "-" + "01" + "-" + "01";
+          fin = document.getElementById("year_CHF").value + "-" + "12" + "-" + "31";
+          
+          //alert("debut: " + debut + " fin: " + fin)
+          //alert("eee")
+          window.electron.generate_Creances_PDFFile_CHF(3,
+            debut,
+            fin,
+            '', titre
+          );
         }
       }
     }

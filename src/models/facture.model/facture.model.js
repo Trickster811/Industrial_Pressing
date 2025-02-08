@@ -24,7 +24,7 @@ const Facture = sequelize.define(
       allowNull: false,
     },
     montantTotalFacture: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.DOUBLE,
       allowNull: false,
     },
   },

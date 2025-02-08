@@ -85,9 +85,9 @@ function AddRow() {
     n +
     ')"></select>';
   cell4.innerHTML =
-    '<select id="clothe_description' +
+    '<input id="clothe_description' +
     n +
-    '" class="form-control js-example-basic-single" style="width: 100%;" onchange="" disabled></select>';
+    '" type="text" class="form-control" value="RAS" />';
   cell5.innerHTML =
     '<select id="clothe_priceUnitary' +
     n +
@@ -294,6 +294,4 @@ function loadJsFiles() {
 }
 
 // Function to update Withdraw date
-function withdrawDateUpdate() {
-  
-}
+function withdrawDateUpdate() {}

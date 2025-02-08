@@ -13,7 +13,7 @@ const ReglementFacture = sequelize.define(
       allowNull: false,
     },
     montantReglementFacture: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.DOUBLE,
       allowNull: false,
     },
     dateReglementFacture: {

@@ -460,7 +460,7 @@ async function findAllCreances(debut, fin, cli) {
             '<td><p name="-"  >' +
             Number(
               item.dataValues.montantTotalFacture -
-              item.dataValues.total_reglement
+                item.dataValues.total_reglement
             ).toLocaleString() +
             "</p></td>";
           // Seventh Column
@@ -478,7 +478,7 @@ async function findAllCreances(debut, fin, cli) {
         .join();
       //console.log(table_body)
       // Assigning `table_body` to the table id within the client screen
-      document.getElementById("creance_table_body").innerHTML = '';
+      document.getElementById("creance_table_body").innerHTML = "";
       document.getElementById("creance_table_body").innerHTML = table_body;
 
       if (n == 0) {
@@ -566,12 +566,11 @@ function find_C(tableau, num, tb, nn, depot, total, avance, reste) {
             "<=",
             tableau[num][1]
           ),
-          
-             
+
           ,
         ],
         idClient: tableau[num][2],
-        etatFacture : 1
+        etatFacture: 1,
       },
       group: ["Facture.idFacture", "Client.idClient", "Service.idService"],
     };
@@ -612,10 +611,9 @@ function find_C(tableau, num, tb, nn, depot, total, avance, reste) {
             tableau[num][1]
           ),
         ],
-        etatFacture : 1
+        etatFacture: 1,
       },
       group: ["Facture.idFacture", "Client.idClient", "Service.idService"],
-      
     };
   }
 
@@ -724,7 +722,7 @@ function find_C(tableau, num, tb, nn, depot, total, avance, reste) {
             '<td><p name="-"  >' +
             Number(
               item.dataValues.montantTotalFacture -
-              item.dataValues.total_reglement
+                item.dataValues.total_reglement
             ).toLocaleString() +
             "</p></td>";
           // Seventh Column
@@ -872,37 +870,103 @@ function find_C(tableau, num, tb, nn, depot, total, avance, reste) {
 async function findAllCreances_CHF(cas, debut, fin, cli, CHF) {
   document.getElementById("creance_table_body").innerHTML = "";
   //alert(tab_chf[1])
-  sequelize
-    .query("SELECT * FROM `ChiffreAffaire` ", {
-      type: sequelize.QueryTypes.SELECT,
-    })
+  // sequelize
+  //   .query("SELECT * FROM `ChiffreAffaire` ", {
+  //     type: sequelize.QueryTypes.SELECT,
+  //   })
+  let tab;
+  ChiffreAffaire.findAll()
     .then((b) => {
-
       b.map((e) => {
-        tab_chf = ["", e.janvierChiffreAffaire, e.fevrierChiffreAffaire, e.marsChiffreAffaire, e.avrilChiffreAffaire, e.maiChiffreAffaire, e.juinChiffreAffaire, e.juilletChiffreAffaire, e.aoutChiffreAffaire, e.septembreChiffreAffaire, e.octobreChiffreAffaire, e.novembreChiffreAffaire, e.decembreChiffreAffaire]
+        tab_chf = [
+          "",
+          e.janvierChiffreAffaire,
+          e.fevrierChiffreAffaire,
+          e.marsChiffreAffaire,
+          e.avrilChiffreAffaire,
+          e.maiChiffreAffaire,
+          e.juinChiffreAffaire,
+          e.juilletChiffreAffaire,
+          e.aoutChiffreAffaire,
+          e.septembreChiffreAffaire,
+          e.octobreChiffreAffaire,
+          e.novembreChiffreAffaire,
+          e.decembreChiffreAffaire,
+        ];
 
         if (cas == 3 || cas == 0) {
           tab = [
-            [y + "-01-01", y + "-01-31", cli, e.janvierChiffreAffaire, "janvier"],
-            [y + "-02-01", y + "-02-31", cli, e.fevrierChiffreAffaire, "fevrier"],
+            [
+              y + "-01-01",
+              y + "-01-31",
+              cli,
+              e.janvierChiffreAffaire,
+              "janvier",
+            ],
+            [
+              y + "-02-01",
+              y + "-02-31",
+              cli,
+              e.fevrierChiffreAffaire,
+              "fevrier",
+            ],
             [y + "-03-01", y + "-03-31", cli, e.marsChiffreAffaire, "mars"],
             [y + "-04-01", y + "-04-31", cli, e.avrilChiffreAffaire, "avril"],
             [y + "-05-01", y + "-05-31", cli, e.maiChiffreAffaire, "mai"],
             [y + "-06-01", y + "-06-31", cli, e.juinChiffreAffaire, "juin"],
-            [y + "-07-01", y + "-07-31", cli, e.juilletChiffreAffaire, "juillet"],
+            [
+              y + "-07-01",
+              y + "-07-31",
+              cli,
+              e.juilletChiffreAffaire,
+              "juillet",
+            ],
             [y + "-08-01", y + "-08-31", cli, e.aoutChiffreAffaire, "aout"],
-            [y + "-09-01", y + "-09-31", cli, e.septembreChiffreAffaire, "septembre"],
-            [y + "-10-01", y + "-10-31", cli, e.octobreChiffreAffaire, "octobre"],
-            [y + "-11-01", y + "-11-31", cli, e.novembreChiffreAffaire, "novembre"],
-            [y + "-12-01", y + "-12-31", cli, e.decembreChiffreAffaire, "decembre"],
+            [
+              y + "-09-01",
+              y + "-09-31",
+              cli,
+              e.septembreChiffreAffaire,
+              "septembre",
+            ],
+            [
+              y + "-10-01",
+              y + "-10-31",
+              cli,
+              e.octobreChiffreAffaire,
+              "octobre",
+            ],
+            [
+              y + "-11-01",
+              y + "-11-31",
+              cli,
+              e.novembreChiffreAffaire,
+              "novembre",
+            ],
+            [
+              y + "-12-01",
+              y + "-12-31",
+              cli,
+              e.decembreChiffreAffaire,
+              "decembre",
+            ],
           ];
         } else {
-          tab = [[debut, fin, cli, tab_chf[parseInt(document.getElementById("month_CHF").value[0] +
-            document.getElementById("month_CHF").value[1])], "/"]];
-
-
+          tab = [
+            [
+              debut,
+              fin,
+              cli,
+              tab_chf[
+                parseInt(
+                  document.getElementById("month_CHF").value[0] +
+                    document.getElementById("month_CHF").value[1]
+                )
+              ],
+              "/",
+            ],
+          ];
         }
-
       }).join();
       //alert(tab)
       ind = 0;
@@ -910,14 +974,9 @@ async function findAllCreances_CHF(cas, debut, fin, cli, CHF) {
       nn = 0;
       total = depot = avance = reste = 0;
       find_C(tab, ind, tb, nn, depot, total, avance, reste);
-
-
     })
     .catch((error) => {
-      console.error(
-        "Failed to retrieve chiffre d'affaire data : ",
-        error
-      );
+      console.error("Failed to retrieve chiffre d'affaire data : ", error);
     });
 
   // d = y + "-01-01"
@@ -927,7 +986,6 @@ async function findAllCreances_CHF(cas, debut, fin, cli, CHF) {
 
   // d = y + "-02-01"
   // f = y + "-02-31"
-
 
   if (cli != 0) {
     //alert(tableau[num][2])
@@ -968,7 +1026,7 @@ async function findAllCreances_CHF(cas, debut, fin, cli, CHF) {
           ),
         ],
         idClient: cli,
-        etatFacture : 1
+        etatFacture: 1,
       },
       group: ["Facture.idFacture", "Client.idClient", "Service.idService"],
     };
@@ -1009,13 +1067,13 @@ async function findAllCreances_CHF(cas, debut, fin, cli, CHF) {
             fin
           ),
         ],
-        etatFacture : 1
+        etatFacture: 1,
       },
       group: ["Facture.idFacture", "Client.idClient", "Service.idService"],
     };
   }
 
-  Facture.findAll(condition_date).then(async (data) => { });
+  Facture.findAll(condition_date).then(async (data) => {});
   //     var table_body = "",
   //       n = 0;
   //     i = 0;
@@ -1272,7 +1330,7 @@ async function findAllCreancesByExercieYear(anneExercice, chiffreAffraire) {
             '<td><p name="-"  >' +
             Number(
               item.dataValues.montantTotalFacture -
-              item.dataValues.total_reglement
+                item.dataValues.total_reglement
             ).toLocaleString() +
             "</p></td>";
           // Seventh Column
@@ -1523,15 +1581,22 @@ async function generate_Creances_PDFFile(debut, fin, cli, t) {
     });
 }
 
-
-
-
-
 ////////////////////////////////////////////////////////
 
-
-function find_C_(tableau, num, tb, nn, depot, total, avance, reste, titre, t_, t__) {
-//alert(t)
+function find_C_(
+  tableau,
+  num,
+  tb,
+  nn,
+  depot,
+  total,
+  avance,
+  reste,
+  titre,
+  t_,
+  t__
+) {
+  //alert(t)
 
   if (tableau[num][2] != 0) {
     //alert(tableau[num][2])
@@ -1572,7 +1637,7 @@ function find_C_(tableau, num, tb, nn, depot, total, avance, reste, titre, t_, t
           ),
         ],
         idClient: tableau[num][2],
-        etatFacture : 1
+        etatFacture: 1,
       },
       group: ["Facture.idFacture", "Client.idClient", "Service.idService"],
     };
@@ -1613,7 +1678,7 @@ function find_C_(tableau, num, tb, nn, depot, total, avance, reste, titre, t_, t
             tableau[num][1]
           ),
         ],
-        etatFacture : 1
+        etatFacture: 1,
       },
       group: ["Facture.idFacture", "Client.idClient", "Service.idService"],
     };
@@ -1623,7 +1688,6 @@ function find_C_(tableau, num, tb, nn, depot, total, avance, reste, titre, t_, t
 
   Facture.findAll(condition_date)
     .then(async (data) => {
-
       (table_body = []), (n = 0);
       i = 0;
       tab = [];
@@ -1689,7 +1753,7 @@ function find_C_(tableau, num, tb, nn, depot, total, avance, reste, titre, t_, t
           total += item.dataValues.montantTotalFacture;
           n++;
           nn++;
-          table_body.push(item)
+          table_body.push(item);
 
           dtd = item.dataValues.dateDepotFacture.toLocaleDateString("en-US");
           dtr = item.dataValues.dateRetraitFacture.toLocaleDateString("en-US");
@@ -1706,41 +1770,48 @@ function find_C_(tableau, num, tb, nn, depot, total, avance, reste, titre, t_, t
         //d.push()
 
         //alert(d)
-        table_body.push(data[data.length - 1])
+        table_body.push(data[data.length - 1]);
         //alert( table_body[table_body.length-1].montantTotalFacture - table_body[table_body.length-1].total_reglement)
-        t__[num] = tableau[num][3] - tt
+        t__[num] = tableau[num][3] - tt;
 
         depot++;
         total += tableau[num][3] - tt;
         reste += tableau[num][3] - tt;
       }
 
-
       if (num != tableau.length - 1) {
         // alert(num)
         table_body
           .map((item) => {
-
-            tb.push(item)
-
+            tb.push(item);
           })
           .join();
-        t_[num] = tb.length
+        t_[num] = tb.length;
         //tb += table_body;
         //alert(t)
-        find_C_(tableau, num + 1, tb, nn, depot, total, avance, reste, titre, t_, t__);
+        find_C_(
+          tableau,
+          num + 1,
+          tb,
+          nn,
+          depot,
+          total,
+          avance,
+          reste,
+          titre,
+          t_,
+          t__
+        );
       } else {
         //tb += table_body;
 
         //alert(table_body)
         table_body
           .map((item) => {
-
-            tb.push(item)
-
+            tb.push(item);
           })
           .join();
-        t_[num] = tb.length
+        t_[num] = tb.length;
         generatePDFFile_CHF(
           tb,
           debut,
@@ -1753,9 +1824,6 @@ function find_C_(tableau, num, tb, nn, depot, total, avance, reste, titre, t_, t
           t_,
           t__
         );
-
-
-
       }
     })
     .catch((err) => {
@@ -1764,61 +1832,115 @@ function find_C_(tableau, num, tb, nn, depot, total, avance, reste, titre, t_, t
 }
 //////////////////////////////////////////////////
 
-
 async function generate_Creances_PDFFile_CHF(cas, debut, fin, cli, t) {
-
-
   sequelize
     .query("SELECT * FROM `ChiffreAffaire` ", {
       type: sequelize.QueryTypes.SELECT,
     })
     .then((b) => {
-
       b.map((e) => {
-        tab_chf = ["", e.janvierChiffreAffaire, e.fevrierChiffreAffaire, e.marsChiffreAffaire, e.avrilChiffreAffaire, e.maiChiffreAffaire, e.juinChiffreAffaire, e.juilletChiffreAffaire, e.aoutChiffreAffaire, e.septembreChiffreAffaire, e.octobreChiffreAffaire, e.novembreChiffreAffaire, e.decembreChiffreAffaire]
+        tab_chf = [
+          "",
+          e.janvierChiffreAffaire,
+          e.fevrierChiffreAffaire,
+          e.marsChiffreAffaire,
+          e.avrilChiffreAffaire,
+          e.maiChiffreAffaire,
+          e.juinChiffreAffaire,
+          e.juilletChiffreAffaire,
+          e.aoutChiffreAffaire,
+          e.septembreChiffreAffaire,
+          e.octobreChiffreAffaire,
+          e.novembreChiffreAffaire,
+          e.decembreChiffreAffaire,
+        ];
 
         if (cas == 3 || cas == 0) {
           tab = [
-            [y + "-01-01", y + "-01-31", cli, e.janvierChiffreAffaire, "janvier"],
-            [y + "-02-01", y + "-02-31", cli, e.fevrierChiffreAffaire, "fevrier"],
+            [
+              y + "-01-01",
+              y + "-01-31",
+              cli,
+              e.janvierChiffreAffaire,
+              "janvier",
+            ],
+            [
+              y + "-02-01",
+              y + "-02-31",
+              cli,
+              e.fevrierChiffreAffaire,
+              "fevrier",
+            ],
             [y + "-03-01", y + "-03-31", cli, e.marsChiffreAffaire, "mars"],
             [y + "-04-01", y + "-04-31", cli, e.avrilChiffreAffaire, "avril"],
             [y + "-05-01", y + "-05-31", cli, e.maiChiffreAffaire, "mai"],
             [y + "-06-01", y + "-06-31", cli, e.juinChiffreAffaire, "juin"],
-            [y + "-07-01", y + "-07-31", cli, e.juilletChiffreAffaire, "juillet"],
+            [
+              y + "-07-01",
+              y + "-07-31",
+              cli,
+              e.juilletChiffreAffaire,
+              "juillet",
+            ],
             [y + "-08-01", y + "-08-31", cli, e.aoutChiffreAffaire, "aout"],
-            [y + "-09-01", y + "-09-31", cli, e.septembreChiffreAffaire, "septembre"],
-            [y + "-10-01", y + "-10-31", cli, e.octobreChiffreAffaire, "octobre"],
-            [y + "-11-01", y + "-11-31", cli, e.novembreChiffreAffaire, "novembre"],
-            [y + "-12-01", y + "-12-31", cli, e.decembreChiffreAffaire, "decembre"],
+            [
+              y + "-09-01",
+              y + "-09-31",
+              cli,
+              e.septembreChiffreAffaire,
+              "septembre",
+            ],
+            [
+              y + "-10-01",
+              y + "-10-31",
+              cli,
+              e.octobreChiffreAffaire,
+              "octobre",
+            ],
+            [
+              y + "-11-01",
+              y + "-11-31",
+              cli,
+              e.novembreChiffreAffaire,
+              "novembre",
+            ],
+            [
+              y + "-12-01",
+              y + "-12-31",
+              cli,
+              e.decembreChiffreAffaire,
+              "decembre",
+            ],
           ];
         } else {
-          tab = [[debut, fin, cli, tab_chf[parseInt(document.getElementById("month_CHF").value[0] +
-            document.getElementById("month_CHF").value[1])], "/"]];
-
-
+          tab = [
+            [
+              debut,
+              fin,
+              cli,
+              tab_chf[
+                parseInt(
+                  document.getElementById("month_CHF").value[0] +
+                    document.getElementById("month_CHF").value[1]
+                )
+              ],
+              "/",
+            ],
+          ];
         }
-
       }).join();
       //alert(t)
       ind = 0;
       tb = [];
-      let t_n = ['', '', '', '', '', '', '', '', '', '', '', '']
-      let t_n_ = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
+      let t_n = ["", "", "", "", "", "", "", "", "", "", "", ""];
+      let t_n_ = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1];
       nn = 0;
       total = depot = avance = reste = 0;
       find_C_(tab, ind, tb, nn, depot, total, avance, reste, t, t_n, t_n_);
-
-
     })
     .catch((error) => {
-      console.error(
-        "Failed to retrieve chiffre d'affaire data : ",
-        error
-      );
+      console.error("Failed to retrieve chiffre d'affaire data : ", error);
     });
-
-
 }
 
 const generatePDFFile_CHF = (data, d, f, titre, cli, t, a, r, t_, t__) => {
@@ -1861,7 +1983,7 @@ const generatePDFFile_CHF = (data, d, f, titre, cli, t, a, r, t_, t__) => {
   var body = [];
 
   console.log(data);
-  i = rst = counter = tt = tr = 0
+  i = rst = counter = tt = tr = 0;
 
   for (depot of data) {
     //alert(counter)
@@ -1870,33 +1992,33 @@ const generatePDFFile_CHF = (data, d, f, titre, cli, t, a, r, t_, t__) => {
     //   depot.dataValues.total_reglement
     // ))
 
-    if (t_[i] == counter+1) {
+    if (t_[i] == counter + 1) {
       if (t__[i] != -1) {
-        rst = 0
-        tt = t__[i]
-        tr = t__[i]
+        rst = 0;
+        tt = t__[i];
+        tr = t__[i];
       } else {
-
-        rst = parseFloat(depot.dataValues.montantTotalFacture) -
-          parseFloat(
-            depot.dataValues.total_reglement
-          )
-        tt = depot.dataValues.montantTotalFacture
-        tr = depot.dataValues.total_reglement ? depot.dataValues.total_reglement : 0
-
+        rst =
+          parseFloat(depot.dataValues.montantTotalFacture) -
+          parseFloat(depot.dataValues.total_reglement);
+        tt = depot.dataValues.montantTotalFacture;
+        tr = depot.dataValues.total_reglement
+          ? depot.dataValues.total_reglement
+          : 0;
       }
 
-      i++
+      i++;
     } else {
-      rst = parseFloat(depot.dataValues.montantTotalFacture) -
-      parseFloat(
-        depot.dataValues.total_reglement
-      )
-    tt = depot.dataValues.montantTotalFacture
-    tr = depot.dataValues.total_reglement ? depot.dataValues.total_reglement : 0
+      rst =
+        parseFloat(depot.dataValues.montantTotalFacture) -
+        parseFloat(depot.dataValues.total_reglement);
+      tt = depot.dataValues.montantTotalFacture;
+      tr = depot.dataValues.total_reglement
+        ? depot.dataValues.total_reglement
+        : 0;
     }
     body.push([
-      counter+1,
+      counter + 1,
       depot.dataValues.Client.nomClient,
       depot.dataValues.Client.phoneClient,
       tt,
@@ -1905,7 +2027,7 @@ const generatePDFFile_CHF = (data, d, f, titre, cli, t, a, r, t_, t__) => {
       depot.dataValues.dateDepotFacture.toLocaleDateString("en-US"),
       depot.dataValues.dateRetraitFacture.toLocaleDateString("en-US"),
     ]);
-    counter++
+    counter++;
   }
 
   // New Header and Footer Data Include the table
@@ -2013,8 +2135,6 @@ const generatePDFFile_CHF = (data, d, f, titre, cli, t, a, r, t_, t__) => {
   window.open(absolutePdfFilePath);
 };
 
-
-
 const generatePDFFile = (data, d, f, titre, cli, t, a, r) => {
   //alert(titre)
   const date = new Date();
@@ -2055,7 +2175,7 @@ const generatePDFFile = (data, d, f, titre, cli, t, a, r) => {
   var body = [];
 
   console.log(data);
-  counter = 0
+  counter = 0;
 
   for (depot of data) {
     //alert(counter)
@@ -2064,21 +2184,18 @@ const generatePDFFile = (data, d, f, titre, cli, t, a, r) => {
     //   depot.dataValues.total_reglement
     // ))
 
-   
     body.push([
-      counter+1,
+      counter + 1,
       depot.dataValues.Client.nomClient,
       depot.dataValues.Client.phoneClient,
       depot.dataValues.montantTotalFacture,
       depot.dataValues.total_reglement ? depot.dataValues.total_reglement : 0,
       parseFloat(depot.dataValues.montantTotalFacture) -
-      parseFloat(
-        depot.dataValues.total_reglement
-      ),
+        parseFloat(depot.dataValues.total_reglement),
       depot.dataValues.dateDepotFacture.toLocaleDateString("en-US"),
       depot.dataValues.dateRetraitFacture.toLocaleDateString("en-US"),
     ]);
-    counter++
+    counter++;
   }
 
   // New Header and Footer Data Include the table
@@ -2288,7 +2405,7 @@ async function findAllChiffreAffaire() {
 // Function to find one instance of a ChiffreAffaire
 async function findOneChiffreAffaire(data) {
   ChiffreAffaire.findOne()
-    .then(() => { })
+    .then(() => {})
     .catch((err) => {
       console.log(err);
     });
@@ -2484,7 +2601,7 @@ async function findAllClient() {
 // Function to find one instance of a Client
 async function findOneClient(data) {
   Client.findOne()
-    .then(() => { })
+    .then(() => {})
     .catch((err) => {
       console.log(err);
     });
@@ -2700,7 +2817,7 @@ async function findAllServiceFacture() {
 async function createFacture(data) {
   Facture.create(data.depotData)
     .then((result) => {
-      // console.log(result);
+      console.log(result);
       if (data.reglementData) {
         ReglementFacture.create({
           montantReglementFacture: data.reglementData,
@@ -2708,7 +2825,7 @@ async function createFacture(data) {
           dateReglementFacture: new Date(),
         })
 
-          .then(() => { })
+          .then(() => {})
           .catch((errno) => {
             console.log("Error Reglement: " + errno);
             console.log(errno);
@@ -2716,7 +2833,7 @@ async function createFacture(data) {
       }
       // Add each article in the created `Facture` instance
       data.lingeData.map((element) => {
-        console.log(element);
+        console.log(result.dataValues.idFacture);
         FactureLinge.create({
           idFacture: result.dataValues.idFacture,
           idLinge: element.idClothe,
@@ -2863,7 +2980,7 @@ async function findAllLinge() {
 // Function to find one instance of a Linge
 async function findOneLinge(data) {
   Linge.findOne()
-    .then(() => { })
+    .then(() => {})
     .catch((err) => {
       console.log(err);
     });
@@ -3050,7 +3167,7 @@ async function findAllOperateur() {
 // Function to find one instance of a Operateur
 async function findOneOperateur(data) {
   Operateur.findOne()
-    .then(() => { })
+    .then(() => {})
     .catch((err) => {
       console.log(err);
     });
@@ -3272,7 +3389,7 @@ async function findAllRetraits() {
 // ////////////////////////////////////////////////////////////////////////////// //
 
 // Function to find all instances of Facture
-async function findAllFacture() {
+async function findAllFacture(pickedDate) {
   Facture.findAll({
     attributes: {
       include: [
@@ -3298,7 +3415,14 @@ async function findAllFacture() {
       },
     ],
     where: {
-      etatFacture: false,
+      [Op.and]: [
+        sequelize.where(
+          sequelize.fn("date", sequelize.col("dateDepotFacture")),
+          "=",
+          sequelize.fn("date", new Date(pickedDate))
+        ),
+        { etatFacture: false },
+      ],
     },
     order: [["dateDepotFacture", "DESC"]],
     group: [
@@ -3356,27 +3480,29 @@ async function findAllFacture() {
       document.getElementById("totalRemainingAmount").innerHTML =
         totalAmount && totalReglementFactureAmount
           ? (
-            parseFloat(totalAmount) - parseFloat(totalReglementFactureAmount)
-          ).toLocaleString() + " FCFA"
+              parseFloat(totalAmount) - parseFloat(totalReglementFactureAmount)
+            ).toLocaleString() + " FCFA"
           : "-- --";
 
       // Filling the table with the list of Factures
       data
         // .reverse()
         .map(async (item) => {
-          retrait_table_body += "<tr>";
-          retrait_table_body += '<th scope="row">';
-          retrait_table_body +=
+          let data = item.dataValues;
+          depots_effectues_table_body += "<tr>";
+          depots_effectues_table_body += '<th scope="row">';
+          depots_effectues_table_body +=
             '<a href="#" class="question_content">' +
             item.Client.nomClient +
             "</a>";
-          retrait_table_body += "</th>";
-          retrait_table_body += "<td>" + item.Client.phoneClient + "</td>";
-          retrait_table_body +=
+          depots_effectues_table_body += "</th>";
+          depots_effectues_table_body +=
+            "<td>" + item.Client.phoneClient + "</td>";
+          depots_effectues_table_body +=
             "<td>" +
             item.dataValues.montantTotalFacture.toLocaleString() +
             "</td>";
-          retrait_table_body +=
+          depots_effectues_table_body +=
             '<td><p name="line' +
             item.dataValues.idFacture +
             '">' +
@@ -3392,7 +3518,7 @@ async function findAllFacture() {
               ? parseFloat(item.dataValues.total_reglement)
               : 0) +
             '"/></p></td>';
-          retrait_table_body +=
+          depots_effectues_table_body +=
             "<td>" +
             (
               parseFloat(item.dataValues.montantTotalFacture) -
@@ -3401,16 +3527,16 @@ async function findAllFacture() {
                 : 0)
             ).toLocaleString() +
             "</td>";
-          retrait_table_body +=
+          depots_effectues_table_body +=
             "<td>" +
             item.dataValues.dateDepotFacture.toISOString().split("T")[0] +
             "</td>";
-          retrait_table_body +=
+          depots_effectues_table_body +=
             "<td>" +
             item.dataValues.dateRetraitFacture.toISOString().split("T")[0] +
             "</td>";
           // First Button
-          retrait_table_body +=
+          depots_effectues_table_body +=
             '<td><button id="updateButton_0" name="updateButtonName" onclick="toggleUpdateReglementFacture(' +
             item.dataValues.idFacture +
             "," +
@@ -3420,10 +3546,12 @@ async function findAllFacture() {
                 : 0)) +
             ')" class="btn btn-success btn-md text_white" role="button">Payer</button>';
           // Second Button
-          retrait_table_body +=
-            '<button onclick="" class="btn btn-danger btn-md text_white" role="button">Supp&nbsp;</button>';
+          depots_effectues_table_body +=
+            '<button id="printButton" onclick="printFacture(' +
+            item.dataValues.idFacture +
+            ')" class="btn btn-primary btn-md text_white" role="button">Imprimer</button>';
 
-          retrait_table_body += "</td></tr>";
+          depots_effectues_table_body += "</td></tr>";
         })
         .join();
 
@@ -3481,6 +3609,230 @@ async function updateReglementFacture(data, remainingAmount) {
     );
   }
   findAllFacture();
+}
+
+// Function to create Facture pdf to print
+async function generateFacturePDFFile(id_facture) {
+  console.log(typeof id_facture);
+  let factureData = await Facture.findOne({
+    where: {
+      idFacture: id_facture,
+    },
+    attributes: {
+      include: [
+        [
+          sequelize.fn(
+            "sum",
+            sequelize.col("ReglementFactures.montantReglementFacture")
+          ),
+          "total_reglement",
+        ],
+      ],
+    },
+    include: [
+      {
+        model: Linge,
+        // as: "Linges",
+        // attributes: ["codeLinge", "designationLinge", "montantLinge"],
+        // through: {
+        //   attributes: ["descriptionLinge"],
+        // },
+      },
+      {
+        model: Client,
+        attributes: ["nomClient", "phoneClient"],
+      },
+      Service,
+      {
+        model: ReglementFacture,
+        as: "ReglementFactures",
+        required: false,
+      },
+    ],
+    group: [
+      "Facture.idFacture",
+      "Client.idClient",
+      "Service.idService",
+      "ReglementFactures.idReglementFacture",
+      "Linges.idLinge",
+      "Linges->FactureLinge.idFactureLinge",
+    ],
+  });
+  console.log(factureData);
+
+  //alert(titre)
+  const date = new Date();
+  const [month, day, year] = [
+    date.getMonth() + 1,
+    date.getDate(),
+    date.getFullYear(),
+  ];
+  const [hour, minutes, seconds] = [
+    date.getHours(),
+    date.getMinutes(),
+    date.getSeconds(),
+  ];
+
+  const addFooters = (doc) => {
+    const pageCount = doc.internal.getNumberOfPages();
+    doc.setFont("helvetica", "italic");
+    doc.setFontSize(8);
+    for (var i = 1; i <= pageCount; i++) {
+      doc.setPage(i);
+      doc.text(
+        "Page " + String(i) + " / " + String(pageCount),
+        doc.internal.pageSize.width / 2,
+        287,
+        {
+          align: "center",
+        }
+      );
+    }
+  };
+
+  var doc = new jsPDF("p");
+  //var doc = new jsPDF("p", "pt");
+
+  doc.setFont("courier", "italic");
+
+  // generate the above data table
+  var body = []; // The set of LINGE data
+  for (var linge of factureData.dataValues.Linges) {
+    body.push([
+      // "",
+      // linge.codeLinge,
+      linge.designationLinge + " (" + linge.FactureLinge.descriptionLinge + ")",
+      linge.montantLinge,
+      "",
+      // linge.codeLinge,
+      linge.designationLinge + " (" + linge.FactureLinge.descriptionLinge + ")",
+      linge.montantLinge,
+    ]);
+  }
+
+  // New Header and Footer Data Include the table
+  var y = 10;
+  doc.setLineWidth(2);
+
+  //doc.text("Header or footer text", 5, 2);
+  doc.autoTable({
+    body: [
+      [
+        // "",
+        factureData.dataValues.Client.nomClient,
+        "",
+        factureData.dataValues.Client.phoneClient,
+        "",
+        factureData.dataValues.Client.nomClient,
+        "",
+        factureData.dataValues.Client.phoneClient,
+      ],
+    ],
+    startY: 9,
+    theme: "plain",
+    columnStyles: {
+      // 0: {
+      //   cellWidth: 20,
+      // },
+      1: {
+        cellWidth: 30,
+      },
+      3: {
+        cellWidth: 40,
+      },
+      5: {
+        cellWidth: 20,
+      },
+    },
+  });
+
+  // Second table (Bill Body)
+  doc.autoTable({
+    body: body,
+    // startY: 200,
+    // head: [
+    //   [
+    //     "Code",
+    //     "Designation",
+    //     "Montant (F)",
+    //     "",
+    //     "Code",
+    //     "Designation",
+    //     "Montant (F)",
+    //   ],
+    // ],
+    startY: 30,
+    startX: 20,
+    theme: "plain",
+    columnStyles: {
+      // 0: {
+      //   cellWidth: 15,
+      // },
+      2: {
+        cellWidth: 40,
+      },
+    },
+  });
+
+  // Third Table (Bill Footer)
+  doc.autoTable({
+    body: [
+      [
+        "",
+        factureData.dataValues.montantTotalFacture,
+        "",
+        factureData.dataValues.montantTotalFacture,
+      ],
+    ],
+    theme: "plain",
+    // startY: 40,
+    columnStyles: {
+      0: {
+        cellWidth: 60,
+      },
+      2: {
+        cellWidth: 90,
+      },
+    },
+  });
+
+  // Forth Table (Bill Last element)
+  doc.autoTable({
+    body: [[""]],
+    styles: {
+      font: "courier",
+      fontStyle: "bold",
+      fontSize: 12,
+    },
+    theme: "plain",
+    columnStyles: {
+      0: { halign: "center" },
+    },
+  });
+
+  // addFooters(doc);
+
+  var file_Path =
+    "Facture_de_" +
+    factureData.dataValues.Client.nomClient +
+    "_du_" +
+    year +
+    "-" +
+    month +
+    "-" +
+    day +
+    "_" +
+    factureData.dataValues.idFacture +
+    ".pdf";
+
+  doc.autoPrint({ variant: "non-conform" });
+
+  doc.save(file_Path);
+  var absolutePdfFilePath = resolve(file_Path);
+
+  window.open(absolutePdfFilePath);
+  document.getElementById("printButton").innerHTML = "Imprimer";
+  return;
 }
 
 // ////////////////////////////////////////////////////////////////////////////// //
@@ -3610,7 +3962,7 @@ async function findAllService() {
 // Function to find one instance of a Service
 async function findOneService(data) {
   Service.findOne()
-    .then(() => { })
+    .then(() => {})
     .catch((err) => {
       console.log(err);
     });
@@ -3695,6 +4047,7 @@ contextBridge.exposeInMainWorld("electron", {
   createLinge: createLinge,
   updateLinge: updateLinge,
   deleteLinge: deleteLinge,
+  generateFacturePDFFile: generateFacturePDFFile,
   // Functions to Manage Operateur
   findAllOperateur: findAllOperateur,
   findOneOperateur: findOneOperateur,

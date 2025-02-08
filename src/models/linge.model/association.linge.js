@@ -4,5 +4,9 @@ const { Linge } = require("./linge.model");
 
 // Association with Facture
 Linge.belongsToMany(Facture, {
-  through: FactureLinge,
+  through: {
+    model: FactureLinge,
+    unique: false,
+  },
+  foreignKey: "idLinge",
 });

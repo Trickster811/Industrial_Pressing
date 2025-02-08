@@ -70,14 +70,25 @@
                 <input
                   class="datepicker-here digits form-control"
                   type="text"
+                  id="pickedDate"
+                  data-language="en"
+                  data-min-view="days"
+                  data-view="days"
+                  data-date-format="dd MM yyyy"
+                  placeholder="Jour"
+                  style="margin-right: 2rem"
+                />
+                <!-- <input
+                  class="datepicker-here digits form-control"
+                  type="text"
                   data-language="en"
                   data-min-view="months"
                   data-view="months"
                   data-date-format="MM yyyy"
                   placeholder="Mois"
                   style="margin-right: 2rem"
-                />
-                <input
+                /> -->
+                <!-- <input
                   class="datepicker-here digits form-control"
                   type="text"
                   data-language="en"
@@ -85,18 +96,17 @@
                   data-view="years"
                   data-date-format="yyyy"
                   placeholder="Annee"
-                />
+                /> -->
               </div>
 
               <!-- </form> -->
             </div>
             <div class="add_button ms-2">
-              <a
-                href="#"
-                onclick=""
+              <button
+                onclick="filterByDate(document.getElementById('pickedDate').value)"
                 data-bs-toggle="modal"
                 class="btn btn-primary btn-md text_white"
-                >Filtrer</a
+                >Filtrer</button
               >
             </div>
             <div class="add_button ms-2">
@@ -115,7 +125,7 @@
                 data-bs-target="#addcategory"
                 class="btn btn-success btn-md text_white"
                 role="button"
-                >Imprimer Etat</a
+                >Imprimer Inventaire</a
               >
             </div>
           </div>

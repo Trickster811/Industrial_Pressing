@@ -14,7 +14,11 @@ Facture.belongsTo(Client, {
 
 // Association with Linge Model
 Facture.belongsToMany(Linge, {
-  through: FactureLinge,
+  through: {
+    model: FactureLinge,
+    unique: false,
+  },
+  foreignKey: "idFacture",
 });
 
 // Association with Reglement Model

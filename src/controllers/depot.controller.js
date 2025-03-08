@@ -14,7 +14,15 @@ setTimeout(() => {
 var n = 1;
 
 // Function to update clothe info in a row
-function update_clothe_info(element) {
+function update_quantity(element) {
+  let clotheNuber = 0;
+  // Update Number of Clothe for the whole invoice
+  for (let index = 1; index <= n; index++) {
+    clotheNuber += parseInt(
+      document.getElementById("clothe_quantity" + index).value
+    );
+  }
+  document.getElementById("clothes_number").value = clotheNuber;
   update_total();
 }
 
@@ -24,14 +32,12 @@ function update_total() {
   // Sum all clothes prices
   for (let index = 1; index <= n; index++) {
     total += parseInt(
-      document.getElementById("clothe_priceUnitary" + index).value
+      document.getElementById("clothe_priceUnitary" + index).value *
+        document.getElementById("clothe_quantity" + index).value
     );
   }
   // Get service TAX
-  total =
-    total +
-    (getServiceTAX() * total) / 100 -
-    (getClientReduction() * total) / 100;
+  total = getServiceTAX() * total - (getClientReduction() * total) / 100;
   document.getElementById("total_to_pay").value = total;
   update_remaining_to_pay();
 }
@@ -61,12 +67,18 @@ function AddRow() {
 
   var table = document.getElementById("clothes_details");
   var row = table.insertRow(n);
-  var cell1 = row.insertCell(0);
-  var cell2 = row.insertCell(1);
-  var cell3 = row.insertCell(2);
-  var cell4 = row.insertCell(3);
-  var cell5 = row.insertCell(4);
-  var cell6 = row.insertCell(5);
+  var cell0 = row.insertCell(0);
+  var cell1 = row.insertCell(1);
+  var cell2 = row.insertCell(2);
+  var cell3 = row.insertCell(3);
+  var cell4 = row.insertCell(4);
+  var cell5 = row.insertCell(5);
+  var cell6 = row.insertCell(6);
+
+  cell0.innerHTML =
+    '<input id="clothe_quantity' +
+    n +
+    '" type="number" class="form-control" value="1" oninput="update_quantity(this)" style="width: 100%;" />';
 
   cell1.innerHTML =
     '<select id="clothe_code' +
@@ -77,7 +89,7 @@ function AddRow() {
   cell2.innerHTML =
     '<select id="clothe_type' +
     n +
-    '" class="form-control js-example-basic-single" style="width: 100%;" onchange="" disabled></select>';
+    '" class="form-control js-example-basic-single" style="width: 100%;" disabled></select>';
   cell3.innerHTML =
     '<select id="clothe_name' +
     n +
@@ -88,21 +100,24 @@ function AddRow() {
     '<input id="clothe_description' +
     n +
     '" type="text" class="form-control" value="RAS" />';
+  // cell5.innerHTML =
+  //   '<select id="clothe_priceUnitary' +
+  //   n +
+  //   '" class="form-control js-example-basic-single" style="width: 100%;" onchange="update_clothe_info(this)" disabled></select>';
   cell5.innerHTML =
-    '<select id="clothe_priceUnitary' +
+    '<input id="clothe_priceUnitary' +
     n +
-    '" class="form-control js-example-basic-single" style="width: 100%;" onchange="update_clothe_info(this)" disabled></select>';
+    '" type="number" class="form-control" style="width: 100%" disabled />';
   cell6.innerHTML =
     '<div onclick="RemoveRow(this)" class="text-center rounded bg-danger"><div class="center-svg"><i class="fa fa-minus"> </i></div></div>';
 
-  document.getElementById("clothes_number").value = n;
-
+  update_quantity();
   // Function to load all registered Linge of the database at the row 1 in the second table with id=`n`
   window.electron.findAllLingeFacture(n);
   // Function to load Js Files
   loadJsFiles();
   // Hide or Show button to Add Row in the table
-  if (n === 10) {
+  if (n === 8) {
     document.getElementById("buttonToAddRowInTable").hidden = true;
   } else {
     document.getElementById("buttonToAddRowInTable").hidden = false;
@@ -122,29 +137,29 @@ function RemoveRow(x) {
   table.deleteRow(rowIndex);
   //   Update cells id
   for (let index = rowIndex + 1; index <= n; index++) {
+    document.getElementById("clothe_quantity" + index).id =
+      "clothe_quantity" + (index - 1);
     document.getElementById("clothe_code" + index).id =
       "clothe_code" + (index - 1);
     document.getElementById("clothe_type" + index).id =
       "clothe_type" + (index - 1);
     document.getElementById("clothe_name" + index).id =
       "clothe_name" + (index - 1);
-    // document.getElementById("clothe_description" + index).id =
-    //   "clothe_description" + (index - 1);
+    document.getElementById("clothe_description" + index).id =
+      "clothe_description" + (index - 1);
     document.getElementById("clothe_priceUnitary" + index).id =
       "clothe_priceUnitary" + (index - 1);
   }
   //   Update the number of rows
   n--;
   // Hide or Show button to Add Row in the table
-  if (n === 10) {
+  if (n === 8) {
     document.getElementById("buttonToAddRowInTable").hidden = true;
   } else {
     document.getElementById("buttonToAddRowInTable").hidden = false;
   }
-  //   Update the clothe number
-  document.getElementById("clothes_number").value = n;
   //   Update the total amount to pay
-  update_total();
+  update_quantity();
   // }
 }
 
@@ -247,7 +262,11 @@ function createFactureController() {
           )
       ),
     },
-    reglementData: parseInt(document.getElementById("amount_paid").value),
+    reglementData: parseInt(
+      document.getElementById("amount_paid").value == ""
+        ? "0"
+        : document.getElementById("amount_paid").value
+    ),
     lingeData: [],
   };
   for (let indexRow = 1; indexRow <= n; indexRow++) {
@@ -258,10 +277,13 @@ function createFactureController() {
       descriptionClothe: document.getElementById(
         "clothe_description" + indexRow
       ).value,
+      quantityClothe: document.getElementById("clothe_quantity" + indexRow)
+        .value,
     });
   }
   // console.log(data);
   // for (let index = 0; index < 50; index++) {
+  console.log(data);
   window.electron.createFacture(data);
   // }
 }

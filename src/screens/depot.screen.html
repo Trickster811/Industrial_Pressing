@@ -64,7 +64,6 @@
                     class="form-control"
                     placeholder="depot"
                     id="dateDepotFacture"
-                    disabled
                   />
                 </td>
                 <td>
@@ -73,7 +72,6 @@
                     class="form-control"
                     placeholder="retrait"
                     id="dateRetraitFacture"
-                    disabled
                   />
                 </td>
               </tr>
@@ -98,16 +96,28 @@
           <table id="clothes_details" class="table lms_table_active2">
             <thead>
               <tr>
+                <th scope="col">Qte</th>
                 <th scope="col">Code</th>
                 <th scope="col">Type</th>
                 <th scope="col">Designation</th>
                 <th scope="col">Desciption</th>
-                <th scope="col">Prix Unitaire (FCFA)</th>
+                <th scope="col">Prix U (FCFA)</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
             <tbody>
               <tr>
+                <td>
+                  <input
+                    id="clothe_quantity1"
+                    type="number"
+                    class="form-control"
+                    min="1"
+                    value="1"
+                    oninput="update_quantity(this)"
+                    style="width: 100%"
+                  />
+                </td>
                 <td>
                   <select
                     id="clothe_code1"
@@ -145,16 +155,23 @@
                     type="text"
                     class="form-control"
                     value="RAS"
+                    style="width: 100%"
                   />
                 </td>
                 <td>
-                  <select
+                  <!-- <select
                     id="clothe_priceUnitary1"
                     class="form-control js-example-basic-single"
                     style="width: 100%"
-                    onchange="update_clothe_info(this)"
                     disabled
-                  ></select>
+                  ></select> -->
+                  <input
+                    id="clothe_priceUnitary1"
+                    type="number"
+                    class="form-control"
+                    style="width: 100%"
+                    disabled
+                  />
                 </td>
                 <td>
                   <div
@@ -193,7 +210,7 @@
                   <select
                     class="form-control js-example-basic-single"
                     style="width: 100%; padding: 20px"
-                    onchange="update_clothe_info()"
+                    onchange="update_total()"
                     id="service_type"
                   ></select>
                 </td>
@@ -221,7 +238,8 @@
                     type="number"
                     class="form-control"
                     placeholder="avance"
-                    onchange="update_remaining_to_pay()"
+                    onchange=""
+                    oninput="update_remaining_to_pay()"
                   />
                 </td>
                 <td>

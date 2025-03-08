@@ -55,9 +55,10 @@
                   data-language="en"
                   data-min-view="months"
                   data-view="months"
-                  data-date-format="MM yyyy"
+                  data-date-format="MM"
                   placeholder="Mois"
                   style="margin-right: 2rem"
+                  id="pickedMonth"
                 />
                 <input
                   class="datepicker-here digits form-control"
@@ -67,6 +68,7 @@
                   data-view="years"
                   data-date-format="yyyy"
                   placeholder="Annee"
+                  id="pickedYear"
                 />
               </div>
 
@@ -75,7 +77,7 @@
             <div class="add_button ms-2">
               <a
                 href="#"
-                onclick=""
+                onclick="filterByDate(document.getElementById('pickedMonth').value,document.getElementById('pickedYear').value)"
                 data-bs-toggle="modal"
                 class="btn btn-primary btn-md text_white"
                 >Filtrer</a
@@ -113,7 +115,6 @@
                 <th scope="col">Reste (F)</th>
                 <th scope="col">Date Depot</th>
                 <th scope="col">Date Retrait</th>
-                <th scope="col">Action</th>
               </tr>
             </thead>
             <tbody id="retrait_table_body">
@@ -147,7 +148,6 @@
                 <th scope="col">Reste (F)</th>
                 <th scope="col">Date Depot</th>
                 <th scope="col">Date Retrait</th>
-                <th scope="col">Action</th>
               </tr>
             </thead>
           </table>

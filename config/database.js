@@ -7,7 +7,7 @@ const { Sequelize, DataTypes } = require("sequelize");
 //   storage: './industrial_pressing.base.sqlite'
 // });
 
-const sequelize = new Sequelize("industrial_pressing_base", "macnight_nj", "leslie02", {
+const sequelize = new Sequelize("industrial_pressing_base", "postgres", "leslie02", {
   host: "localhost",
   dialect: "postgres", 
 });

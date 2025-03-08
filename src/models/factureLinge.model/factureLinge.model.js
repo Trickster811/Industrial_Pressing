@@ -24,6 +24,11 @@ const FactureLinge = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    quantityLinge: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue:1,
+    },
   },
   {
     tableName: "FactureLinge",

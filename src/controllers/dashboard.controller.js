@@ -16,7 +16,8 @@ document.getElementById("roleOperateur").innerHTML =
 // Hide / Show options within the sidebar (depending on user function)
 if (params.get("roleOperateur").toLowerCase() !== "administrateur") {
   document.getElementById("settings_button").hidden = true; // Hinding Settings Menu
-  document.getElementById("5").hidden = true; // Hidding `Linges` Option
-  document.getElementById("6").hidden = true; // Hidding `Creances Clients` Option
+  document.getElementById("4").hidden = true; // Hidding `Linges` Option
+  document.getElementById("7").hidden = true; // Hidding `Creances Clients` Option
+  document.getElementById("10").hidden = true; // Hidding `Chiffre Affaire` Option
   document.getElementById("ressources").hidden = true; // Hidding `Ressources` Menu
 }

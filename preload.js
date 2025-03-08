@@ -1,14 +1,19 @@
 const { sequelize, DataTypes } = require("./config/database");
-const { Op } = require("sequelize");
+const { Op, where } = require("sequelize");
 
 // Getting all Models to create tables in our database
 require("./src/models/index")(sequelize, DataTypes);
 // Syncing Database
-sequelize.sync({ alter: true }).then(() => {
-  console.log("Industrial Pressing database well synced");
-  document.getElementById("loadingState").hidden = true;
-  document.getElementById("main_content").hidden = false;
-});
+sequelize
+  .sync({ alter: true })
+  .then(() => {
+    console.log("Industrial Pressing database well synced");
+    document.getElementById("loadingState").hidden = true;
+    document.getElementById("main_content").hidden = false;
+  })
+  .catch((errno) => {
+    console.log("yo", errno);
+  });
 
 const { contextBridge } = require("electron");
 const { Service } = require("./src/models/service.model/service.model");
@@ -2742,11 +2747,11 @@ async function findAllLingeFacture(rowIndex) {
           //   "</option>";
           // Fifth menu select option
           clothe_priceUnitary +=
-            "<option value=" +
-            item.dataValues.montantLinge +
-            ">" +
-            item.dataValues.montantLinge +
-            "</option>";
+            // "<option value=" +
+            // item.dataValues.montantLinge +
+            // ">" +
+            item.dataValues.montantLinge;
+          // "</option>";
         })
         .join();
 
@@ -2756,8 +2761,8 @@ async function findAllLingeFacture(rowIndex) {
       document.getElementById("clothe_name" + rowIndex).innerHTML = clothe_name;
       // document.getElementById("clothe_description" + rowIndex).innerHTML =
       //   clothe_description;
-      document.getElementById("clothe_priceUnitary" + rowIndex).innerHTML =
-        clothe_priceUnitary;
+      document.getElementById("clothe_priceUnitary" + rowIndex).value =
+        parseInt(clothe_priceUnitary);
 
       // Loading js files
       if (document.getElementById("firstJSFile")) {
@@ -2816,32 +2821,31 @@ async function findAllServiceFacture() {
 // Function to create an instance of a Facture
 async function createFacture(data) {
   Facture.create(data.depotData)
-    .then((result) => {
+    .then(async (result) => {
       console.log(result);
-      if (data.reglementData) {
-        ReglementFacture.create({
+      if (data.reglementData != 0) {
+        console.log("Avance");
+        await ReglementFacture.create({
           montantReglementFacture: data.reglementData,
           idFacture: result.dataValues.idFacture,
           dateReglementFacture: new Date(),
-        })
-
-          .then(() => {})
-          .catch((errno) => {
-            console.log("Error Reglement: " + errno);
-            console.log(errno);
-          });
+        });
       }
       // Add each article in the created `Facture` instance
+      let counter = 0;
       data.lingeData.map((element) => {
-        console.log(result.dataValues.idFacture);
         FactureLinge.create({
           idFacture: result.dataValues.idFacture,
           idLinge: element.idClothe,
           descriptionLinge: element.descriptionClothe,
+          quantityLinge: element.quantityClothe,
         })
           .then(() => {
-            document.getElementById("message").innerHTML =
-              '<strong style="color: green;">Facture cree avec success!</strong>';
+            counter++;
+            if (counter === data.lingeData.length) {
+              document.getElementById("message").innerHTML =
+                '<strong style="color: green;">Facture cree avec success!</strong>';
+            }
           })
           .catch((error) => {
             console.log("Error FactureLinge: " + error);
@@ -3221,67 +3225,44 @@ async function deleteOperateur(data) {
 // ////////////////////////////////////////////////////////////////////////////// //
 
 // Function to find all instances of Facture
-async function findAllRetraits() {
+async function findAllRetraits(pickedMonth, pickedYear) {
   Facture.findAll({
-    attributes: {
-      include: [
-        [
-          sequelize.fn(
-            "sum",
-            sequelize.col("ReglementFactures.montantReglementFacture")
-          ),
-          "total_reglement",
-        ],
-      ],
-    },
+    attributes: {},
     include: [
       {
         model: Client,
         attributes: ["nomClient", "phoneClient"],
       },
+      Linge,
+      ReglementFacture,
       Service,
-      {
-        model: ReglementFacture,
-        as: "ReglementFactures",
-        required: false,
-      },
     ],
     where: {
-      etatFacture: true,
+      [Op.and]: [
+        sequelize.where(
+          sequelize.fn("date", sequelize.col("dateDepotFacture")),
+          ">=",
+          sequelize.fn("date", new Date(pickedYear, pickedMonth - 1, 1))
+        ),
+        sequelize.where(
+          sequelize.fn("date", sequelize.col("dateDepotFacture")),
+          "<=",
+          sequelize.fn("date", new Date(pickedYear, pickedMonth, 0))
+        ),
+        { etatFacture: false },
+      ],
     },
     order: [["dateDepotFacture", "DESC"]],
     group: [
-      "Facture.idFacture",
-      "Client.idClient",
-      "Service.idService",
-      "ReglementFactures.idReglementFacture",
+      // "Facture.idFacture",
+      // "Client.idClient",
+      // "Service.idService",
+      // "ReglementFactures.idReglementFacture",
     ],
   })
     .then(async (data) => {
       // console.log(data);
       let retrait_table_body = "";
-      const factureLinge = await FactureLinge.findAll();
-      console.log(factureLinge);
-      // Fill boxes on the top of retraits screen
-      // ::::::::::::::::: Total Depots
-      document.getElementById("depots_total").innerHTML = data.length;
-      // ::::::::::::::::: Total Clients
-      const total_Client = Number(
-        await Facture.count({
-          distinct: true,
-          col: "idClient",
-        })
-      ).toLocaleString();
-      document.getElementById("totalClient").innerHTML = total_Client;
-      // ::::::::::::::::: Total Depots Amount
-      const totalAmount = await Facture.sum("montantTotalFacture", {
-        where: {
-          etatFacture: false,
-        },
-      });
-      document.getElementById("totalDepotsAmount").innerHTML = totalAmount
-        ? totalAmount.toLocaleString() + " FCFA"
-        : "-- --";
 
       // Filling the table with the list of Factures
       data
@@ -3306,15 +3287,7 @@ async function findAllRetraits() {
             (item.dataValues.total_reglement
               ? parseFloat(item.dataValues.total_reglement).toLocaleString()
               : 0) +
-            '</p><p name="lineU' +
-            item.dataValues.idFacture +
-            '" hidden><input id="reglementFactureUpdate' +
-            item.dataValues.idFacture +
-            '" type="number" class="form-control" placeholder="avance" value="' +
-            (item.dataValues.total_reglement
-              ? parseFloat(item.dataValues.total_reglement)
-              : 0) +
-            '"/></p></td>';
+            "</p></td>";
           retrait_table_body +=
             "<td>" +
             (
@@ -3332,19 +3305,19 @@ async function findAllRetraits() {
             "<td>" +
             item.dataValues.dateRetraitFacture.toISOString().split("T")[0] +
             "</td>";
-          // First Button
-          retrait_table_body +=
-            '<td><button id="updateButton_0" name="updateButtonName" onclick="toggleUpdateReglementFacture(' +
-            item.dataValues.idFacture +
-            "," +
-            (parseFloat(item.dataValues.montantTotalFacture) -
-              (item.dataValues.total_reglement
-                ? parseFloat(item.dataValues.total_reglement)
-                : 0)) +
-            ')" class="btn btn-success btn-md text_white" role="button">Payer</button>';
-          // Second Button
-          retrait_table_body +=
-            '<button onclick="" class="btn btn-danger btn-md text_white" role="button">Supp&nbsp;</button>';
+          // // First Button
+          // retrait_table_body +=
+          //   '<td><button id="updateButton_0" name="updateButtonName" onclick="toggleUpdateReglementFacture(' +
+          //   item.dataValues.idFacture +
+          //   "," +
+          //   (parseFloat(item.dataValues.montantTotalFacture) -
+          //     (item.dataValues.total_reglement
+          //       ? parseFloat(item.dataValues.total_reglement)
+          //       : 0)) +
+          //   ')" class="btn btn-success btn-md text_white" role="button">Payer</button>';
+          // // Second Button
+          // retrait_table_body +=
+          //   '<button onclick="" class="btn btn-danger btn-md text_white" role="button">Supp&nbsp;</button>';
 
           retrait_table_body += "</td></tr>";
         })
@@ -3355,7 +3328,7 @@ async function findAllRetraits() {
         retrait_table_body;
 
       // Loading js files
-      var js_ = document.createElement("script");
+      js_ = document.createElement("script");
       js_.type = "text/javascript";
       js_.src = "vendors/datatable/js/jquery.dataTables.min.js";
       js_.id = "firstJSRetrait";
@@ -3366,7 +3339,7 @@ async function findAllRetraits() {
       } else {
         document.body.appendChild(js_);
       }
-      var js = document.createElement("script");
+      js = document.createElement("script");
       js.type = "text/javascript";
       js.src = "js/custom.js";
       js.id = "secondJSRetrait";
@@ -3382,6 +3355,73 @@ async function findAllRetraits() {
       console.log(err);
       console.log("yo: " + err);
     });
+
+  // Fill boxes on the top of retraits screen
+  // ::::::::::::::::: Total Depots
+  const total_Depots = Number(
+    await Facture.count({
+      where: {
+        [Op.and]: [
+          sequelize.where(
+            sequelize.fn("date", sequelize.col("dateDepotFacture")),
+            ">=",
+            sequelize.fn("date", new Date(pickedYear, pickedMonth - 1, 1))
+          ),
+          sequelize.where(
+            sequelize.fn("date", sequelize.col("dateDepotFacture")),
+            "<=",
+            sequelize.fn("date", new Date(pickedYear, pickedMonth, 0))
+          ),
+          { etatFacture: false },
+        ],
+      },
+    })
+  );
+  document.getElementById("depots_total").innerHTML = total_Depots;
+  // ::::::::::::::::: Total Clients
+  const total_Client = Number(
+    await Facture.count({
+      distinct: true,
+      col: "idClient",
+      where: {
+        [Op.and]: [
+          sequelize.where(
+            sequelize.fn("date", sequelize.col("dateDepotFacture")),
+            ">=",
+            sequelize.fn("date", new Date(pickedYear, pickedMonth - 1, 1))
+          ),
+          sequelize.where(
+            sequelize.fn("date", sequelize.col("dateDepotFacture")),
+            "<=",
+            sequelize.fn("date", new Date(pickedYear, pickedMonth, 0))
+          ),
+          { etatFacture: true },
+        ],
+      },
+    })
+  ).toLocaleString();
+  document.getElementById("totalClient").innerHTML = total_Client;
+  // ::::::::::::::::: Total Depots Amount
+  const totalAmount = await Facture.sum("montantTotalFacture", {
+    where: {
+      [Op.and]: [
+        sequelize.where(
+          sequelize.fn("date", sequelize.col("dateDepotFacture")),
+          ">=",
+          sequelize.fn("date", new Date(pickedYear, pickedMonth - 1, 1))
+        ),
+        sequelize.where(
+          sequelize.fn("date", sequelize.col("dateDepotFacture")),
+          "<=",
+          sequelize.fn("date", new Date(pickedYear, pickedMonth, 0))
+        ),
+        { etatFacture: true },
+      ],
+    },
+  });
+  document.getElementById("totalDepotsAmount").innerHTML = totalAmount
+    ? totalAmount.toLocaleString() + " FCFA"
+    : "-- --";
 }
 
 // ////////////////////////////////////////////////////////////////////////////// //
@@ -3391,28 +3431,15 @@ async function findAllRetraits() {
 // Function to find all instances of Facture
 async function findAllFacture(pickedDate) {
   Facture.findAll({
-    attributes: {
-      include: [
-        [
-          sequelize.fn(
-            "sum",
-            sequelize.col("ReglementFactures.montantReglementFacture")
-          ),
-          "total_reglement",
-        ],
-      ],
-    },
+    attributes: {},
     include: [
       {
         model: Client,
         attributes: ["nomClient", "phoneClient"],
       },
+      Linge,
+      ReglementFacture,
       Service,
-      {
-        model: ReglementFacture,
-        as: "ReglementFactures",
-        required: false,
-      },
     ],
     where: {
       [Op.and]: [
@@ -3426,64 +3453,15 @@ async function findAllFacture(pickedDate) {
     },
     order: [["dateDepotFacture", "DESC"]],
     group: [
-      "Facture.idFacture",
-      "Client.idClient",
-      "Service.idService",
-      "ReglementFactures.idReglementFacture",
+      // "Facture.idFacture",
+      // "Client.idClient",
+      // "Service.idService",
+      // "ReglementFactures.idReglementFacture",
     ],
   })
     .then(async (data) => {
-      // console.log(data);
+      console.log(data);
       let depots_effectues_table_body = "";
-      const factureLinge = await FactureLinge.findAll();
-      console.log(factureLinge);
-      // Fill boxes on the top of retraits screen
-      // ::::::::::::::::: Total Depots
-      document.getElementById("depots_total").innerHTML = data.length;
-      // ::::::::::::::::: Total Clients
-      const total_Client = Number(
-        await Facture.count({
-          distinct: true,
-          col: "idClient",
-        })
-      ).toLocaleString();
-      document.getElementById("totalClient").innerHTML = total_Client;
-      // ::::::::::::::::: Total Depots Amount
-      const totalAmount = await Facture.sum("montantTotalFacture", {
-        where: {
-          etatFacture: false,
-        },
-      });
-      document.getElementById("totalDepotsAmount").innerHTML = totalAmount
-        ? totalAmount.toLocaleString() + " FCFA"
-        : "-- --";
-      // ::::::::::::::::: Total Avance Amount (Reglement Facture)
-      const totalReglementFactureAmount = await ReglementFacture.sum(
-        "montantReglementFacture",
-        {
-          // include: [
-          //   {
-          //     model: Facture,
-          //     where: {
-          //       etatFacture: false,
-          //     },
-          //   },
-          // ],
-          // group: ["Facture.idFacture"],
-        }
-      );
-      document.getElementById("totalReglementFactureAmount").innerHTML =
-        totalReglementFactureAmount
-          ? totalReglementFactureAmount.toLocaleString() + " FCFA"
-          : "-- --";
-      // ::::::::::::::::: Total Remaining Amount
-      document.getElementById("totalRemainingAmount").innerHTML =
-        totalAmount && totalReglementFactureAmount
-          ? (
-              parseFloat(totalAmount) - parseFloat(totalReglementFactureAmount)
-            ).toLocaleString() + " FCFA"
-          : "-- --";
-
       // Filling the table with the list of Factures
       data
         // .reverse()
@@ -3503,51 +3481,84 @@ async function findAllFacture(pickedDate) {
             item.dataValues.montantTotalFacture.toLocaleString() +
             "</td>";
           depots_effectues_table_body +=
-            '<td><p name="line' +
+            '<td><div name="line' +
             item.dataValues.idFacture +
             '">' +
-            (item.dataValues.total_reglement
-              ? parseFloat(item.dataValues.total_reglement).toLocaleString()
+            (item.dataValues.ReglementFactures.length !== 0
+              ? parseFloat(
+                  item.dataValues.ReglementFactures.reduce(
+                    (sum, element) =>
+                      sum + element.dataValues.montantReglementFacture,
+                    0
+                  )
+                ).toLocaleString()
               : 0) +
-            '</p><p name="lineU' +
+            '</div><input id="reglementFactureUpdate' +
             item.dataValues.idFacture +
-            '" hidden><input id="reglementFactureUpdate' +
+            '" type="number" class="form-control" placeholder="avance" value="0" name="lineU' +
             item.dataValues.idFacture +
-            '" type="number" class="form-control" placeholder="avance" value="' +
-            (item.dataValues.total_reglement
-              ? parseFloat(item.dataValues.total_reglement)
-              : 0) +
-            '"/></p></td>';
+            '" hidden/></td>';
           depots_effectues_table_body +=
             "<td>" +
             (
               parseFloat(item.dataValues.montantTotalFacture) -
-              (item.dataValues.total_reglement
-                ? parseFloat(item.dataValues.total_reglement)
+              (item.dataValues.ReglementFactures.length !== 0
+                ? parseFloat(
+                    item.dataValues.ReglementFactures.reduce(
+                      (sum, element) =>
+                        sum + element.dataValues.montantReglementFacture,
+                      0
+                    )
+                  )
                 : 0)
             ).toLocaleString() +
             "</td>";
           depots_effectues_table_body +=
             "<td>" +
-            item.dataValues.dateDepotFacture.toISOString().split("T")[0] +
+            item.dataValues.dateDepotFacture
+              .toISOString()
+              .split("T")[0]
+              .substring(2) +
             "</td>";
           depots_effectues_table_body +=
             "<td>" +
-            item.dataValues.dateRetraitFacture.toISOString().split("T")[0] +
+            item.dataValues.dateRetraitFacture
+              .toISOString()
+              .split("T")[0]
+              .substring(2) +
             "</td>";
           // First Button
           depots_effectues_table_body +=
-            '<td><button id="updateButton_0" name="updateButtonName" onclick="toggleUpdateReglementFacture(' +
+            '<td><button name="line' +
+            item.dataValues.idFacture +
+            '" id="updateButton_0" name="updateButtonName" onclick="toggleUpdateReglementFacture(' +
+            item.dataValues.idFacture +
+            ')" class="btn btn-success btn-md text_white" role="button">Payer</button>';
+          depots_effectues_table_body +=
+            ' <button name="lineU' +
+            item.dataValues.idFacture +
+            '" hidden onclick="updateFactureController(' +
             item.dataValues.idFacture +
             "," +
             (parseFloat(item.dataValues.montantTotalFacture) -
-              (item.dataValues.total_reglement
-                ? parseFloat(item.dataValues.total_reglement)
+              (item.dataValues.ReglementFactures.length !== 0
+                ? parseFloat(
+                    item.dataValues.ReglementFactures.reduce(
+                      (sum, item) =>
+                        sum + item.dataValues.montantReglementFacture,
+                      0
+                    )
+                  )
                 : 0)) +
-            ')" class="btn btn-success btn-md text_white" role="button">Payer</button>';
+            ')" class="w-50 rounded bg-success text-center"><i class="fa fa-save"> </i></button>';
+
           // Second Button
           depots_effectues_table_body +=
-            '<button id="printButton" onclick="printFacture(' +
+            '<button name="line' +
+            item.dataValues.idFacture +
+            '" id="printButton' +
+            item.dataValues.idFacture +
+            '" onclick="printFacture(' +
             item.dataValues.idFacture +
             ')" class="btn btn-primary btn-md text_white" role="button">Imprimer</button>';
 
@@ -3560,7 +3571,7 @@ async function findAllFacture(pickedDate) {
         depots_effectues_table_body;
 
       // Loading js files
-      var js_ = document.createElement("script");
+      js_ = document.createElement("script");
       js_.type = "text/javascript";
       js_.src = "vendors/datatable/js/jquery.dataTables.min.js";
       js_.id = "firstJSRetrait";
@@ -3571,7 +3582,7 @@ async function findAllFacture(pickedDate) {
       } else {
         document.body.appendChild(js_);
       }
-      var js = document.createElement("script");
+      js = document.createElement("script");
       js.type = "text/javascript";
       js.src = "js/custom.js";
       js.id = "secondJSRetrait";
@@ -3587,6 +3598,91 @@ async function findAllFacture(pickedDate) {
       console.log(err);
       console.log("yo: " + err);
     });
+
+  // Fill boxes on the top of retraits screen
+  // ::::::::::::::::: Total Depots
+  const total_Depots = Number(
+    await Facture.count({
+      where: {
+        [Op.and]: [
+          sequelize.where(
+            sequelize.fn("date", sequelize.col("dateDepotFacture")),
+            "=",
+            sequelize.fn("date", new Date(pickedDate))
+          ),
+          { etatFacture: false },
+        ],
+      },
+    })
+  );
+  document.getElementById("depots_total").innerHTML = total_Depots;
+  // ::::::::::::::::: Total Clients
+  const total_Client = Number(
+    await Facture.count({
+      distinct: true,
+      col: "idClient",
+      where: {
+        [Op.and]: [
+          sequelize.where(
+            sequelize.fn("date", sequelize.col("dateDepotFacture")),
+            "=",
+            sequelize.fn("date", new Date(pickedDate))
+          ),
+          { etatFacture: false },
+        ],
+      },
+    })
+  ).toLocaleString();
+  document.getElementById("totalClient").innerHTML = total_Client;
+  // ::::::::::::::::: Total Depots Amount
+  const totalAmount = await Facture.sum("montantTotalFacture", {
+    where: {
+      [Op.and]: [
+        sequelize.where(
+          sequelize.fn("date", sequelize.col("dateDepotFacture")),
+          "=",
+          sequelize.fn("date", new Date(pickedDate))
+        ),
+        { etatFacture: false },
+      ],
+    },
+  });
+  document.getElementById("totalDepotsAmount").innerHTML = totalAmount
+    ? totalAmount.toLocaleString() + " FCFA"
+    : "-- --";
+  // ::::::::::::::::: Total Avance Amount (Reglement Facture)
+  const totalReglementFactureAmount = await ReglementFacture.sum(
+    "montantReglementFacture",
+    {
+      include: [
+        {
+          model: Facture,
+          where: {
+            [Op.and]: [
+              sequelize.where(
+                sequelize.fn("date", sequelize.col("dateDepotFacture")),
+                "=",
+                sequelize.fn("date", new Date(pickedDate))
+              ),
+              { etatFacture: false },
+            ],
+          },
+        },
+      ],
+      group: ["Facture.idFacture"],
+    }
+  );
+  document.getElementById("totalReglementFactureAmount").innerHTML =
+    totalReglementFactureAmount
+      ? totalReglementFactureAmount.toLocaleString() + " FCFA"
+      : "-- --";
+  // ::::::::::::::::: Total Remaining Amount
+  document.getElementById("totalRemainingAmount").innerHTML =
+    totalAmount && totalReglementFactureAmount
+      ? (
+          parseFloat(totalAmount) - parseFloat(totalReglementFactureAmount)
+        ).toLocaleString() + " FCFA"
+      : "-- --";
 }
 
 // Function to update an instance of Facture (Reglement Facture)
@@ -3608,58 +3704,46 @@ async function updateReglementFacture(data, remainingAmount) {
       }
     );
   }
-  findAllFacture();
+  if (updateReglementFacture) {
+    if (document.getElementById("pickedDate").value != "") {
+      var pickedDate = new Date(document.getElementById("pickedDate").value);
+      findAllFacture(pickedDate.setDate(pickedDate.getDate() + 1));
+    } else findAllFacture(Date());
+
+    await generateFacturePDFFile(
+      data.idFacture,
+      `printButton${data.idFacture}`
+    );
+  }
 }
 
 // Function to create Facture pdf to print
-async function generateFacturePDFFile(id_facture) {
+async function generateFacturePDFFile(id_facture, printButtonId) {
   console.log(typeof id_facture);
   let factureData = await Facture.findOne({
     where: {
       idFacture: id_facture,
     },
-    attributes: {
-      include: [
-        [
-          sequelize.fn(
-            "sum",
-            sequelize.col("ReglementFactures.montantReglementFacture")
-          ),
-          "total_reglement",
-        ],
-      ],
-    },
+    attributes: {},
     include: [
-      {
-        model: Linge,
-        // as: "Linges",
-        // attributes: ["codeLinge", "designationLinge", "montantLinge"],
-        // through: {
-        //   attributes: ["descriptionLinge"],
-        // },
-      },
       {
         model: Client,
         attributes: ["nomClient", "phoneClient"],
       },
+      Linge,
+      ReglementFacture,
       Service,
-      {
-        model: ReglementFacture,
-        as: "ReglementFactures",
-        required: false,
-      },
     ],
     group: [
-      "Facture.idFacture",
-      "Client.idClient",
-      "Service.idService",
-      "ReglementFactures.idReglementFacture",
-      "Linges.idLinge",
-      "Linges->FactureLinge.idFactureLinge",
+      // "Facture.idFacture",
+      // "Client.idClient",
+      // "Service.idService",
+      // "ReglementFactures.idReglementFacture",
+      // "Linges.idLinge",
+      // "Linges->FactureLinge.idFactureLinge",
     ],
   });
   console.log(factureData);
-
   //alert(titre)
   const date = new Date();
   const [month, day, year] = [
@@ -3675,7 +3759,7 @@ async function generateFacturePDFFile(id_facture) {
 
   const addFooters = (doc) => {
     const pageCount = doc.internal.getNumberOfPages();
-    doc.setFont("helvetica", "italic");
+    // doc.setFont("helvetica", "italic");
     doc.setFontSize(8);
     for (var i = 1; i <= pageCount; i++) {
       doc.setPage(i);
@@ -3691,30 +3775,12 @@ async function generateFacturePDFFile(id_facture) {
   };
 
   var doc = new jsPDF("p");
-  //var doc = new jsPDF("p", "pt");
-
-  doc.setFont("courier", "italic");
-
-  // generate the above data table
-  var body = []; // The set of LINGE data
-  for (var linge of factureData.dataValues.Linges) {
-    body.push([
-      // "",
-      // linge.codeLinge,
-      linge.designationLinge + " (" + linge.FactureLinge.descriptionLinge + ")",
-      linge.montantLinge,
-      "",
-      // linge.codeLinge,
-      linge.designationLinge + " (" + linge.FactureLinge.descriptionLinge + ")",
-      linge.montantLinge,
-    ]);
-  }
 
   // New Header and Footer Data Include the table
   var y = 10;
   doc.setLineWidth(2);
 
-  //doc.text("Header or footer text", 5, 2);
+  //doc.text("Header", 5, 2);
   doc.autoTable({
     body: [
       [
@@ -3730,6 +3796,7 @@ async function generateFacturePDFFile(id_facture) {
     ],
     startY: 9,
     theme: "plain",
+    styles: { font: "courier", fontStyle: "bold" },
     columnStyles: {
       // 0: {
       //   cellWidth: 20,
@@ -3746,57 +3813,135 @@ async function generateFacturePDFFile(id_facture) {
     },
   });
 
-  // Second table (Bill Body)
+  // ================> Second table (Bill Body)
+  // generate the above data table
+  var body = []; // The set of LINGE data
+  for (var linge of factureData.Linges) {
+    body.push([
+      // "",
+      // linge.codeLinge,
+      linge.FactureLinge.descriptionLinge.toLowerCase() != "ras"
+        ? linge.dataValues.designationLinge +
+          "\n" +
+          "(" +
+          linge.FactureLinge.descriptionLinge.toLowerCase() +
+          ")"
+        : linge.designationLinge,
+      linge.montantLinge,
+      "",
+      // linge.codeLinge,
+      linge.FactureLinge.descriptionLinge.toLowerCase() != "ras"
+        ? linge.dataValues.designationLinge +
+          "\n" +
+          "(" +
+          linge.FactureLinge.descriptionLinge.toLowerCase() +
+          ")"
+        : linge.designationLinge,
+      linge.montantLinge,
+    ]);
+  }
+
   doc.autoTable({
     body: body,
-    // startY: 200,
-    // head: [
-    //   [
-    //     "Code",
-    //     "Designation",
-    //     "Montant (F)",
-    //     "",
-    //     "Code",
-    //     "Designation",
-    //     "Montant (F)",
-    //   ],
-    // ],
     startY: 30,
     startX: 20,
     theme: "plain",
+    styles: {
+      font: "courier",
+      fontStyle: "bold",
+      // fontSize: 12,
+      // lineWidth: 0.5,
+      // lineColor: [0, 0, 0],
+    },
     columnStyles: {
-      // 0: {
-      //   cellWidth: 15,
-      // },
+      0: {
+        cellWidth: 50,
+      },
+      1: {
+        cellWidth: 20,
+      },
       2: {
         cellWidth: 40,
+      },
+      3: {
+        cellWidth: 50,
+      },
+      4: {
+        cellWidth: 20,
       },
     },
   });
 
-  // Third Table (Bill Footer)
+  // ================> Third Table (Bill Footer)
   doc.autoTable({
     body: [
       [
         "",
         factureData.dataValues.montantTotalFacture,
         "",
+        "",
         factureData.dataValues.montantTotalFacture,
+      ],
+      [
+        `No Facture : ${factureData.dataValues.idFacture}#${new Date()
+          .getFullYear()
+          .toString()
+          .substring(2)}\nRDV : ${new Date(
+          factureData.dataValues.dateRetraitFacture
+        ).toLocaleDateString(
+          "en-GB"
+        )}\nAvance : ${factureData.dataValues.ReglementFactures.reduce(
+          (sum, element) => sum + element.dataValues.montantReglementFacture,
+          0
+        )}FCFA\nService : ${
+          factureData.dataValues.Service.dataValues.nomService
+        }`,
+        "",
+        "",
+        `No Facture : ${factureData.dataValues.idFacture}#${new Date()
+          .getFullYear()
+          .toString()
+          .substring(2)}\nRDV : ${new Date(
+          factureData.dataValues.dateRetraitFacture
+        ).toLocaleDateString(
+          "en-GB"
+        )}\nAvance : ${factureData.dataValues.ReglementFactures.reduce(
+          (sum, element) => sum + element.dataValues.montantReglementFacture,
+          0
+        )}FCFA\nService : ${
+          factureData.dataValues.Service.dataValues.nomService
+        }`,
       ],
     ],
     theme: "plain",
     // startY: 40,
+    styles: {
+      font: "courier",
+      fontStyle: "bold",
+      // fontSize: 12,
+      // lineWidth: 0.5,
+      // lineColor: [0, 0, 0],
+    },
     columnStyles: {
       0: {
-        cellWidth: 60,
+        cellWidth: 50,
+      },
+      1: {
+        cellWidth: 20,
       },
       2: {
-        cellWidth: 90,
+        cellWidth: 40,
+      },
+      3: {
+        cellWidth: 50,
+      },
+      4: {
+        cellWidth: 20,
       },
     },
   });
 
-  // Forth Table (Bill Last element)
+  // ================> Forth Table (Bill Last element)
   doc.autoTable({
     body: [[""]],
     styles: {
@@ -3831,7 +3976,7 @@ async function generateFacturePDFFile(id_facture) {
   var absolutePdfFilePath = resolve(file_Path);
 
   window.open(absolutePdfFilePath);
-  document.getElementById("printButton").innerHTML = "Imprimer";
+  document.getElementById(printButtonId).innerHTML = "Imprimer";
   return;
 }
 

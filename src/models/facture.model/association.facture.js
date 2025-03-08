@@ -23,7 +23,8 @@ Facture.belongsToMany(Linge, {
 
 // Association with Reglement Model
 Facture.hasMany(ReglementFacture, {
-  foreignKey: "idReglementFacture",
+  // foreignKey: "idReglementFacture",
+  foreignKey: "idFacture",
 });
 
 // Association with Service Model

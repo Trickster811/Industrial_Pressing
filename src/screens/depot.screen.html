@@ -93,15 +93,19 @@
           >
         </div>
         <div class="QA_table mb_25">
-          <table id="clothes_details" class="table lms_table_active2">
+          <table
+            id="clothes_details"
+            class="table lms_table_active2"
+            style="width: 100%"
+          >
             <thead>
               <tr>
-                <th scope="col">Qte</th>
+                <th scope="col">Quantite</th>
                 <th scope="col">Code</th>
-                <th scope="col">Type</th>
+                <!-- <th scope="col">Type</th> -->
                 <th scope="col">Designation</th>
                 <th scope="col">Desciption</th>
-                <th scope="col">Prix U (FCFA)</th>
+                <th scope="col">PU</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
@@ -115,7 +119,8 @@
                     min="1"
                     value="1"
                     oninput="update_quantity(this)"
-                    style="width: 100%"
+                    style="width: 5vw"
+                    disabled
                   />
                 </td>
                 <td>
@@ -126,7 +131,7 @@
                     onchange="autoSelectClothesDetails(this,1)"
                   ></select>
                 </td>
-                <td>
+                <!-- <td>
                   <select
                     id="clothe_type1"
                     class="form-control js-example-basic-single"
@@ -134,7 +139,7 @@
                     onchange=""
                     disabled
                   ></select>
-                </td>
+                </td> -->
                 <td>
                   <select
                     id="clothe_name1"
@@ -150,28 +155,31 @@
                     style="width: 100%"
                     onchange=""
                   ></select> -->
-                  <input
+                  <textarea
                     id="clothe_description1"
                     type="text"
                     class="form-control"
                     value="RAS"
                     style="width: 100%"
-                  />
+                    rows="3"
+                  >
+RAS</textarea
+                  >
                 </td>
                 <td>
-                  <!-- <select
+                  <select
                     id="clothe_priceUnitary1"
                     class="form-control js-example-basic-single"
                     style="width: 100%"
                     disabled
-                  ></select> -->
-                  <input
+                  ></select>
+                  <!-- <input
                     id="clothe_priceUnitary1"
                     type="number"
                     class="form-control"
                     style="width: 100%"
                     disabled
-                  />
+                  /> -->
                 </td>
                 <td>
                   <div
@@ -278,7 +286,19 @@
     </div>
   </div>
 </div>
+<script>
+  // Function to disables the `dateRetraitFacture` and `dateDepotFacture` inputs when it is not the admin
+  // Retrieve Operateur Data from Url after he Logged In
+  // let params = new URL(document.location).searchParams;
 
+  if (params.get("roleOperateur").toLowerCase() !== "administrateur") {
+    document.getElementById("dateRetraitFacture").disabled = true;
+    document.getElementById("dateDepotFacture").disabled = true;
+  } else {
+    document.getElementById("dateRetraitFacture").disabled = false;
+    document.getElementById("dateDepotFacture").disabled = false;
+  }
+</script>
 <script>
   var today = new Date();
   var nextWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);

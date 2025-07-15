@@ -1054,7 +1054,27 @@
     <script src="js/jquery1-3.4.1.min.js"></script>
     <!-- Function to change page Start -->
     <script>
-      let current_page_id = 1;
+      // Retrieve Operateur Data from Url after he Logged In
+      let params = new URL(document.location).searchParams;
+      document.getElementById("nomOperateur").innerHTML =
+        params.get("nomOperateur");
+      document.getElementById("roleOperateur").innerHTML =
+        params.get("roleOperateur");
+
+      // Hide / Show options within the sidebar (depending on user function)
+      if (params.get("roleOperateur").toLowerCase() !== "administrateur") {
+        document.getElementById("settings_button").hidden = true; // Hinding Settings Menu
+        document.getElementById("4").hidden = true; // Hidding `Linges` Option
+        document.getElementById("7").hidden = true; // Hidding `Creances Clients` Option
+        document.getElementById("10").hidden = true; // Hidding `Chiffre Affaire` Option
+        document.getElementById("ressources").hidden = true; // Hidding `Ressources` Menu
+        document.getElementById("dateDepotFacture").hidden = true; // Hidding `Date Depot Facture` Option
+        document.getElementById("dateRetraitFacture").hidden = true; // Hidding `Date Retrait Facture` Option
+      }
+    </script>
+    <script>
+      // Navigation bar click event
+      var current_page_id = 1;
       $("#main_content").load(`dashboard.screen.html`);
 
       function loadContent(elememt, page_url) {

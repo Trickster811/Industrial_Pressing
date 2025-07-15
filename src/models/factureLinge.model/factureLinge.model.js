@@ -27,7 +27,12 @@ const FactureLinge = sequelize.define(
     quantityLinge: {
       type: DataTypes.STRING,
       allowNull: false,
-      defaultValue:1,
+      defaultValue: 1,
+    },
+    withdrewLinge: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
     },
   },
   {

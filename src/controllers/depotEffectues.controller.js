@@ -17,18 +17,19 @@ loadJsFiles();
 // Generate Facture pdf
 function printFacture(id_facture) {
   console.log(id_facture);
-  document.getElementById("printButton" + id_facture).innerHTML = "Chargement";
+  document.getElementById("printButton" + id_facture).innerHTML = "...";
   window.electron.generateFacturePDFFile(
     id_facture,
     "printButton" + id_facture
   );
 }
 
-function filterByDate(pickedDate) {
-  var selectedDate = new Date(pickedDate);
-  // console.log(new Date(pickedDate));
+function filterFactures() {
+  var selectedDate = new Date(document.getElementById("pickedDate").value);
+  var phoneClient = document.getElementById("phoneClient").value;
   window.electron.findAllFacture(
-    selectedDate.setDate(selectedDate.getDate() + 1)
+    selectedDate.setDate(selectedDate.getDate() + 1),
+    phoneClient !== "" ? parseInt(phoneClient) : null
   );
 }
 
@@ -53,4 +54,8 @@ function updateFactureController(idFacture, remainingAmount) {
   };
   console.log(data);
   window.electron.updateReglementFacture(data, remainingAmount);
+}
+
+function updateFactureRetrait(idFacture) {
+  window.electron.updateFactureRetrait(idFacture);  
 }

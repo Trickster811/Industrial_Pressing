@@ -7,17 +7,3 @@ window.electron.findStatistics();
 //   chart = new ApexCharts(document.querySelector("#line-column-chart2"), options);
 // chart.render();
 
-// Retrieve Operateur Data from Url after he Logged In
-let params = new URL(document.location).searchParams;
-document.getElementById("nomOperateur").innerHTML = params.get("nomOperateur");
-document.getElementById("roleOperateur").innerHTML =
-  params.get("roleOperateur");
-
-// Hide / Show options within the sidebar (depending on user function)
-if (params.get("roleOperateur").toLowerCase() !== "administrateur") {
-  document.getElementById("settings_button").hidden = true; // Hinding Settings Menu
-  document.getElementById("4").hidden = true; // Hidding `Linges` Option
-  document.getElementById("7").hidden = true; // Hidding `Creances Clients` Option
-  document.getElementById("10").hidden = true; // Hidding `Chiffre Affaire` Option
-  document.getElementById("ressources").hidden = true; // Hidding `Ressources` Menu
-}

@@ -68,6 +68,13 @@
               <!-- <form class="theme-form" Active="#"> -->
               <div class="d-flex h-100">
                 <input
+                  id="phoneClient"
+                  type="number"
+                  class="form-control"
+                  placeholder="contact"
+                  style="margin-right: 1rem"
+                />
+                <input
                   class="datepicker-here digits form-control"
                   type="text"
                   id="pickedDate"
@@ -78,16 +85,6 @@
                   placeholder="Jour"
                   style="margin-right: 2rem"
                 />
-                <!-- <input
-                  class="datepicker-here digits form-control"
-                  type="text"
-                  data-language="en"
-                  data-min-view="months"
-                  data-view="months"
-                  data-date-format="MM yyyy"
-                  placeholder="Mois"
-                  style="margin-right: 2rem"
-                /> -->
                 <!-- <input
                   class="datepicker-here digits form-control"
                   type="text"
@@ -103,11 +100,12 @@
             </div>
             <div class="add_button ms-2">
               <button
-                onclick="filterByDate(document.getElementById('pickedDate').value)"
+                onclick="filterFactures()"
                 data-bs-toggle="modal"
                 class="btn btn-primary btn-md text_white"
-                >Filtrer</button
               >
+                Filtrer
+              </button>
             </div>
             <div class="add_button ms-2">
               <a
@@ -134,8 +132,9 @@
           <table class="table lms_table_active">
             <thead>
               <tr>
+                <th scope="col">N.</th>
                 <th scope="col">Client</th>
-                <th scope="col">Contact</th>
+                <th scope="col">Code</th>
                 <th scope="col">Total (F)</th>
                 <th scope="col">Avance (F)</th>
                 <th scope="col">Reste (F)</th>
@@ -168,8 +167,9 @@
             </tbody>
             <thead>
               <tr>
+                <th scope="col">N.</th>
                 <th scope="col">Client</th>
-                <th scope="col">Contact</th>
+                <th scope="col">Code</th>
                 <th scope="col">Total (F)</th>
                 <th scope="col">Avance (F)</th>
                 <th scope="col">Reste (F)</th>

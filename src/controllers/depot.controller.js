@@ -51,7 +51,7 @@ function getServiceTAX() {
 // Function to get the client reduction
 function getClientReduction() {
   const serviceTAX = document.getElementById("client_name_select").value;
-  return parseFloat(serviceTAX.substring(serviceTAX.indexOf("_") + 1));
+  return parseFloat(serviceTAX.substring(serviceTAX.indexOf("#") + 1));
 }
 
 // Function to update remaining amount to pay
@@ -73,12 +73,12 @@ function AddRow() {
   var cell3 = row.insertCell(3);
   var cell4 = row.insertCell(4);
   var cell5 = row.insertCell(5);
-  var cell6 = row.insertCell(6);
+  // var cell6 = row.insertCell(6);
 
   cell0.innerHTML =
     '<input id="clothe_quantity' +
     n +
-    '" type="number" class="form-control" value="1" oninput="update_quantity(this)" style="width: 100%;" />';
+    '" type="number" class="form-control" min="1" value="1" oninput="update_quantity(this)" style="width: 5vw" disabled/>';
 
   cell1.innerHTML =
     '<select id="clothe_code' +
@@ -86,29 +86,29 @@ function AddRow() {
     '" class="form-control js-example-basic-single" style="width: 100%;" onchange="autoSelectClothesDetails(this,' +
     n +
     ')"></select>';
+  // cell2.innerHTML =
+  //   '<select id="clothe_type' +
+  //   n +
+  //   '" class="form-control js-example-basic-single" style="width: 100%;" disabled></select>';
   cell2.innerHTML =
-    '<select id="clothe_type' +
-    n +
-    '" class="form-control js-example-basic-single" style="width: 100%;" disabled></select>';
-  cell3.innerHTML =
     '<select id="clothe_name' +
     n +
     '" class="form-control js-example-basic-single" style="width: 100%;" onchange="autoSelectClothesDetails(this,' +
     n +
     ')"></select>';
+  cell3.innerHTML =
+    '<textarea id="clothe_description' +
+    n +
+    '" type="text" class="form-control" value="RAS" style="width: 100%" rows="3"> RAS</textarea>';
   cell4.innerHTML =
-    '<input id="clothe_description' +
+    '<select id="clothe_priceUnitary' +
     n +
-    '" type="text" class="form-control" value="RAS" />';
-  // cell5.innerHTML =
-  //   '<select id="clothe_priceUnitary' +
+    '" class="form-control js-example-basic-single" style="width: 100%;" disabled></select>';
+  // cell4.innerHTML =
+  //   '<input id="clothe_priceUnitary' +
   //   n +
-  //   '" class="form-control js-example-basic-single" style="width: 100%;" onchange="update_clothe_info(this)" disabled></select>';
+  //   '" type="number" class="form-control" style="width: 100%" disabled />';
   cell5.innerHTML =
-    '<input id="clothe_priceUnitary' +
-    n +
-    '" type="number" class="form-control" style="width: 100%" disabled />';
-  cell6.innerHTML =
     '<div onclick="RemoveRow(this)" class="text-center rounded bg-danger"><div class="center-svg"><i class="fa fa-minus"> </i></div></div>';
 
   update_quantity();
@@ -141,8 +141,8 @@ function RemoveRow(x) {
       "clothe_quantity" + (index - 1);
     document.getElementById("clothe_code" + index).id =
       "clothe_code" + (index - 1);
-    document.getElementById("clothe_type" + index).id =
-      "clothe_type" + (index - 1);
+    // document.getElementById("clothe_type" + index).id =
+    //   "clothe_type" + (index - 1);
     document.getElementById("clothe_name" + index).id =
       "clothe_name" + (index - 1);
     document.getElementById("clothe_description" + index).id =
@@ -183,10 +183,10 @@ function autoSelectPhoneOrName(element) {
 function autoSelectClothesDetails(element, rowIndex) {
   if (element.id === "clothe_code" + rowIndex) {
     var event = new Event("change");
-    // auto select clothe_type
-    const clothe_type = document.getElementById("clothe_type" + rowIndex);
-    clothe_type.selectedIndex = element.selectedIndex;
-    clothe_type.dispatchEvent(event);
+    // // auto select clothe_type
+    // const clothe_type = document.getElementById("clothe_type" + rowIndex);
+    // clothe_type.selectedIndex = element.selectedIndex;
+    // clothe_type.dispatchEvent(event);
     // auto select clothe_name
     const clothe_name = document.getElementById("clothe_name" + rowIndex);
     clothe_name.selectedIndex = element.selectedIndex;
@@ -209,11 +209,11 @@ function autoSelectClothesDetails(element, rowIndex) {
     const clothe_code = document.getElementById("clothe_code" + rowIndex);
     clothe_code.selectedIndex = element.selectedIndex;
     clothe_code.dispatchEvent(event);
-    // auto select clothe_type
-    const clothe_type = document.getElementById("clothe_type" + rowIndex);
-    clothe_type.selectedIndex = element.selectedIndex;
-    clothe_type.dispatchEvent(event);
-    // auto select clothe_description
+    // // auto select clothe_type
+    // const clothe_type = document.getElementById("clothe_type" + rowIndex);
+    // clothe_type.selectedIndex = element.selectedIndex;
+    // clothe_type.dispatchEvent(event);
+    // // auto select clothe_description
     // const clothe_description = document.getElementById(
     //   "clothe_description" + rowIndex
     // );
@@ -250,7 +250,7 @@ function createFactureController() {
           .getElementById("client_name_select")
           .value.substring(
             0,
-            document.getElementById("service_type").value.indexOf("_")
+            document.getElementById("client_name_select").value.indexOf("#")
           )
       ),
       idService: parseInt(
@@ -258,7 +258,7 @@ function createFactureController() {
           .getElementById("service_type")
           .value.substring(
             0,
-            document.getElementById("service_type").value.indexOf("_")
+            document.getElementById("service_type").value.indexOf("#")
           )
       ),
     },
@@ -314,6 +314,7 @@ function loadJsFiles() {
     document.body.appendChild(js_1);
   }
 }
+
 
 // Function to update Withdraw date
 function withdrawDateUpdate() {}
